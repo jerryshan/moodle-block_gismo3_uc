@@ -149,6 +149,7 @@ $string['option_base_color'] = 'Base color';
 $string['option_red'] = 'Red';
 $string['option_green'] = 'Green';
 $string['option_blue'] = 'Blue';
+$string['option_g2r'] = 'Green to Red';
 $string['option_axes_label_max_length'] = 'Axes label max length (characters)';
 $string['option_axes_label_max_offset'] = 'Axes label max offset (characters)';
 $string['option_number_of_colors'] = 'Number of colors (matrix charts)';
