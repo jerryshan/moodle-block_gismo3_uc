@@ -82,6 +82,7 @@ class FetchStaticDataMoodle {
         // save data
         if ($record !== FALSE) {
             $this->timecreated = $record->timecreated;
+            $this->coursestart = $record->startdate;
             $this->fullname = $record->fullname;
             $this->course = $record;
         } else {
@@ -433,7 +434,7 @@ class FetchStaticDataMoodle {
         // default
         $this->end_time = time();
         $this->end_date = date("Y-m-d", $this->end_time);
-        $this->start_time = $this->end_time - ((empty($CFG->loglifetime)) ? 86400 : $CFG->loglifetime * 86400);
+        $this->start_time = (empty($CFG->loglifetime)) ? $this->coursestart : ($this->end_time - ($CFG->loglifetime * 86400));
         $this->start_date = date("Y-m-d", $this->start_time);
 
         // adjust values according to logs
