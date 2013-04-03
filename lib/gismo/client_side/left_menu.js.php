@@ -366,33 +366,30 @@ function left_menu(g) {
             // list
             element = $('<div></div>').attr('id', this.get_list_container_id(item));
             if (count > 0) {
-                //var lab = (item == 'users') ? "students" : item;    // WORKAROUND
-		///*
-		var lab = "<?php print_string('students', 'block_gismo'); ?>";		// WORKAROUND
-		switch (item) {
-			case 'users':
-				lab = "<?php print_string('students', 'block_gismo'); ?>";
-			break;
-			case 'teachers': 
-				lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
-			break;  
-			case 'resources':
-				lab = "<?php print_string('resources', 'block_gismo'); ?>";
-			break;
-			case 'assignments':
-				lab = "<?php print_string('assignments', 'block_gismo'); ?>";
-			break;
-			case 'forums':
-				lab = "<?php print_string('forums', 'block_gismo'); ?>";
-			break;
-			case 'wikis':
-				lab = "<?php print_string('wikis', 'block_gismo'); ?>";
-			break;
-			default:
-				lab = "<?php print_string('items', 'block_gismo'); ?>";
-		}
-		//*/
-		
+                var lab = "<?php print_string('students', 'block_gismo'); ?>"; // WORKAROUND
+                switch (item) {
+                    case 'users':
+                        lab = "<?php print_string('students', 'block_gismo'); ?>";
+                    break;
+                    case 'teachers': 
+                        lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
+                    break;  
+                    case 'resources':
+                        lab = "<?php print_string('resources', 'block_gismo'); ?>";
+                    break;
+                    case 'assignments':
+                        lab = "<?php print_string('assignments', 'block_gismo'); ?>";
+                    break;
+                    case 'forums':
+                        lab = "<?php print_string('forums', 'block_gismo'); ?>";
+                    break;
+                    case 'wikis':
+                        lab = "<?php print_string('wikis', 'block_gismo'); ?>";
+                    break;
+                    default:
+                        lab = "<?php print_string('items', 'block_gismo'); ?>";
+                }
+
                 // add header with a checkbox to control items selection
                 element.append(
                     $('<div></div>').addClass("cb_main").append(
@@ -602,9 +599,7 @@ function left_menu(g) {
     // info
     this.show_info = function() {
         var title = "<?php print_string('info_title', 'block_gismo'); ?>";
-	    
         var message = "<?php print_string('info_text', 'block_gismo'); ?>";
-	
         this.gismo.util.show_modal_dialog(title, message);
     };
 }

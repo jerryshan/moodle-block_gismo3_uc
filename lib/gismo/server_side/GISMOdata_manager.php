@@ -17,7 +17,7 @@ class GISMOdata_manager {
     public function __construct($manual = false) {
         $this->now_time = time();
         $this->now_hms = date("H:i:s", $this->now_time);
-        $this->manual = $manual;    
+        $this->manual = $manual;
     }
     
     protected function get_time2date_code($field) {
@@ -69,13 +69,13 @@ class GISMOdata_manager {
         $last_export_time = $DB->get_record("block_gismo_config", array("name" => "last_export_time"));
         $last_export_max_log_id = $DB->get_record("block_gismo_config", array("name" => "last_export_max_log_id"));
         if ($last_export_time === FALSE OR $last_export_max_log_id === FALSE) {
-            return $this->return_error("Cannot extract last export time / last export max log id.", __FILE__, __FUNCTION__, __LINE__);     
+            return $this->return_error("Cannot extract last export time / last export max log id.", __FILE__, __FUNCTION__, __LINE__);
         }
         
         // max log id (value to be set after export)
         $max_log_id = $DB->get_records("log", null, "id DESC", "id", 0, 1);
         if (!(is_array($max_log_id) AND count($max_log_id) === 1)) {
-            return $this->return_error("Cannot extract max log id.", __FILE__, __FUNCTION__, __LINE__);    
+            return $this->return_error("Cannot extract max log id.", __FILE__, __FUNCTION__, __LINE__);
         }
         $max_log_id = intval(array_pop($max_log_id)->id);
         
@@ -93,7 +93,7 @@ class GISMOdata_manager {
                 // reset
                 $this->devel_mode_reset();
                 // update values
-                $last_export_time->value = 0; 
+                $last_export_time->value = 0;
                 $last_export_max_log_id->value = 0;
             }
             
@@ -105,17 +105,17 @@ class GISMOdata_manager {
             $courses = get_courses("all", "c.id", "c.id");
             
             // DEBUG: MEMORY USAGE
-            if (self::devel_mode) { 
+            if (self::devel_mode) {
                 echo "<br>MEMORY USAGE (AFTER COURSES EXTRACTION): " . number_format(memory_get_usage(), 0, ".", "'");
             }
             
             if (!(is_array($courses) AND count($courses) > 0)) {
-                return $this->return_error("There isn't any course at the moment.", __FILE__, __FUNCTION__, __LINE__);  
+                return $this->return_error("There isn't any course at the moment.", __FILE__, __FUNCTION__, __LINE__);
             } else {
                 // set the filter (get newer data only)
                 $filter = " AND {log}.id > " . intval($last_export_max_log_id->value) . " AND {log}.id <= " . $max_log_id;
                 if (!empty($CFG->loglifetime)) {    // !!! REMEBER: 0 is considered empty
-                    $filter = $filter . " AND {log}.time >= " . ($this->now_time - ($CFG->loglifetime * 86400));   
+                    $filter = $filter . " AND {log}.time >= " . ($this->now_time - ($CFG->loglifetime * 86400));
                 }
                 
                 // sync data for each course
@@ -123,7 +123,7 @@ class GISMOdata_manager {
                     /*
                      * SYNC block_gismo_activity table (GISMO Activities)
                      */
-                   
+                    
                     // the following associative array define how to export logs the key is the name of
                     // the acctivity, the value is an associative array that maps log action to read or write
                     // context
@@ -193,7 +193,7 @@ class GISMOdata_manager {
                                 $records = $DB->get_records_sql($qry, $params, $offset, self::limit_records);
                                 
                                 // DEBUG: MEMORY USAGE
-                                if (self::devel_mode) { 
+                                if (self::devel_mode) {
                                     echo "<br>MEMORY USAGE (MIDDLE ACCESSES ON ACTIVITIES): " . number_format(memory_get_usage(), 0, ".", "'");
                                 }
 
@@ -216,7 +216,7 @@ class GISMOdata_manager {
                                             return $this->return_error("Cannot add entry in block_gismo_activity table.", __FILE__, __FUNCTION__, __LINE__);
                                         }
                                         // free memory
-                                        unset($entry, $records[$key]);        
+                                        unset($entry, $records[$key]);
                                     }
                                     unset($records);
                                 } else {
@@ -230,7 +230,7 @@ class GISMOdata_manager {
                     }
                     
                     // DEBUG: MEMORY USAGE
-                    if (self::devel_mode) { 
+                    if (self::devel_mode) {
                         echo "<br>MEMORY USAGE (AFTER ACCESSES ON ACTIVITIES): " . number_format(memory_get_usage(), 0, ".", "'");
                     }
                     
@@ -250,7 +250,7 @@ class GISMOdata_manager {
                         $logins = $DB->get_records_sql($qry . $offset);
                         
                         // DEBUG: MEMORY USAGE
-                        if (self::devel_mode) { 
+                        if (self::devel_mode) {
                             echo "<br>MEMORY USAGE (MIDDLE GISMO STUDENTS LOGIN): " . number_format(memory_get_usage(), 0, ".", "'");
                         }
                         
@@ -270,7 +270,7 @@ class GISMOdata_manager {
                                     return $this->return_error("Cannot add entry in block_gismo_sl table.", __FILE__, __FUNCTION__, __LINE__);
                                 }
                                 // free memory
-                                unset($gsll_entry, $logins[$key]);                        
+                                unset($gsll_entry, $logins[$key]);
                             }
                             unset($logins);
                         } else {
@@ -282,7 +282,7 @@ class GISMOdata_manager {
                     }
                     
                     // DEBUG: MEMORY USAGE
-                    if (self::devel_mode) { 
+                    if (self::devel_mode) {
                         echo "<br>MEMORY USAGE (AFTER GISMO STUDENTS LOGIN): " . number_format(memory_get_usage(), 0, ".", "'");
                     }
                     
@@ -302,10 +302,10 @@ class GISMOdata_manager {
                     
                     // loop
                     while ($loop === true) {
-                        $actions = $DB->get_records_sql($qry . $offset);        
+                        $actions = $DB->get_records_sql($qry . $offset);
                         
                         // DEBUG: MEMORY USAGE
-                        if (self::devel_mode) { 
+                        if (self::devel_mode) {
                             echo "<br>MEMORY USAGE (MIDDLE ACCESSES ON RESOURCES): " . number_format(memory_get_usage(), 0, ".", "'");
                         }
                         
@@ -327,7 +327,7 @@ class GISMOdata_manager {
                                     return $this->return_error("Cannot add entry in block_gismo_resource table.", __FILE__, __FUNCTION__, __LINE__);
                                 }
                                 // free memory
-                                unset($res_entry, $actions[$key]);        
+                                unset($res_entry, $actions[$key]);
                             }
                             unset($actions);
                         } else {
@@ -339,36 +339,36 @@ class GISMOdata_manager {
                     }
                     
                     // DEBUG: MEMORY USAGE
-                    if (self::devel_mode) { 
+                    if (self::devel_mode) {
                         echo "<br>MEMORY USAGE (AFTER ACCESSES ON RESOURCES): " . number_format(memory_get_usage(), 0, ".", "'");
                         echo "<br>----------<br>";
                     }
-                }    
+                }
             }
             
             // update export time value and max log id
             $last_export_time->value = $this->now_time;
             if ($DB->update_record("block_gismo_config", $last_export_time) === FALSE) {
-                return $this->return_error("Cannot update last export time value.", __FILE__, __FUNCTION__, __LINE__);    
+                return $this->return_error("Cannot update last export time value.", __FILE__, __FUNCTION__, __LINE__);
             }
             $last_export_max_log_id->value = $max_log_id;
             if ($DB->update_record("block_gismo_config", $last_export_max_log_id) === FALSE) {
-                return $this->return_error("Cannot update last export max log id value.", __FILE__, __FUNCTION__, __LINE__);    
-            }            
+                return $this->return_error("Cannot update last export max log id value.", __FILE__, __FUNCTION__, __LINE__);
+            }
             
             // unlock gismo tables
-            // TODO        
+            // TODO
         } else {
-            $result = "It's not time to sync data now!";    
+            $result = "It's not time to sync data now!";
         }
         
         // DEBUG: MEMORY USAGE
-        if (self::devel_mode) { 
+        if (self::devel_mode) {
             echo "<br>MEMORY USAGE AFTER: " . number_format(memory_get_usage(), 0, ".", "'") . "<br>";
         }
         
         // return result
-        return $result;    
+        return $result;
     }
     
     // purge data
@@ -386,7 +386,7 @@ class GISMOdata_manager {
             
             // purge queries
             $queries = array("block_gismo_activity" => "time < " . $loglifetime,
-                             "block_gismo_resource" => "time < " . $loglifetime, 
+                             "block_gismo_resource" => "time < " . $loglifetime,
                              "block_gismo_sl" => "time < " . $loglifetime);
             
             // execute queries
@@ -395,15 +395,15 @@ class GISMOdata_manager {
                     $check = $DB->delete_records_select($table, $select);
                     if ($check === FALSE) {
                         return $this->return_error("Error while purging old logs.", __FILE__, __FUNCTION__, __LINE__);
-                    }    
+                    }
                 }
             }
         } else {
-            $result = "Nothing to be purged, logs never expire!";    
+            $result = "Nothing to be purged, logs never expire!";
         }
         
         // ok
-        return $result;    
+        return $result;
     }
     
     // devel method
@@ -429,12 +429,12 @@ class GISMOdata_manager {
         $DB->update_record("block_gismo_config", $last_export_max_log_id);
         
         // ok
-        return true;    
+        return true;
     }
     
     // this method return a error message
     protected function return_error($msg, $file, $function, $line) {
-        return "Error: " . strtolower($msg) . sprintf(" [ File: '%s',  Function: '%s',  Line: '%s' ]", $file, $function, $line);   
+        return "Error: " . strtolower($msg) . sprintf(" [ File: '%s',  Function: '%s',  Line: '%s' ]", $file, $function, $line);
     }
 }
 ?>

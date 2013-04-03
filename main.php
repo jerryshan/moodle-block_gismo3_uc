@@ -17,12 +17,12 @@ $gismo_static_data->init();
             foreach ($client_side_libraries as $key => $client_side_libs) {
                 if (is_array($client_side_libs) AND count($client_side_libs) > 0) {
                     foreach ($client_side_libs as $client_side_lib) {
-			$res=explode('.',$client_side_lib);		
-			$ext='';	
-			if(count($res) < 2 ) { //no extension inserted in the name included
-				$ext = '.js';
-			}
-				$lib_full_path = LIB_DIR . $key . DIRECTORY_SEPARATOR . "client_side" . DIRECTORY_SEPARATOR . $client_side_lib . $ext;
+                        $res=explode('.',$client_side_lib);
+                        $ext='';
+                        if(count($res) < 2 ) { //no extension inserted in the name included
+                            $ext = '.js';
+                        }
+                        $lib_full_path = LIB_DIR . $key . DIRECTORY_SEPARATOR . "client_side" . DIRECTORY_SEPARATOR . $client_side_lib . $ext;
                         if (is_file($lib_full_path) AND is_readable($lib_full_path)) {
                             ?>
                             <script type="text/javascript" src="lib/<?php echo $key . "/client_side/" . $client_side_lib . $ext; ?>"></script>
@@ -40,7 +40,7 @@ $gismo_static_data->init();
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/jqplot.1.0.0b2.r1012/jquery.jqplot.min.css" />
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/simpleFadeSlideShow/style.css" />
         <?php
-        // static data + gismo instance not needed by help page 
+        // static data + gismo instance not needed by help page
         if (!in_array($query, array("help"))) {
             ?>
             <script type="text/javascript">
@@ -76,7 +76,7 @@ $gismo_static_data->init();
                     $(window).resize(function () { g.resize(); });
 
                     // force resize
-                    setTimeout(function() { g.resize(); }, 100);                
+                    setTimeout(function() { g.resize(); }, 100);
                 });
 
                 // -->
@@ -101,7 +101,7 @@ $gismo_static_data->init();
             // content and footer
             switch ($query) {
                 case "help":
-		    $content = "template" . DIRECTORY_SEPARATOR . "help.php";
+                    $content = "template" . DIRECTORY_SEPARATOR . "help.php";
                     $footer = false;
                     break;
                 default:
@@ -128,19 +128,19 @@ $gismo_static_data->init();
     </body>
     <?php
         if (in_array($query, array("help"))) {
-        // HACK     
-    ?> 
+        // HACK
+    ?>
         <script>
-            $(document).ready(function() {  
+            $(document).ready(function() {
                 $('#panelMenu > li').bind('mouseover', function () {
-                    $(this).children('a').addClass('menu_open');    
+                    $(this).children('a').addClass('menu_open');
                 });
                 $('#panelMenu > li').bind('mouseout',  function () {
-                    $(this).children('a').removeClass('menu_open');    
+                    $(this).children('a').removeClass('menu_open');
                 });
             });
         </script>
     <?php
         }
-    ?>	
+    ?>
 </html>
