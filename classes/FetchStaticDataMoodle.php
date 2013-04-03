@@ -33,13 +33,14 @@ class FetchStaticDataMoodle {
     protected $users;
     protected $teachers;
     protected $resources;
+    protected $books;
     protected $assignments; //Added 4.10.2013 because it was missing
     protected $assignments22;
     protected $chats;
     protected $forums;
     protected $quizzes;
     protected $wikis;
-
+    
     // constructor
     public function __construct($id, $actor) {
         $this->id = $id;
@@ -60,6 +61,7 @@ class FetchStaticDataMoodle {
         $check &= $this->FetchUsers();
         $check &= $this->FetchTeachers();
         $check &= $this->FetchResources();
+        $check &= $this->FetchBooks();
         $check &= $this->FetchAssignments();
         $check &= $this->FetchAssignments22();
         $check &= $this->FetchChats();
@@ -91,7 +93,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     // fetch users
     protected function FetchUsers() {
         global $USER;
@@ -111,8 +113,8 @@ class FetchStaticDataMoodle {
                         if (is_array($users) AND count($users) > 0) {
                             foreach ($users as $user) {
                                 $json_users[] = array("id" => $user->id,
-                                    "name" => ucfirst($user->lastname) . " " . ucfirst($user->firstname),
-                                    "visible" => "1");
+                                                      "name" => ucfirst($user->lastname)." ".ucfirst($user->firstname),
+                                                      "visible" => "1");
                             }
                             $this->users = json_encode($json_users);
                             $this->users_ids = array_keys($users);
@@ -123,8 +125,8 @@ class FetchStaticDataMoodle {
             default:
                 $json_users = array();
                 $json_users[] = array("id" => $USER->id,
-                    "name" => ucfirst($USER->lastname) . " " . ucfirst($USER->firstname),
-                    "visible" => "1");
+                                      "name" => ucfirst($USER->lastname)." ".ucfirst($USER->firstname),
+                                      "visible" => "1");
                 $this->users = json_encode($json_users);
                 $this->users_ids = array($USER->id);
                 break;
@@ -132,7 +134,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     // fetch teachers
     protected function FetchTeachers() {
         // default variables
@@ -151,8 +153,8 @@ class FetchStaticDataMoodle {
                         if (is_array($teachers) AND count($teachers) > 0) {
                             foreach ($teachers as $teacher) {
                                 $json_teachers[] = array("id" => $teacher->id,
-                                    "name" => ucfirst($teacher->lastname) . " " . ucfirst($teacher->firstname),
-                                    "visible" => "1");
+                                                      "name" => ucfirst($teacher->lastname)." ".ucfirst($teacher->firstname),
+                                                      "visible" => "1");
                             }
                             $this->teachers = json_encode($json_teachers);
                             $this->teachers_ids = array_keys($teachers);
@@ -166,14 +168,14 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     // fetch course modules ordered by position
     protected function FetchCourseModulesOrderedByPosition($modulenames, $course, $userid, $includeinvisible, $orderbytype = false) {
         $ordered_modules = array();
         if (is_array($modulenames) AND count($modulenames) > 0) {
             $modules = array();
             // extract modules instances specified in $modulenames
-            $tmp_modules = array();
+            $tmp_modules = array(); 
             foreach ($modulenames as $m) {
                 $tmp = get_all_instances_in_course($m, $course, $userid, $includeinvisible);
                 //Order by name
@@ -224,7 +226,7 @@ class FetchStaticDataMoodle {
         }
         return $ordered_modules;
     }
-
+    
     // fetch resources
     protected function FetchResources() {
         global $USER;
@@ -244,9 +246,37 @@ class FetchStaticDataMoodle {
                         "name" => $resource->name,
                         "visible" => $resource->visible,
                         "type" => $resource->type
-                    );
+            );
                 }
                 $this->resources = json_encode($json_resources);
+            }
+        }
+        // return result
+        return $check;
+    }
+    
+    // fetch books
+    protected function FetchBooks() {
+        global $USER;
+        // default variables
+        $check = false;
+        $this->books = "[]";
+        // fetch books
+        $books = $this->FetchCourseModulesOrderedByPosition(array("book"), $this->course, $USER->id, true);
+        // save data
+        if ($books !== FALSE) {
+            $json_books = array();
+            $check = true;
+            if (is_array($books) AND count($books) > 0) {
+                foreach ($books as $book) {
+                    $json_books[] = array(
+                        "id" => $book->id,
+                        "name" => $book->name,
+                        "visible" => $book->visible,
+                        "type" => $book->type
+            );
+                }
+                $this->books = json_encode($json_books);
             }
         }
         // return result
@@ -340,7 +370,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     // fetch forums
     protected function FetchForums() {
         global $USER;
@@ -396,7 +426,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     // fetch wikis
     protected function FetchWikis() {
         global $USER;
@@ -426,26 +456,26 @@ class FetchStaticDataMoodle {
     // fetch start date and time
     protected function FetchStartDateAndTime() {
         global $DB, $CFG;
-
+        
         // check variable
         $check = true;
-
+        
         // select min date / time & max date / time for each log table
         // default
         $this->end_time = time();
         $this->end_date = date("Y-m-d", $this->end_time);
         $this->start_time = (empty($CFG->loglifetime)) ? $this->coursestart : ($this->end_time - ($CFG->loglifetime * 86400));
         $this->start_date = date("Y-m-d", $this->start_time);
-
+        
         // adjust values according to logs
         if (is_array($this->users_ids) AND count($this->users_ids) > 0) {
             // useful data for queries
             $tables = array("block_gismo_activity", "block_gismo_resource", "block_gismo_sl");
             list($userid_sql, $params) = $DB->get_in_or_equal($this->users_ids);
-
+            
             // push to the params array the course id
             array_push($params, $this->id);
-
+            
             // get the lowest date & time from the gismo tables and adjust START date and time
             $time = null;
             $date = null;
@@ -461,7 +491,7 @@ class FetchStaticDataMoodle {
                 $this->start_time = $time;
                 $this->start_date = $date;
             }
-
+            
             // get the highest date & time from the gismo tables and adjust END date and time
             $time = null;
             $date = null;
@@ -477,11 +507,11 @@ class FetchStaticDataMoodle {
                 $this->end_time = $time;
                 $this->end_date = $date;
             }
-
+            
             // start date & time => to the first day of the month
             $this->start_time = \block_gismo\GISMOutil::this_month_first_day_time($this->start_time);
             $this->start_date = date("Y-m-d", $this->start_time);
-
+            
             // end date & time => to the first day of the next month
             $this->end_time = \block_gismo\GISMOutil::next_month_first_day_time($this->end_time);
             $this->end_date = date("Y-m-d", $this->end_time);
@@ -489,23 +519,23 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-
+    
     public function checkData() {
-        return ($this->checkUsers() AND ( $this->checkResources() OR $this->checkActivities())) ? true : false;
+        return ($this->checkUsers() AND ($this->checkResources() OR $this->checkActivities())) ? true : false;
     }
-
+    
     public function checkUsers() {
         return ($this->users !== "[]") ? true : false;
     }
-
+    
     public function checkTeachers() {
         return ($this->users !== "[]") ? true : false;
     }
-
+    
     public function checkResources() {
-        return ($this->resources !== "[]") ? true : false;
+        return ($this->resources !== "[]" OR $this->books !== "[]") ? true : false;
     }
-
+    
     public function checkActivities() {
         return ($this->assignments !== "[]" OR $this->assignments22 !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
     }

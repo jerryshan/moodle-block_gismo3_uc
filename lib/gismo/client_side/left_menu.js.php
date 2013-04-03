@@ -43,6 +43,10 @@ function left_menu(g) {
             img: 'resources.png', 
             tooltip: '<?php print_string('resources', 'block_gismo'); ?>'
         }, 
+        'books': {
+            img: 'books.png', 
+            tooltip: '<?php print_string('books', 'block_gismo'); ?>'
+        }, 
         'assignments': {
             img: 'assignments.png', 
             tooltip: '<?php print_string('assignments', 'block_gismo'); ?>'
@@ -97,6 +101,16 @@ function left_menu(g) {
             'default': 0,
             'details': []
         }, 
+        'teacher@student-books-access': {
+            'lists': ['users', 'books'],
+            'default': 0,
+            'details': ['users']
+        },
+        'teacher@student-books-access:users-details': {
+            'lists': ['resources'],
+            'default': 0,
+            'details': []
+        }, 
         'teacher@student-accesses': {
             'lists': ['users'],
             'default': 0,
@@ -129,6 +143,32 @@ function left_menu(g) {
             'details': []
         },
         'teacher@resources-access:resources-details': {
+            'lists': ['users'],
+            'default': 0,
+            'details': []
+        }, 
+        // books
+        'student@books-students-overview': {
+            'lists': ['books'],
+            'default': 0,
+            'details': []
+        }, 
+        'teacher@books-students-overview': {
+            'lists': ['users', 'books'],
+            'default': 1,
+            'details': []
+        },  
+        'teacher@books-access': {
+            'lists': ['users', 'books'],
+            'default': 1,
+            'details': ['books']
+        },
+        'student@books-access': {
+            'lists': ['books'],
+            'default': 0,
+            'details': []
+        },
+        'teacher@books-access:books-details': {
             'lists': ['users'],
             'default': 0,
             'details': []

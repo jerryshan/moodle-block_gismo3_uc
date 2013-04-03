@@ -48,15 +48,25 @@ $string['student_accesses_overview_chart_title'] = 'Students: accesses overview'
 $string['student_resources_overview'] = 'Accesses overview on resources';
 $string['student_resources_overview_chart_title'] = 'Students: accesses overview on resources';
 $string['student_resources_details_chart_title'] = 'Students: student details on resources';
+$string['student_books_overview'] = 'Accesses overview on books';
+$string['student_books_overview_chart_title'] = 'Students: accesses overview on books';
+$string['student_books_details_chart_title'] = 'Students: student details on books';
 
 // Resources
 $string['resources'] = 'Resources';
 $string['detail_resources'] = 'Details on resources';
-$string['resources_students_overview'] = 'Students overview';
+$string['resources_students_overview'] = 'Resources - Students overview';
 $string['resources_students_overview_chart_title'] = 'Resources: students overview';
-$string['resources_access_overview'] = 'Accesses overview';
+$string['resources_access_overview'] = 'Resources - Accesses overview';
 $string['resources_access_overview_chart_title'] = 'Resources: accesses overview';
 $string['resources_access_detail_chart_title'] = 'Resources: resource details on students'; //**************
+// Books
+$string['books_students_overview'] = 'Books - Students overview';
+$string['books_students_overview_chart_title'] = 'Books: students overview';
+$string['books_access_overview'] = 'Books - Accesses overview';
+$string['books_access_overview_chart_title'] = 'Books: accesses overview';
+$string['books'] = 'Books';
+
 // Activities
 $string['activities'] = 'Activities';
 $string['assignments'] = 'Assignments';
@@ -164,11 +174,11 @@ $string['no_chart_at_the_moment'] = 'There isn\'t any chart at the moment!';
 
 
 $string['about_gismo'] = 'About GISMO';
-$string['intro_information_about_gismo'] = 'Information about this release is reported below:';
+$string['intro_information_about_gismo'] = 'Information about this release is reported below:';  
 $string['gismo_version'] = 'Version ';
 $string['release_date'] = 'Release date ';
 $string['authors'] = 'Authors ';
-$string['contact_us'] = 'Please feel free to contact authors for questions or for reporting bugs at the following addresses: ';
+$string['contact_us']= 'Please feel free to contact authors for questions or for reporting bugs at the following addresses: ';
 $string['close'] = 'Close';
 $string['confirm_exiting'] = 'Do you really want to exit Gismo?';
 

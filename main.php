@@ -60,6 +60,7 @@ $gismo_static_data->init();
                 static_data['users'] = <?php echo $gismo_static_data->users; ?>;
                 static_data['teachers'] = <?php echo $gismo_static_data->teachers; ?>;
                 static_data['resources'] = <?php echo $gismo_static_data->resources; ?>;
+                static_data['books'] = <?php echo $gismo_static_data->books; ?>;
                 static_data['assignments'] = <?php echo $gismo_static_data->assignments; ?>;
                 static_data['assignments22'] = <?php echo $gismo_static_data->assignments22; ?>;
                 static_data['chats'] = <?php echo $gismo_static_data->chats; ?>;
