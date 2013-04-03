@@ -26,11 +26,13 @@ img {
     float: left;
 } 
 #header {
-    position: fixed;
+    position: absolute;
+    top: 0; left: 0;
     height: 25px;
     padding:0;
     border-bottom: 1px solid #999;
     background:#222;
+    z-index:1;
 }
 #header #logo {
     position:absolute;
