@@ -109,7 +109,6 @@ $gismo_static_data->init();
                 <input class="hidden" type="hidden" id="chart_id" name="chart_id" value="" />
             </form>
             <div id="menu">
-                <ul id="panelMenu"></ul>
             </div>
             <a id="logo" href="http://gismo.sourceforge.net" target="_blank"><img src="images/logo.png" /></a>
         </div>
