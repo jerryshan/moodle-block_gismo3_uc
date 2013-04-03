@@ -1,0 +1,46 @@
+Release 3.0.1 beta (2012-05-18)
+- Interface localized with Moodle native approach
+
+Release 3.0.0 beta (2011-11-25)
+- Update: jquery 1.6.4
+- Update: jquery-ui 1.8.16
+- Update: jqplot 1.0.0b2.r1012
+- Fix: assignment scale support
+- Fix: assignments waiting for evaluation appear in a different way from those who do not have any evaluation
+- Fix: quiz grade format set according to the one chosen by the teacher (number of decimals)
+- Fix: memory leaks on client side
+- Fix: chart Y axis better scale
+- Fix: checkbox list + header status consistency
+- Fix: PostgresSQL is now supported
+- New: compatible with Moodle 2.0 or newer
+- New: chats, forums and wikis analysis
+- New: export charts as image
+
+========================= WARNING =========================
+
+Wikis analysis are currently broken due to a moodle bug.
+Further details: http://tracker.moodle.org/browse/MDL-26674
+Seems to be resolved from Moodle version 2.1.6 and 2.2.3 on...
+
+===========================================================
+
+
+Release 2.0.2 (2010-11-30)
+- Update: jquery 1.4.4
+- Update: jquery-ui 1.8.6
+- Fix: assignments without grade are displayed correctly
+- New: option to show/hide hidden items (resources / activities)
+
+
+Release 2.0.1 (2010-09-03)
+- Update: jquery 1.4.2
+- Update: jquery-ui 1.8.4
+- New: remove unsupported analysis from the menu
+- New: display message while processing data to build a new chart 
+- Fix: exporter memory bug
+- Fix: time line start date and end date are now set according to logs 
+- Fix: removed hours & minutes from timeline labels
+
+
+Release 2.0.0 (2010-05-11)
+- First stable release
