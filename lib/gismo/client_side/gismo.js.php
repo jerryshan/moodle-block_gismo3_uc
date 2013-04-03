@@ -259,6 +259,9 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
     this.get_series_colors = function (num_series, base_color) {
         var colors = new Array();
         var tmp;
+        if(this.cfg.chart_base_color==4) {
+            return this.get_series_colors_g2r();
+        } 
         for (var k=0; k<this.cfg.matrix_num_series_limit; k++) {
             // build non base channel value
             if (k > 0) {
@@ -275,6 +278,50 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
         // return colors
         return colors;    
     };
+
+    // get color - green to red
+    this.get_color_g2r = function (green, red) {
+        // return color
+        return "#" + red + green + "00";
+    }
+
+    // get series colors (for matrix) - green to red
+    this.get_series_colors_g2r = function () {
+        var colors = new Array();
+        var tmp, red, green, rtmp;
+        for (var k=0; k<this.cfg.matrix_num_series_limit; k++) {
+            // build non base channel value
+            if (k > 0) {
+                tmp = (256 - Math.floor((parseFloat(k) / parseFloat((this.cfg.matrix_num_series_limit - 1))) * 256));
+                rtmp = tmp;
+                if (rtmp > 192) {
+                    rtmp = Math.min(204+(256-rtmp), 255);
+                    tmp = 256;
+                } else {
+                    if (rtmp > 64) rtmp=255;
+                    if (rtmp <=64 && rtmp > 0) rtmp += 128;
+                }
+                red = rtmp.toString(16);
+                while (red.length < 2) {
+                    red = "0" + red;
+                }
+                tmp = 256 - tmp;
+                if(tmp>=256) tmp=255;
+                //if(tmp<=64) tmp=0;
+                green = tmp.toString(16);
+                while (green.length < 2) {
+                    green = "0" + green;
+                }
+            } else {
+                red = "ff";
+                green = "00";
+            }
+            // store color
+            colors[k] = this.get_color_g2r(green, red);
+        }
+        // return colors
+        return colors;
+    }
     
     // prepare data
     this.prepare_data = function () {
@@ -1502,6 +1549,10 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         .append($('<input type="radio"></input>').attr({id: "charts_base_color_blue", name: "chart_base_color", value: "3"}))
                         .append("<?php print_string('option_blue', 'block_gismo'); ?>")
                         .append($('<br />'))
+                        .append($('<label></label>'))
+                        .append($('<input type="radio"></input>').attr({id: "charts_base_color_g2r", name: "chart_base_color", value: "4"}))
+                        .append("<?php print_string('option_g2r', 'block_gismo'); ?>")
+                        .append($('<br />'))
                         // Axes label max length
                         .append($('<label></label>').attr({"for": "chart_axis_label_max_len"}).html("<?php print_string('option_axes_label_max_length', 'block_gismo'); ?>"))
                         .append($('<input type="text"></input>').attr({id: "chart_axis_label_max_len", name: "chart_axis_label_max_len", maxlength: 2}).addClass("small_field"))
@@ -1610,6 +1661,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
         $("#dialog #charts_base_color_red").prop('checked', (g.cfg.chart_base_color == 1));
         $("#dialog #charts_base_color_green").prop('checked', (g.cfg.chart_base_color == 2));
         $("#dialog #charts_base_color_blue").prop('checked', (g.cfg.chart_base_color == 3));
+        $("#dialog #charts_base_color_g2r").prop('checked', (g.cfg.chart_base_color == 4));
         $("#dialog #chart_axis_label_max_len").val(g.cfg.chart_axis_label_max_len);
         $("#dialog #chart_axis_label_max_offset").val(g.cfg.chart_axis_label_max_offset);
         $("#dialog #matrix_num_series_limit").val(g.cfg.matrix_num_series_limit);
