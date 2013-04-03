@@ -157,7 +157,7 @@
                         $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "userid = ?")));  // remove null values / empty strings / ... before imploding
                         $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
                         // get data
-                        $student_resource_access = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        $student_resource_access = $DB->get_records_select("block_gismo_resource", $filters . " AND restype NOT IN ('book')", $params, "time ASC");
                         // build result 
                         if ($student_resource_access !== false) {
                             // evaluate start date and end date
@@ -194,7 +194,7 @@
                     // chart title
                     $result->name = get_string("student_resources_overview_chart_title", "block_gismo");
                     // get data
-                    $student_resource_access = $DB->get_records_select("block_gismo_resource", $ctu_filters, $ctu_params, "time ASC");
+                    $student_resource_access = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
                     // build result 
                     if ($student_resource_access !== false) {
                         $result->data = $student_resource_access;    
@@ -217,7 +217,7 @@
             // chart data
             $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters, $ctu_params, "time ASC");
             // extra info (get max value)
-            $ei_sql = implode(" AND ", array_filter(array($course_sql, $userid_sql))) . " GROUP BY userid, resid";
+            $ei_sql = implode(" AND ", array_filter(array($course_sql, $userid_sql))) . " AND restype NOT IN ('book') GROUP BY userid, resid";
             $ei_params = array_merge($course_params, $userid_params);
             $ei = $DB->get_records_select("block_gismo_resource", $ei_sql, $ei_params, "value DESC", "MAX(id), SUM(numval) AS value", 0, 1);
             // save extra info
@@ -244,7 +244,7 @@
                         $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "resid = ?")));  // remove null values / empty strings / ... before imploding
                         $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
                         // chart data
-                        $resource_accesses = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        $resource_accesses = $DB->get_records_select("block_gismo_resource", $filters . " AND restype NOT IN ('book')", $params, "time ASC");
                         // result
                         if ($resource_accesses !== false) {
                             // evaluate start date and end date
@@ -283,7 +283,7 @@
                     // links
                     $result->links = null;
                     // chart data
-                    $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters, $ctu_params, "time ASC");
+                    $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
                     // result
                     if ($resource_accesses !== false) {
                         $result->data = $resource_accesses;    
@@ -300,10 +300,173 @@
             $ctu_filters .= "AND userid = ?";
             array_push($ctu_params, $current_user_id);
             // chart data
-            $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters, $ctu_params, "time ASC");
+            $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
             // result
             if ($resource_accesses !== false) {
                 $result->data = $resource_accesses;    
+            }
+            break;
+        case "teacher@student-books-access":
+            switch ($subtype) {
+                case "users-details":
+                    // check student id
+                    if (isset($_REQUEST["id"])) {
+                        // chart title
+                        $result->name = get_string("student_books_details_chart_title", "block_gismo"); 
+            //$result->name = get_string("student_resources_overview_chart_title", "block_gismo");
+                        // links
+                        $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"student-books-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
+                        // filters
+                        $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "userid = ?"))) . " AND restype = 'book'";  // remove null values / empty strings / ... before imploding
+                        $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
+                        // get data
+                        $student_book_access = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        // build result 
+                        if ($student_book_access !== false) {
+                            // evaluate start date and end date
+                            // 1. get min date and max date
+                            // 2. from min date to first of the month
+                            //    from max date to last of the month
+                            // 3. evaluate difference in days between the two dates
+                            if (is_array($student_book_access) AND count($student_book_access) > 0) {
+                                // 1. min and max date
+                                $keys = array_keys($student_book_access);
+                                $min_date = $student_book_access[$keys[0]]->timedate;
+                                $max_date = $student_book_access[$keys[count($student_book_access)-1]]->timedate;
+                                // adjust values
+                                $mid = explode("-", $min_date);
+                                $mad = explode("-", $max_date);
+                                $min_date = date("Y-m-d", mktime(0, 0 ,0 , $mid[1], 1, $mid[0]));
+                                $min_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mid[1], 1, $mid[0]));
+                                $max_date = date("Y-m-d", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
+                                $max_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
+                                // diff
+                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));               
+                                // save results
+                                $extra_info = new stdClass();
+                                $extra_info->min_date = $min_date;
+                                $extra_info->max_date = $max_date;
+                                $extra_info->num_days = $days;
+                                $result->extra_info = $extra_info;                    
+                            }
+                            $result->data = $student_book_access;    
+                        }
+                    }
+                    break;
+                default:
+                    // chart title
+                    $result->name = get_string("student_books_overview_chart_title", "block_gismo");
+                    // get data
+                    $student_book_access = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
+                    // build result 
+                    if ($student_book_access !== false) {
+                        $result->data = $student_book_access;    
+                    }
+                    break;
+            }
+            break;
+        case "student@books-students-overview":
+            // overwrite userid filter (for max value)
+            $userid_sql = "userid = ?";
+            $userid_params = array($current_user_id);
+            // overwrite ctu filters
+            $ctu_filters = implode(" AND ", array_filter(array($course_sql, $time_sql, $userid_sql)));  // remove null values / empty strings / ... before imploding
+            $ctu_params = array_merge($course_params, $time_params, $userid_params);
+        case "teacher@books-students-overview":
+            // chart title
+            $result->name = get_string("books_students_overview_chart_title", "block_gismo");
+            // links
+            $result->links = null;
+            // chart data
+            $book_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
+            // extra info (get max value)
+            $ei_sql = implode(" AND ", array_filter(array($course_sql, $userid_sql))) . " AND restype = 'book' GROUP BY userid, resid";
+            $ei_params = array_merge($course_params, $userid_params);
+            $ei = $DB->get_records_select("block_gismo_resource", $ei_sql, $ei_params, "value DESC", "MAX(id), SUM(numval) AS value", 0, 1);
+            // save extra info
+            $extra_info = (object) array("max_value" => 0);
+            if (is_array($ei) AND count($ei) > 0) {
+                $extra_info->max_value = array_pop($ei)->value;        
+            }
+            // result
+            if ($book_accesses !== false) {
+                $result->extra_info = $extra_info;
+                $result->data = $book_accesses;    
+            }
+            break;        
+        case "teacher@books-access":
+            switch ($subtype) {
+                case "books-details":
+                    // check resource id
+                    if (isset($_REQUEST["id"])) {
+                        // chart title
+                        $result->name = get_string("student_books_details_chart_title", "block_gismo");
+                        // links
+                        $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"books-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
+                        // filters
+                        $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "resid = ?"))) . " AND restype = 'book'";  // remove null values / empty strings / ... before imploding
+                        $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
+                        // chart data
+                        $book_accesses = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        // result
+                        if ($book_accesses !== false) {
+                            // evaluate start date and end date
+                            // 1. get min date and max date
+                            // 2. from min date to first of the month
+                            //    from max date to last of the month
+                            // 3. evaluate difference in days between the two dates
+                            if (is_array($book_accesses) AND count($book_accesses) > 0) {
+                                // 1. min and max date
+                                $keys = array_keys($book_accesses);
+                                $min_date = $book_accesses[$keys[0]]->timedate;
+                                $max_date = $book_accesses[$keys[count($book_accesses)-1]]->timedate;
+                                // adjust values
+                                $mid = explode("-", $min_date);
+                                $mad = explode("-", $max_date);
+                                $min_date = date("Y-m-d", mktime(0, 0 ,0 , $mid[1], 1, $mid[0]));
+                                $min_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mid[1], 1, $mid[0]));
+                                $max_date = date("Y-m-d", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
+                                $max_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
+                                // diff
+                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));               
+                                // save results
+                                $extra_info = new stdClass();
+                                $extra_info->min_date = $min_date;
+                                $extra_info->max_date = $max_date;
+                                $extra_info->num_days = $days;
+                                $result->extra_info = $extra_info;                    
+                            }
+                            $result->data = $book_accesses;    
+                        }
+                    }
+                    break;
+                default:
+                    // chart title
+                    $result->name = get_string("books_access_overview_chart_title", "block_gismo");
+                    // links
+                    $result->links = null;
+                    // chart data
+                    $book_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
+                    // result
+                    if ($book_accesses !== false) {
+                        $result->data = $book_accesses;    
+                    }  
+                    break;
+            }
+            break;
+        case "student@books-access": 
+            // chart title
+            $result->name = get_string("books_access_overview_chart_title", "block_gismo");
+            // links
+            $result->links = null;
+            // add filters to extract only data related to the student
+            $ctu_filters .= "AND userid = ?";
+            array_push($ctu_params, $current_user_id);
+            // chart data
+            $book_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
+            // result
+            if ($book_accesses !== false) {
+                $result->data = $book_accesses;    
             }
             break;
         case "teacher@assignments":

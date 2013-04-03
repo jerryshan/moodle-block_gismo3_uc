@@ -410,6 +410,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 } 
                 break;
             case 'teacher@student-resources-access':
+            case 'teacher@student-books-access':
+                var restype = this.get_full_type().match(/books/)?'books':'resources';
                 if (this.static_data["users"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // init (set value 0 for each course student that is selected in the left menu)
                     for (item in this.static_data["users"]) {
@@ -423,8 +425,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     // sum contributes for each resource that is selected in the left menu
                     for (item in this.current_analysis.data) {
                         uid = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
-                        uid2 = this.lm.get_unique_id("resources", this.current_analysis.data[item], "resid", "restype");
-                        if ($.inArray(uid2, selected_items["resources"]) != -1) {
+                        uid2 = this.lm.get_unique_id(restype, this.current_analysis.data[item], "resid", "restype");
+                        if ($.inArray(uid2, selected_items[restype]) != -1) {
                             if ($.inArray(uid, yticks) != -1) {
                                 index = $.inArray(uid, yticks);
                                 lines[index] += parseInt(this.current_analysis.data[item].numval);    
@@ -439,24 +441,26 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["xticks_min_len"] = 15;
                         prepared_data["yaxis_max"] = this.get_yaxis_max(lines, 1);
                         prepared_data["x_label"] = "<?php print_string('students', 'block_gismo'); ?>";
-                        prepared_data["y_label"] = "<?php print_string('student_resources_overview', 'block_gismo'); ?>"; //"Accesses on resources";                        
+                        prepared_data["y_label"] = restype=='books'?"<?php print_string('student_books_overview', 'block_gismo'); ?>":"<?php print_string('student_resources_overview', 'block_gismo'); ?>"; //"Accesses on resources";                        
                     }
                 }   
                 break;
             case 'teacher@student-resources-access:users-details':
-                if (this.static_data["resources"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
+            case 'teacher@student-books-access:users-details':
+                var restype = this.get_full_type().match(/books/)?'books':'resources';
+                if (this.static_data[restype].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // yticks
-                    for (item in this.static_data["resources"]) {
-                        uid = this.lm.get_unique_id("resources", this.static_data["resources"][item], "id", "type");
-                        if ($.inArray(uid, selected_items["resources"]) != -1) {
-                            yticks.unshift(this.util.intelligent_substring(this.static_data["resources"][item].name, false));
+                    for (item in this.static_data[restype]) {
+                        uid = this.lm.get_unique_id(restype, this.static_data[restype][item], "id", "type");
+                        if ($.inArray(uid, selected_items[restype]) != -1) {
+                            yticks.unshift(this.util.intelligent_substring(this.static_data[restype][item].name, false));
                             yticks_pos.unshift(uid);
                         }    
                     }
                     // build line
                     for (item in this.current_analysis.data) {
-                        uid = this.lm.get_unique_id("resources", this.current_analysis.data[item], "resid", "restype");
-                        if ($.inArray(uid, selected_items["resources"]) != -1) {
+                        uid = this.lm.get_unique_id(restype, this.current_analysis.data[item], "resid", "restype");
+                        if ($.inArray(uid, selected_items[restype]) != -1) {
                             lines.push(new Array(this.current_analysis.data[item].timedate, $.inArray(uid, yticks_pos) + 1, this.current_analysis.data[item].numval));      
                         }
                     }
@@ -471,21 +475,24 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["yticks_num"] = yticks.length;
                         prepared_data["yticks_min_len"] = 13;
                         prepared_data["x_label"] = "<?php print_string('timeline', 'block_gismo'); ?>";
-                        prepared_data["y_label"] = "<?php print_string('resources', 'block_gismo'); ?>";
+                        prepared_data["y_label"] = restype=='books'?"<?php print_string('books', 'block_gismo'); ?>":"<?php print_string('resources', 'block_gismo'); ?>";
                     }       
                 }
                 break;
             case "student@resources-students-overview":
             case 'teacher@resources-students-overview':
-                if (this.static_data["users"].length > 0 && this.static_data["resources"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
+            case "student@books-students-overview":
+            case 'teacher@books-students-overview':
+                var restype = this.get_full_type().match(/books/)?'books':'resources';
+                if (this.static_data["users"].length > 0 && this.static_data[restype].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     var userid, resid, val;
                     var max;
                     // xticks / yticks
                     
-		    for (item in this.static_data["resources"]) {
-                        uid = this.lm.get_unique_id("resources", this.static_data["resources"][item], "id", "type");
-                        if ($.inArray(uid, selected_items["resources"]) != -1) {
-                            xticks.unshift(this.util.intelligent_substring(this.static_data["resources"][item].name, false));
+		    for (item in this.static_data[restype]) {
+                        uid = this.lm.get_unique_id(restype, this.static_data[restype][item], "id", "type");
+                        if ($.inArray(uid, selected_items[restype]) != -1) {
+                            xticks.unshift(this.util.intelligent_substring(this.static_data[restype][item].name, false));
                             xticks_pos.unshift(uid);
                         }    
                     }
@@ -501,10 +508,10 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
 			
 		//
 		    /*
-		    for (item in this.static_data["resources"]) {
-                        uid = this.lm.get_unique_id("resources", this.static_data["resources"][item], "id", "type");
-                        if ($.inArray(uid, selected_items["resources"]) != -1) {
-                            yticks.unshift(this.util.intelligent_substring(this.static_data["resources"][item].name, false));
+		    for (item in this.static_data[restype]) {
+                        uid = this.lm.get_unique_id(restype, this.static_data[restype][item], "id", "type");
+                        if ($.inArray(uid, selected_items[restype]) != -1) {
+                            yticks.unshift(this.util.intelligent_substring(this.static_data[restype][item].name, false));
                             yticks_pos.unshift(uid);
                         }    
                     }
@@ -522,11 +529,11 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     var aggregated_data = new Array();
                     for (item in this.current_analysis.data) {
                         userid = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
-                        resid = this.lm.get_unique_id("resources", this.current_analysis.data[item], "resid", "restype");
+                        resid = this.lm.get_unique_id(restype, this.current_analysis.data[item], "resid", "restype");
                         val = parseInt(this.current_analysis.data[item].numval);
                         key = resid + "#" + userid;
                         if ($.inArray(userid, selected_items["users"]) != -1 &&
-                            $.inArray(resid, selected_items["resources"]) != -1) {
+                            $.inArray(resid, selected_items[restype]) != -1) {
                             if (aggregated_data[key] == undefined) {
                                 aggregated_data[key] = 0;    
                             }
@@ -582,7 +589,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["xticks_min_len"] = 18;
                         prepared_data["yticks_num"] = yticks.length;
                         prepared_data["yticks_min_len"] = 18;
-			prepared_data["x_label"] = "<?php print_string('resources', 'block_gismo'); ?>";
+			prepared_data["x_label"] = restype=='books'?"<?php print_string('books', 'block_gismo'); ?>":"<?php print_string('resources', 'block_gismo'); ?>";
                         prepared_data["y_label"] = "<?php print_string('students', 'block_gismo'); ?>";   
 			    
 			//
@@ -596,26 +603,29 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["yticks_num"] = yticks.length;
                         prepared_data["yticks_min_len"] = 18;
 			prepared_data["x_label"] = "<?php print_string('students', 'block_gismo'); ?>";
-                        prepared_data["y_label"] = "<?php print_string('resources', 'block_gismo'); ?>";
+                        prepared_data["y_label"] = restype=='books'?"<?php print_string('books', 'block_gismo'); ?>":"<?php print_string('resources', 'block_gismo'); ?>";
 			//*/
                     }       
                 }
                 break;
             case 'teacher@resources-access':
             case 'student@resources-access':
-                if (this.static_data["resources"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
+            case 'teacher@books-access':
+            case 'student@books-access':
+                var restype = this.get_full_type().match(/books/)?'books':'resources';
+                if (this.static_data[restype].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // init (set value 0 for each course resource that is selected in the left menu)
-                    for (item in this.static_data["resources"]) {
-                        uid = this.lm.get_unique_id("resources", this.static_data["resources"][item], "id", "type");
-                        if ($.inArray(uid, selected_items["resources"]) != -1) {
+                    for (item in this.static_data[restype]) {
+                        uid = this.lm.get_unique_id(restype, this.static_data[restype][item], "id", "type");
+                        if ($.inArray(uid, selected_items[restype]) != -1) {
                             lines.push(0);
-                            xticks.push(this.util.intelligent_substring(this.static_data["resources"][item].name, true));
+                            xticks.push(this.util.intelligent_substring(this.static_data[restype][item].name, true));
                             yticks_pos.push(uid);
                         }    
                     }
                     // sum contributes for each user that is selected in the left menu
                     for (item in this.current_analysis.data) {
-                        uid = this.lm.get_unique_id("resources", this.current_analysis.data[item], "resid", "restype");
+                        uid = this.lm.get_unique_id(restype, this.current_analysis.data[item], "resid", "restype");
                         uid2 = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
                         if ($.inArray(uid2, selected_items["users"]) != -1) {
                             index = $.inArray(uid, yticks_pos);
@@ -631,12 +641,13 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["xticks_num"] = xticks.length;
                         prepared_data["xticks_min_len"] = 15;
                         prepared_data["yaxis_max"] = this.get_yaxis_max(lines, 1);
-                        prepared_data["x_label"] = "<?php print_string('resources', 'block_gismo'); ?>";
+                        prepared_data["x_label"] = restype=='books'?"<?php print_string('books', 'block_gismo'); ?>":"<?php print_string('resources', 'block_gismo'); ?>";
                         prepared_data["y_label"] = "<?php print_string('accesses', 'block_gismo'); ?>";
                     }
                 }
                 break;
             case 'teacher@resources-access:resources-details':
+            case 'teacher@books-access:books-details':
                 if (this.static_data["users"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // yticks
                     for (item in this.static_data["users"]) {
@@ -1092,6 +1103,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 case 'teacher@student-accesses':
                 case 'teacher@student-resources-access:users-details':
                 case 'teacher@resources-access:resources-details':
+                case 'teacher@student-books-access:users-details':
+                case 'teacher@books-access:books-details':
                     this.current_analysis.plot = $.jqplot(this.plot_id, [data.lines], {
                         title: {
                             show: true,
@@ -1209,6 +1222,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     });
                     break;
                 case 'teacher@student-resources-access':
+                case 'teacher@student-books-access':
                     this.current_analysis.plot = $.jqplot(this.plot_id, [data.lines], {
                       title: {
                             show: true,
@@ -1260,6 +1274,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     break;
                 case 'teacher@resources-access':
                 case 'student@resources-access':
+                case 'teacher@books-access':
+                case 'student@books-access':
                     this.current_analysis.plot = $.jqplot(this.plot_id, [data.lines], {
                       title: {
                             show: true,
@@ -1311,6 +1327,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     break;
                 case 'student@resources-students-overview':
                 case 'teacher@resources-students-overview':
+                case 'student@books-students-overview':
+                case 'teacher@books-students-overview':
                 case 'teacher@assignments':
                 case 'teacher@quizzes':
                 case 'student@assignments':
@@ -1322,6 +1340,8 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     switch (this.get_full_type()) {
                         case "student@resources-students-overview":
                         case "teacher@resources-students-overview":
+                        case "student@books-students-overview":
+                        case "teacher@books-students-overview":
                             formatString = '<div class="charts_tooltip"><span class="hidden">%s</span>%s (max is %s)</div>';
                             yvalues = 3;
                             break;

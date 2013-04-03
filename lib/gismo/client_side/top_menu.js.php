@@ -77,6 +77,13 @@ function top_menu(g) {
                     "roles": new Array("teacher"), 
                     "require": null, 
                     "sub": null 
+                },
+                { 
+                    "label": "<?php print_string('student_books_overview', 'block_gismo'); ?>", 
+                    "action": "g.analyse('student-books-access')", 
+                    "roles": new Array("teacher"), 
+                    "require": new Array("books"), 
+                    "sub": null 
                 }
             )
         },
@@ -99,6 +106,20 @@ function top_menu(g) {
                     "action": "g.analyse('resources-access')", 
                     "roles": new Array("teacher", "student"), 
                     "require": null, 
+                    "sub": null 
+                },
+                { 
+                    "label": "<?php print_string('books_students_overview', 'block_gismo'); ?>", 
+                    "action": "g.analyse('books-students-overview')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("books"), 
+                    "sub": null 
+                },
+                { 
+                    "label": "<?php print_string('books_access_overview', 'block_gismo'); ?>", 
+                    "action": "g.analyse('books-access')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("books"), 
                     "sub": null 
                 }
             )
