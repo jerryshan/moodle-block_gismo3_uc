@@ -1739,6 +1739,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 '<?php print_string('cancel', 'block_gismo'); ?>': function() {
                     // close dialog 
                     $(this).dialog('destroy'); 
+                    $(this).remove();
                 },
                 '<?php print_string('save', 'block_gismo'); ?>': function() {
                     var response = true;
@@ -1792,6 +1793,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     }
                     // close dialog 
                     $(this).dialog('destroy'); 
+                    $(this).remove();
                 }                            
             }
         });
