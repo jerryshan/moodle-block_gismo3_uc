@@ -52,7 +52,7 @@ if (!isset($q) OR ! isset($from) OR ! isset($to)) {
     
     // get users
 $context = context_course::instance($course->id);
-    if ($context === FALSE) { 
+    if ($context === FALSE) {
     block_gismo\GISMOutil::gismo_error('err_missing_course_students', $error_mode);
         exit;
     }
@@ -102,11 +102,11 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         case "teacher@student-accesses-overview":
             // chart title
             switch($query) {
-//LkM79 - error: it was the followinbg: case "student-accesses-overview":	    
+//LkM79 - error: it was the followinbg: case "student-accesses-overview":
                 case "teacher@student-accesses-overview":
                     $lang_index = "student_accesses_overview_chart_title";
                     break;
-//LkM79 - error: it was the followinbg: case "student-accesses":		    
+//LkM79 - error: it was the followinbg: case "student-accesses":
                 case "teacher@student-accesses":
                 default:
                     $lang_index = "student_accesses_chart_title";
@@ -156,9 +156,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     $extra_info->min_date = $min_date;
                     $extra_info->max_date = $max_date;
                     $extra_info->num_days = $days;
-                    $result->extra_info = $extra_info;                    
+                    $result->extra_info = $extra_info;
                 }
-                $result->data = $student_resource_access;    
+                $result->data = $student_resource_access;
             }
             break;
         case "teacher@student-resources-access":
@@ -167,8 +167,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     // check student id
                 if (isset($id)) {
                         // chart title
-                        $result->name = get_string("student_resources_details_chart_title", "block_gismo"); 
-			//$result->name = get_string("student_resources_overview_chart_title", "block_gismo");
+                        $result->name = get_string("student_resources_details_chart_title", "block_gismo");
+                        //$result->name = get_string("student_resources_overview_chart_title", "block_gismo");
                         // links
                         $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"student-resources-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
                         // filters
@@ -187,7 +187,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     } else {
                         $student_resource_access = $DB->get_records_select("block_gismo_resource", $filters, $params, $sort, "id, " . $fields); //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY
                     }
-                        // build result 
+                        // build result
                         if ($student_resource_access !== false) {
                             // evaluate start date and end date
                             // 1. get min date and max date
@@ -213,9 +213,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                                 $extra_info->min_date = $min_date;
                                 $extra_info->max_date = $max_date;
                                 $extra_info->num_days = $days;
-                                $result->extra_info = $extra_info;                    
+                                $result->extra_info = $extra_info;
                             }
-                            $result->data = $student_resource_access;    
+                            $result->data = $student_resource_access;
                         }
                     }
                     break;
@@ -224,9 +224,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     $result->name = get_string("student_resources_overview_chart_title", "block_gismo");
                     // get data
                     $student_resource_access = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
-                    // build result 
+                    // build result
                     if ($student_resource_access !== false) {
-                        $result->data = $student_resource_access;    
+                        $result->data = $student_resource_access;
                     }
                     break;
             }
@@ -252,14 +252,14 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             // save extra info
             $extra_info = (object) array("max_value" => 0);
             if (is_array($ei) AND count($ei) > 0) {
-                $extra_info->max_value = array_pop($ei)->value;        
+                $extra_info->max_value = array_pop($ei)->value;
             }
             // result
             if ($resource_accesses !== false) {
                 $result->extra_info = $extra_info;
-                $result->data = $resource_accesses;    
+                $result->data = $resource_accesses;
             }
-            break;        
+            break;
         case "teacher@resources-access":
             switch ($subtype) {
                 case "resources-details":
@@ -311,9 +311,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                                 $extra_info->min_date = $min_date;
                                 $extra_info->max_date = $max_date;
                                 $extra_info->num_days = $days;
-                                $result->extra_info = $extra_info;                    
+                                $result->extra_info = $extra_info;
                             }
-                            $result->data = $resource_accesses;    
+                            $result->data = $resource_accesses;
                         }
                     }
                     break;
@@ -326,12 +326,12 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
                     // result
                     if ($resource_accesses !== false) {
-                        $result->data = $resource_accesses;    
-                    }  
+                        $result->data = $resource_accesses;
+                    }
                     break;
             }
             break;
-        case "student@resources-access": 
+        case "student@resources-access":
             // chart title
             $result->name = get_string("resources_access_overview_chart_title", "block_gismo");
             // links
@@ -343,7 +343,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $resource_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype NOT IN ('book')", $ctu_params, "time ASC");
             // result
             if ($resource_accesses !== false) {
-                $result->data = $resource_accesses;    
+                $result->data = $resource_accesses;
             }
             break;
         case "teacher@student-books-access":
@@ -352,8 +352,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     // check student id
                     if (isset($_REQUEST["id"])) {
                         // chart title
-                        $result->name = get_string("student_books_details_chart_title", "block_gismo"); 
-            //$result->name = get_string("student_resources_overview_chart_title", "block_gismo");
+                        $result->name = get_string("student_books_details_chart_title", "block_gismo");
+                        //$result->name = get_string("student_resources_overview_chart_title", "block_gismo");
                         // links
                         $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"student-books-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
                         // filters
@@ -361,7 +361,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                         $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
                         // get data
                         $student_book_access = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
-                        // build result 
+                        // build result
                         if ($student_book_access !== false) {
                             // evaluate start date and end date
                             // 1. get min date and max date
@@ -381,15 +381,15 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                                 $max_date = date("Y-m-d", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
                                 $max_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
                                 // diff
-                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));               
+                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));
                                 // save results
                                 $extra_info = new stdClass();
                                 $extra_info->min_date = $min_date;
                                 $extra_info->max_date = $max_date;
                                 $extra_info->num_days = $days;
-                                $result->extra_info = $extra_info;                    
+                                $result->extra_info = $extra_info;
                             }
-                            $result->data = $student_book_access;    
+                            $result->data = $student_book_access;
                         }
                     }
                     break;
@@ -398,9 +398,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     $result->name = get_string("student_books_overview_chart_title", "block_gismo");
                     // get data
                     $student_book_access = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
-                    // build result 
+                    // build result
                     if ($student_book_access !== false) {
-                        $result->data = $student_book_access;    
+                        $result->data = $student_book_access;
                     }
                     break;
             }
@@ -426,14 +426,14 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             // save extra info
             $extra_info = (object) array("max_value" => 0);
             if (is_array($ei) AND count($ei) > 0) {
-                $extra_info->max_value = array_pop($ei)->value;        
+                $extra_info->max_value = array_pop($ei)->value;
             }
             // result
             if ($book_accesses !== false) {
                 $result->extra_info = $extra_info;
-                $result->data = $book_accesses;    
+                $result->data = $book_accesses;
             }
-            break;        
+            break;
         case "teacher@books-access":
             switch ($subtype) {
                 case "books-details":
@@ -468,15 +468,15 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                                 $max_date = date("Y-m-d", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
                                 $max_datetime = date("Y-m-d H:i:s", mktime(0, 0 ,0 , $mad[1] + 1, 0, $mad[0]));
                                 // diff
-                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));               
+                                $days = intval(GISMOutil::days_between_dates($max_datetime, $min_datetime));
                                 // save results
                                 $extra_info = new stdClass();
                                 $extra_info->min_date = $min_date;
                                 $extra_info->max_date = $max_date;
                                 $extra_info->num_days = $days;
-                                $result->extra_info = $extra_info;                    
+                                $result->extra_info = $extra_info;
                             }
-                            $result->data = $book_accesses;    
+                            $result->data = $book_accesses;
                         }
                     }
                     break;
@@ -489,12 +489,12 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                     $book_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
                     // result
                     if ($book_accesses !== false) {
-                        $result->data = $book_accesses;    
-                    }  
+                        $result->data = $book_accesses;
+                    }
                     break;
             }
             break;
-        case "student@books-access": 
+        case "student@books-access":
             // chart title
             $result->name = get_string("books_access_overview_chart_title", "block_gismo");
             // links
@@ -506,7 +506,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $book_accesses = $DB->get_records_select("block_gismo_resource", $ctu_filters . " AND restype = 'book'", $ctu_params, "time ASC");
             // result
             if ($book_accesses !== false) {
-                $result->data = $book_accesses;    
+                $result->data = $book_accesses;
             }
             break;
         case "teacher@assignments":
@@ -569,8 +569,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         $result->links = null;
             // chart data (select s.id because the stupid moodle get_records__sql function set array key with the first selected field (use a unique key to avoid data loss))
             $qry = "
-                SELECT s.id, s.userid, s.grade, s.timemarked, a.id AS test_id, a.grade AS test_max_grade 
-                FROM {assignment} AS a INNER JOIN {assignment_submissions} AS s ON a.id = s.assignment 
+                SELECT s.id, s.userid, s.grade, s.timemarked, a.id AS test_id, a.grade AS test_max_grade
+                FROM {assignment} AS a INNER JOIN {assignment_submissions} AS s ON a.id = s.assignment
                 WHERE a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
             // need to filter on user id ?
@@ -580,7 +580,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $entries = $DB->get_records_sql($qry);
             // build result
             if (is_array($entries) AND count($entries) > 0 AND
-                is_array($users) AND count($users) > 0) { 
+                is_array($users) AND count($users) > 0) {
                 foreach ($entries as $entry) {
                     if (array_key_exists($entry->userid, $users)) {
                         // standard item
@@ -611,8 +611,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                         }
                         // store item
                         array_push($result->data, $item);
-                    }          
-                }    
+                    }
+                }
             }
             break;
         case "teacher@quizzes":
@@ -623,8 +623,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $result->links = null;
             // chart data
             $qry = "
-                SELECT g.id, g.userid, g.grade, g.timemodified, q.id AS test_id, q.grade AS test_max_grade, q.decimalpoints AS decimalpoints 
-                FROM {quiz} AS q INNER JOIN {quiz_grades} AS g ON q.id = g.quiz 
+                SELECT g.id, g.userid, g.grade, g.timemodified, q.id AS test_id, q.grade AS test_max_grade, q.decimalpoints AS decimalpoints
+                FROM {quiz} AS q INNER JOIN {quiz_grades} AS g ON q.id = g.quiz
                 WHERE q.course = " . intval($course_id) . " AND g.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
             // need to filter on user id ?
@@ -632,9 +632,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                 $qry .= " AND g.userid = " . $current_user_id;
             }
             $entries = $DB->get_records_sql($qry);
-            // build result 
+            // build result
             if (is_array($entries) AND count($entries) > 0 AND
-                is_array($users) AND count($users) > 0) { 
+                is_array($users) AND count($users) > 0) {
                 foreach ($entries as $entry) {
                     if (array_key_exists($entry->userid, $users)) {
                         $item = array(
@@ -646,8 +646,8 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
                             "submission_time" => $entry->timemodified
                         );
                         array_push($result->data, $item);
-                    }          
-                }    
+                    }
+                }
             }
             break;
         case "teacher@chats":
@@ -687,13 +687,13 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $result->arr = $ctu_params;
             
             if (is_array($activity_data) AND count($activity_data) > 0) {
-                $result->data = $activity_data;    
+                $result->data = $activity_data;
             }
             break;
         case "student@chats-over-time":
         case "student@forums-over-time":
         case "student@wikis-over-time":
-            // add filters to extract data related to the current student only and then do 
+            // add filters to extract data related to the current student only and then do
             // the same things as for teacher
             $ctu_filters .= "AND userid = ? ";
             array_push($ctu_params, $current_user_id);
@@ -732,9 +732,9 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $extra_info->num_days = intval(block_gismo\GISMOutil::days_between_times($extra_info->max_date, $extra_info->min_date));
                 $extra_info->min_date = date("Y-m-d", $extra_info->min_date);
                 $extra_info->max_date = date("Y-m-d", $extra_info->max_date);
-                $result->extra_info = $extra_info; 
+                $result->extra_info = $extra_info;
                 // save data
-                $result->data = $activity_data;    
+                $result->data = $activity_data;
             }
             break;
         case "student@chats":
@@ -759,7 +759,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             // result
             if (is_array($activity_data) AND count($activity_data) > 0) {
                 // save data
-                $result->data = $activity_data;    
+                $result->data = $activity_data;
             }
             break;
     case "teacher@completion-assignments":
@@ -851,7 +851,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         }
         break;
         default:
-            break;        
+            break;
     }
     
     // echo json encoded result

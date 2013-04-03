@@ -1,5 +1,5 @@
-<?PHP      
-
+<?PHP
+          
 /**
  * GISMO block
  *
@@ -10,12 +10,12 @@
 //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
 header("Content-type: application/javascript ; charset=UTF-8") ;
 
-// define constants
-define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
-define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);
-
-// include moodle config file
-require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
+    // define constants
+    define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
+    define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);
+    
+    // include moodle config file
+    require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
 $PAGE->set_context(context_system::instance()); //Tim Lock Fix up some page context warnings
 
 ?>
@@ -360,7 +360,7 @@ function left_menu(g) {
             'lists': ['wikis'],
             'default': 0,
             'details': []
-        }           
+        }
     };
     
     // lists methods
@@ -447,7 +447,7 @@ function left_menu(g) {
             result = (type_field != undefined && item[type_field] != undefined) ? item[type_field] : item_type;
             result += "-" + item[id_field];
         }
-        return result;        
+        return result;
     }
     
     // init lm content method
@@ -462,39 +462,39 @@ function left_menu(g) {
             // list
             element = $('<div></div>').attr('id', this.get_list_container_id(item));
             if (count > 0) {
-		var lab = "<?php print_string('students', 'block_gismo'); ?>";		// WORKAROUND
-		switch (item) {
-			case 'users':
-				lab = "<?php print_string('students', 'block_gismo'); ?>";
-                                break;
-			case 'teachers': 
-				lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
-                                break;  
-			case 'resources':
-				lab = "<?php print_string('resources', 'block_gismo'); ?>";
-                                break;
-                        case 'assignments':
-				lab = "<?php print_string('assignments', 'block_gismo'); ?>";
-                                break;
-			case 'assignments22':
-				lab = "<?php print_string('assignments22', 'block_gismo'); ?>";
-                                break;
-			case 'forums':
-				lab = "<?php print_string('forums', 'block_gismo'); ?>";
-                                break;
-			case 'wikis':
-				lab = "<?php print_string('wikis', 'block_gismo'); ?>";
-                                break;
-                        case 'chats':
-				lab = "<?php print_string('chats', 'block_gismo'); ?>";
-                                break;
-                        case 'quizzes':
-				lab = "<?php print_string('quizzes', 'block_gismo'); ?>";
-                                break;
-			default:
-				lab = "<?php print_string('items', 'block_gismo'); ?>";
-		}
-                
+                var lab = "<?php print_string('students', 'block_gismo'); ?>"; // WORKAROUND
+                switch (item) {
+                    case 'users':
+                        lab = "<?php print_string('students', 'block_gismo'); ?>";
+                    break;
+                    case 'teachers': 
+                        lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
+                    break;  
+                    case 'resources':
+                        lab = "<?php print_string('resources', 'block_gismo'); ?>";
+                    break;
+                    case 'assignments':
+                        lab = "<?php print_string('assignments', 'block_gismo'); ?>";
+                    break;
+                    case 'assignments22':
+                        lab = "<?php print_string('assignments22', 'block_gismo'); ?>";
+                    break;
+                    case 'forums':
+                        lab = "<?php print_string('forums', 'block_gismo'); ?>";
+                    break;
+                    case 'wikis':
+                        lab = "<?php print_string('wikis', 'block_gismo'); ?>";
+                    break;
+                    case 'chats':
+                        lab = "<?php print_string('chats', 'block_gismo'); ?>";
+                    break;
+                    case 'quizzes':
+                        lab = "<?php print_string('quizzes', 'block_gismo'); ?>";
+                    break;
+                    default:
+                        lab = "<?php print_string('items', 'block_gismo'); ?>";
+                }
+
                 // add header with a checkbox to control items selection
                 element.append(
                     $('<div></div>').addClass("cb_main").append(
@@ -527,14 +527,14 @@ function left_menu(g) {
                 var typename; //Name of resources type (language difference)
                 
                 // add items checkboxes
-                for (var k=0; k<this.gismo.static_data[item].length; k++) {                
+                for (var k=0; k<this.gismo.static_data[item].length; k++) {
                     if (this.gismo.is_item_visible(this.gismo.static_data[item][k])) {
                         if(this.gismo.static_data[item][k]['type']!==undefined){ //ONLY RESOURCES HAVE TYPE ATTRIBUTE
                              
                             if(oldtype == undefined || oldtype != this.gismo.static_data[item][k]['type']){ //Check if new type then we must print the TYPE instead of the element
                                 oldtype = this.gismo.static_data[item][k]['type'];
                                 typename=this.resources_list_names[oldtype];
-                                cb_item = $('<input></input>').attr("type", "checkbox");
+                        cb_item = $('<input></input>').attr("type", "checkbox");
                                 cb_item.attr("value", oldtype);                         
                                 cb_item.attr("name", oldtype);
                                 cb_item.attr("id", oldtype);
@@ -570,7 +570,7 @@ function left_menu(g) {
                         }   
                         cb_item = $('<input></input>').attr("type", "checkbox");
                         // cb_item.attr("value", this.gismo.static_data[item][k].id);
-                        cb_item.attr("value", this.get_unique_id(item, this.gismo.static_data[item][k], "id", "type"));                         
+                        cb_item.attr("value", this.get_unique_id(item, this.gismo.static_data[item][k], "id", "type"));
                         cb_item.attr("name", item + "_cb[" + this.gismo.static_data[item][k].id + "]");
                         cb_item.attr("id", item + "_cb_" + this.gismo.static_data[item][k].id);
                         cb_item.prop("checked", true);
@@ -592,13 +592,13 @@ function left_menu(g) {
                             // manage global cb
                             var selector = '#' + event.data.list + '_list input[id!=' + event.data.list + '_cb_control]:checkbox';
                             var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
-                            $('input#' + event.data.list + '_cb_control').prop('checked', global_checked);     
+                            $('input#' + event.data.list + '_cb_control').prop('checked', global_checked);
                             
                             // update chart
                             if (lm.gismo.current_analysis.plot != null && lm.gismo.current_analysis.plot != undefined) {
                                 lm.gismo.update_chart();
                             }
-                        });                        
+                        });
                         cb_label = $("<label style='float: left;'></label>")
                                         .html(this.gismo.static_data[item][k].name)
                                         .mouseover(function () {
@@ -629,7 +629,7 @@ function left_menu(g) {
                                     if(g.current_analysis.type == "resources-access"){
                                         g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1], restype: $(this).attr("restype")});
                                     }else{
-                                        g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1]});
+                                    g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1]});
                                     }
                                 })
                             )
@@ -759,7 +759,7 @@ function left_menu(g) {
 
     // info
     this.show_info = function() {
-        var title = "<?php print_string('info_title', 'block_gismo'); ?>";	    
+        var title = "<?php print_string('info_title', 'block_gismo'); ?>";
         var message = "<?php print_string('info_text', 'block_gismo'); ?>";
         this.gismo.util.show_modal_dialog(title, message);
     };

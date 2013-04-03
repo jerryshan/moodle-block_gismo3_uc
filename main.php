@@ -24,9 +24,9 @@ $gismo_static_data->init();
             foreach ($client_side_libraries as $key => $client_side_libs) {
                 if (is_array($client_side_libs) AND count($client_side_libs) > 0) {
                     foreach ($client_side_libs as $client_side_lib) {
-                        $res = explode('.', $client_side_lib);
-                        $ext = '';
-                        if (count($res) < 2) { //no extension inserted in the name included
+                        $res=explode('.',$client_side_lib);
+                        $ext='';
+                        if(count($res) < 2) { //no extension inserted in the name included
                             $ext = '.js';
                         }
                         $lib_full_path = LIB_DIR . $key . DIRECTORY_SEPARATOR . "client_side" . DIRECTORY_SEPARATOR . $client_side_lib . $ext;
@@ -47,7 +47,7 @@ $gismo_static_data->init();
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/jqplot.1.0.8r1250/jquery.jqplot.min.css" />
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/simpleFadeSlideShow/style.css" />
         <?php
-        // static data + gismo instance not needed by help page 
+        // static data + gismo instance not needed by help page
         if (!in_array($query, array("help"))) {
             ?>
             <script type="text/javascript">
@@ -79,9 +79,9 @@ $gismo_static_data->init();
 
                 // gismo instance
                 var g = new gismo(config, srv_data, static_data, course_start_time, current_time, actor, completionenabled); //Added completionenabled
-
+                
                 // initialize application
-                $(document).ready(function () {
+                $(document).ready(function() {
                     // init
                     g.init();
 
@@ -98,9 +98,9 @@ $gismo_static_data->init();
 
                 // -->
             </script>
-    <?php
-}
-?>
+            <?php
+        }
+        ?>
     </head>
     <body>
         <div id="dialog"></div>
@@ -129,35 +129,35 @@ $gismo_static_data->init();
             require_once $content;
             ?>
         </div>
-<?php
-if ($footer) {
-    ?>
-            <div id="footer">
-                <input id="from_date" name="from_date" type="text" class="input_date" />
-                <div id="f1">
-                    <input id="to_date" name="to_date" type="text" class="input_date" />
-                    <div id="date_slider"></div>
-                </div>
+        <?php
+            if ($footer) {
+        ?>
+        <div id="footer">
+            <input id="from_date" name="from_date" type="text" class="input_date" />
+            <div id="f1">
+                <input id="to_date" name="to_date" type="text" class="input_date" />
+                <div id="date_slider"></div>
             </div>
-    <?php
-}
-?>
+        </div>
+        <?php
+            }
+        ?>
     </body>
-<?php
-if (in_array($query, array("help"))) {
-    // HACK     
-    ?> 
+    <?php
+        if (in_array($query, array("help"))) {
+        // HACK
+    ?>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#panelMenu > li').bind('mouseover', function () {
                     $(this).children('a').addClass('menu_open');
                 });
-                $('#panelMenu > li').bind('mouseout', function () {
+                $('#panelMenu > li').bind('mouseout',  function () {
                     $(this).children('a').removeClass('menu_open');
                 });
             });
         </script>
     <?php
-}
-?>	
+        }
+    ?>
 </html>

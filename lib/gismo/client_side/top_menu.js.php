@@ -286,7 +286,7 @@ function top_menu(g) {
                     "require": null, 
                     "sub": null 
                 },
-		{
+                {
                     "label": "<?php print_string('about', 'block_gismo'); ?>", 
                     "action": "g.about()", 
                     "roles": new Array("teacher", "student"), 
