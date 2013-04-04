@@ -10,7 +10,7 @@ $string['gismo:track-user'] = 'Gismo Student';
 $string['gismo:track-teacher'] = 'Gismo Teacher';
 
 // help
-$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled to the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources</li><li>Assignments</li><li>Quizzes</li></ul></li></ul>";
+$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
 
 // General
 $string['page_title'] = "Gismo - ";
