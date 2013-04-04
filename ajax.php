@@ -7,16 +7,16 @@
  * @copyright   eLab Christian Milani
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-//Fix from CorbiÃ¨re Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
+//Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
 header("Content-type: application/json; charset=UTF-8");
 
     // mode (json)
     $error_mode = "json";
-    
+
     // libraries & acl
     require_once "common.php";
-    
-    
+
+
 $q = optional_param('q', '', PARAM_TEXT);
 $from = optional_param('from', '', PARAM_INT);
 $to = optional_param('to', '', PARAM_INT);
@@ -34,14 +34,14 @@ if (!isset($q) OR ! isset($from) OR ! isset($to)) {
     $from = intval($from);
     $to = intval($to);
     }
-    
+
     // SECURITY (prevent users hacks)
     $query = explode("@", $query);
     $query = $actor . "@" . $query[1];
-    
+
     // current user id
     $current_user_id = intval($USER->id);
-    
+
     // GET CONTEXT DATA (course, students)
     // get course
     $course = $DB->get_record("course", array("id" => $course_id));
@@ -49,7 +49,7 @@ if (!isset($q) OR ! isset($from) OR ! isset($to)) {
     block_gismo\GISMOutil::gismo_error('err_course_not_set', $error_mode);
         exit;
     }
-    
+
     // get users
 $context = context_course::instance($course->id);
     if ($context === FALSE) {
@@ -61,17 +61,17 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
     block_gismo\GISMOutil::gismo_error('err_missing_course_students', $error_mode);
         exit;
     }
-    
-    
+
+
     // SQL FILTERS OFTEN/ALWAYS USED
     // elaborate course filter
     $course_sql = "course = ?";
     $course_params = array($course_id);
-    
+
     // elaborate time filter
     $time_sql = "time BETWEEN ? AND ?";
     $time_params = array($from, $to);
-    
+
     // elaborate userid filter
     $userid_sql = "";
     $userid_params = array();
@@ -79,12 +79,12 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         list($userid_sql, $userid_params) = $DB->get_in_or_equal(array_keys($users));
         $userid_sql = "userid " . $userid_sql;
     }
-    
+
     // course, time and users filters combined
     $ctu_filters = implode(" AND ", array_filter(array($course_sql, $time_sql, $userid_sql)));  // remove null values / empty strings / ... before imploding
     $ctu_params = array_merge($course_params, $time_params, $userid_params);
-    
-    
+
+
     // BUILD RESULT
     // result
     $result = new stdClass();
@@ -95,7 +95,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
     $result->arr = array();
     $result->context = $context;
     $result->users = $users;
-    
+
     // extract data
     switch ($query) {
         case "teacher@student-accesses":
@@ -115,7 +115,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $result->name = get_string($lang_index, "block_gismo");
             // links
             $result->links = null;
-        
+
         $student_resource_access = false;
         $ctu_filters .= " GROUP BY course, timedate, userid"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY, we need to group by course,timedate & USERID
         $sort = "timedate ASC";
@@ -130,7 +130,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             // chart data
             $student_resource_access = $DB->get_records_select("block_gismo_sl", $ctu_filters, $ctu_params, $sort, "id, " . $fields);
         }
-            // build result 
+            // build result
             if ($student_resource_access !== false) {
                 // evaluate start date and end date
                 // 1. get min date and max date
@@ -517,9 +517,15 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $result->links = null;
         // chart data
         $qry = "
-                SELECT g.id, g.userid, g.grade, g.timemodified, a.id AS test_id, a.grade AS test_max_grade
-                FROM {assign} AS a INNER JOIN {assign_grades} AS g ON a.id = g.assignment
-                WHERE a.course = " . intval($course_id) . " AND g.timemodified BETWEEN " . $from . " AND " . $to . "
+                SELECT s.id, s.userid, gg.finalgrade as grade, gg.timemodified, a.id AS test_id, a.grade AS test_max_grade
+                FROM {assign} AS a
+                    INNER JOIN {assign_submission} AS s ON a.id = s.assignment
+                    INNER JOIN (SELECT id, iteminstance
+                                FROM {grade_items}
+                                WHERE itemtype = 'mod' AND itemmodule = 'assign' AND courseid = " . intval($course_id) . "
+                                ) gi ON a.id = gi.iteminstance
+                    INNER JOIN {grade_grades} gg ON (gg.itemid=gi.id AND gg.userid=s.userid)
+                WHERE a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
         // need to filter on user id ?
         if ($query === "student@assignments") {
@@ -682,12 +688,12 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             $ctu_filters .= "AND activity = ?";
             array_push($ctu_params, $spec_info[$query]["activity"]);
             // chart data
-            
+
             $activity_data = $DB->get_records_select("block_gismo_activity", $ctu_filters, $ctu_params, "time ASC");
             // result
             $result->error = $ctu_filters;
             $result->arr = $ctu_params;
-            
+
             if (is_array($activity_data) AND count($activity_data) > 0) {
                 $result->data = $activity_data;
             }
@@ -817,7 +823,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             // chart title
             $result->name = get_string("completion_quiz_chart_title", "block_gismo");
         }
-        
+
         // links
         $result->links = null;
         // chart data
@@ -825,7 +831,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         //COMPLETION_COMPLETE = 1
         //COMPLETION_COMPLETE_PASS = 2
         //COMPLETION_COMPLETE_FAIL = 3
-        
+
         $qry = "
                 SELECT cmc.id as cmc_id, cm.instance as item_id, cmc.completionstate as completionstate, cmc.timemodified as timemodified, cmc.userid as userid, m.name as type
             FROM {course_modules_completion} cmc
@@ -834,13 +840,13 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             WHERE (cmc.completionstate = 1 OR cmc.completionstate = 2)
             AND (m.name = '" . $itemtype . "')
             AND cm.course = " . intval($course_id) . " AND cmc.timemodified BETWEEN " . $from . " AND " . $to;
-        
+
         // need to filter on user id ?
         if ($query === "student@completion-assignments" || $query === "student@completion-assignments22" || $query === "student@completion-chats" || $query === "student@completion-forums" || $query === "student@completion-wikis" || $query === "student@completion-quizzes" || $query === "student@completion-resources") {
             $qry .= " AND cmc.userid = " . $current_user_id;
         }
         $entries = $DB->get_records_sql($qry);
-        
+
         // build result
         if (is_array($entries) AND count($entries) > 0 AND
                 is_array($users) AND count($users) > 0) {
@@ -861,7 +867,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
         default:
             break;
     }
-    
+
     // echo json encoded result
     echo json_encode($result);
 ?>
