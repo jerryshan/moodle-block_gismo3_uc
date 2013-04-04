@@ -475,11 +475,15 @@
             $result->name = get_string("assignments_chart_title", "block_gismo");
             // links
             $result->links = null;
+            $course_id = intval($course_id);
             // chart data (select s.id because the stupid moodle get_records__sql function set array key with the first selected field (use a unique key to avoid data loss))
             $qry = "
-                SELECT s.id, s.userid, g.grade, g.timemodified as timemarked, a.id AS test_id, a.grade AS test_max_grade
-                FROM {assign} AS a INNER JOIN {assign_submission} AS s ON a.id = s.assignment INNER JOIN {assign_grades} AS g ON s.userid = g.userid
-                WHERE g.assignment = a.id AND a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
+                SELECT s.id, s.userid, gg.finalgrade as grade, gg.timemodified as timemarked, a.id AS test_id, a.grade AS test_max_grade
+                FROM {assign} AS a
+                    INNER JOIN {assign_submission} AS s ON a.id = s.assignment
+                    INNER JOIN (SELECT id, iteminstance FROM {grade_items} WHERE itemtype = 'mod' AND itemmodule = 'assign' AND courseid = $course_id) gi ON a.id = gi.iteminstance
+                    INNER JOIN {grade_grades} gg ON (gg.itemid=gi.id AND gg.userid=s.userid)
+                WHERE a.course = $course_id AND s.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
             // need to filter on user id ?
             if ($query === "student@assignments") {
