@@ -477,9 +477,9 @@
             $result->links = null;
             // chart data (select s.id because the stupid moodle get_records__sql function set array key with the first selected field (use a unique key to avoid data loss))
             $qry = "
-                SELECT s.id, s.userid, s.grade, s.timemarked, a.id AS test_id, a.grade AS test_max_grade
-                FROM {assignment} AS a INNER JOIN {assignment_submissions} AS s ON a.id = s.assignment
-                WHERE a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
+                SELECT s.id, s.userid, g.grade, g.timemodified as timemarked, a.id AS test_id, a.grade AS test_max_grade
+                FROM {assign} AS a INNER JOIN {assign_submission} AS s ON a.id = s.assignment INNER JOIN {assign_grades} AS g ON s.userid = g.userid
+                WHERE g.assignment = a.id AND a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
             // need to filter on user id ?
             if ($query === "student@assignments") {

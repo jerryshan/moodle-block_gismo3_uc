@@ -271,8 +271,7 @@ class FetchStaticDataMoodle {
         $check = false;
         $this->assignments = "[]";
         // fetch assignments
-        $assignments = get_all_instances_in_course("assignment", $this->course, null, true);
-        // $assignments = $this->FetchCourseModulesOrderedByPosition("assignment", $this->course, $USER->id, true);
+        $assignments = get_all_instances_in_course("assign", $this->course, null, true);
         // save data
         if ($assignments !== FALSE) {
             $json_assignments = array();
