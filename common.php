@@ -198,7 +198,7 @@
 
     // context 
 
-    $context_obj = get_context_instance(CONTEXT_BLOCK, intval($srv_data->block_instance_id));
+    $context_obj = get_context_instance(CONTEXT_COURSE, intval($srv_data->course_id));
 
     
 
