@@ -65,6 +65,7 @@ $gismo_static_data->init();
                 static_data['assignments22'] = <?php echo $gismo_static_data->assignments22; ?>;
                 static_data['chats'] = <?php echo $gismo_static_data->chats; ?>;
                 static_data['forums'] = <?php echo $gismo_static_data->forums; ?>;
+                static_data['glossaries'] = <?php echo $gismo_static_data->glossaries; ?>;
                 static_data['quizzes'] = <?php echo $gismo_static_data->quizzes; ?>;
                 static_data['wikis'] = <?php echo $gismo_static_data->wikis; ?>;
                 static_data['course_full_name'] = '<?php echo str_replace("'", "\\'", $gismo_static_data->fullname); ?>';

@@ -892,6 +892,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 break;
             case 'teacher@chats':
             case 'teacher@forums':
+            case 'teacher@glossaries':
             case 'teacher@wikis':
                 if (this.static_data["users"].length > 0 && this.static_data[this.current_analysis.type].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // series
@@ -939,17 +940,21 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 break;
             case 'teacher@chats-over-time':
             case 'teacher@forums-over-time':
+            case 'teacher@glossaries-over-time':
             case 'teacher@wikis-over-time':
             case 'student@chats-over-time':
             case 'student@forums-over-time':
+            case 'student@glossaries-over-time':
             case 'student@wikis-over-time':
                 var ft = this.get_full_type();
                 var spec_info = {
                     'teacher@chats-over-time': {'static': 'chats'},
                     'teacher@forums-over-time': {'static': 'forums'},
+                    'teacher@glossaries-over-time': {'static': 'glossaries'},
                     'teacher@wikis-over-time': {'static': 'wikis'},
                     'student@chats-over-time': {'static': 'chats'},
                     'student@forums-over-time': {'static': 'forums'},
+                    'student@glossaries-over-time': {'static': 'glossaries'},
                     'student@wikis-over-time': {'static': 'wikis'}
                 };
                 if (this.static_data["users"].length > 0 && this.static_data[spec_info[ft]["static"]].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
@@ -994,9 +999,11 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 break;
             case 'teacher@chats:users-details':
             case 'teacher@forums:users-details':
+            case 'teacher@glossaries:users-details':
             case 'teacher@wikis:users-details':
             case 'student@chats':
             case 'student@forums':
+            case 'student@glossaries':
             case 'student@wikis':
                 if (this.static_data["users"].length > 0 && this.static_data[this.current_analysis.type].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // series
@@ -1331,9 +1338,11 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 case 'teacher@student-accesses-overview':
                 case 'teacher@chats-over-time':
                 case 'teacher@forums-over-time':
+                case 'teacher@glossaries-over-time':
                 case 'teacher@wikis-over-time':
                 case 'student@chats-over-time':
                 case 'student@forums-over-time':
+                case 'student@glossaries-over-time':
                 case 'student@wikis-over-time':
                     this.current_analysis.plot = $.jqplot(this.plot_id, [data.lines], {
                         title: {
@@ -1584,12 +1593,15 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     break;
                 case 'teacher@chats':
                 case 'teacher@forums':
+                case 'teacher@glossaries':
                 case 'teacher@wikis':
                 case 'teacher@chats:users-details':
                 case 'teacher@forums:users-details':
+                case 'teacher@glossaries:users-details':
                 case 'teacher@wikis:users-details':
                 case 'student@chats':
                 case 'student@forums':
+                case 'student@glossaries':
                 case 'student@wikis':
                     this.current_analysis.plot = $.jqplot(this.plot_id, data.lines, {
                       title: {

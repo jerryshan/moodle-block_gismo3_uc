@@ -81,7 +81,7 @@ class GISMOdata_manager {
 
         // Adjust some php variables to the execution of this script
         \core_php_time_limit::raise(7200);
-        
+
         if (function_exists("raise_memory_limit")) {
             raise_memory_limit("192M");
         }
@@ -154,7 +154,7 @@ class GISMOdata_manager {
             }
             $max_log_id = intval(array_pop($max_log_id)->id);
 
-            //extract all courses            
+            //extract all courses
             $courses = get_courses("all", "c.id", "c.id"); //ALL COURSES
         } else {
             echo "\nExport courses with gismo block logs\n";
@@ -272,6 +272,12 @@ class GISMOdata_manager {
                         "objecttable" => array('forum_discussions', 'forum_posts', 'forum'),
                         "target" => array('post', 'discussion', 'course_module'),
                         "eventname" => array('%mod_forum%')
+                    ),
+                    "glossary" => array(
+                        "action" => array('viewed', 'created', 'deleted', 'updated'),
+                        "objecttable" => array('glossary', 'glossary_entries'),
+                        "target" => array('entry', 'course_module'),
+                        "eventname" => array('%mod_glossary%')
                     ),
                     "wiki" => array(
                         "action" => array('viewed', 'created', 'deleted', 'updated'),

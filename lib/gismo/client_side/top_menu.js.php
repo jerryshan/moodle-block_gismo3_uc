@@ -185,6 +185,20 @@ function top_menu(g) {
                     "sub": null 
                 },
                 { 
+                    "label": "<?php print_string('glossaries', 'block_gismo'); ?>", 
+                    "action": "g.analyse('glossaries')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("glossaries"), 
+                    "sub": null 
+                },
+                { 
+                    "label": "<?php print_string('glossaries_over_time', 'block_gismo'); ?>", 
+                    "action": "g.analyse('glossaries-over-time')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("glossaries"), 
+                    "sub": null 
+                },
+                { 
                     "label": "<?php print_string('quizzes', 'block_gismo'); ?>", 
                     "action": "g.analyse('quizzes')", 
                     "roles": new Array("teacher", "student"), 

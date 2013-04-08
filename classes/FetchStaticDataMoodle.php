@@ -38,6 +38,7 @@ class FetchStaticDataMoodle {
     protected $assignments22;
     protected $chats;
     protected $forums;
+    protected $glossaries;
     protected $quizzes;
     protected $wikis;
     
@@ -66,6 +67,7 @@ class FetchStaticDataMoodle {
         $check &= $this->FetchAssignments22();
         $check &= $this->FetchChats();
         $check &= $this->FetchForums();
+        $check &= $this->FetchGlossaries();
         $check &= $this->FetchQuizzes();
         $check &= $this->FetchWikis();
         // start date / time
@@ -396,6 +398,31 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
+    
+    // fetch glossaries
+    protected function FetchGlossaries() {
+        global $USER;
+        // default variables
+        $check = false;
+        $this->glossaries = "[]";
+        // fetch glossaries
+        $glossaries = get_all_instances_in_course("glossary", $this->course, null, true);
+        // save data
+        if (is_array($glossaries) AND count($glossaries) > 0) {
+            $json_glossaries = array();
+            $check = true;
+            foreach ($glossaries as $glossary) {
+                $json_glossaries[] = array(
+                    "id" => $glossary->id,
+                    "name" => $glossary->name,
+                    "visible" => $glossary->visible
+                );
+            }
+            $this->glossaries = json_encode($json_glossaries);
+        }
+        // return result
+        return $check;
+    }
 
     // fetch quizzes
     protected function FetchQuizzes() {
@@ -537,7 +564,7 @@ class FetchStaticDataMoodle {
     }
     
     public function checkActivities() {
-        return ($this->assignments !== "[]" OR $this->assignments22 !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
+        return ($this->assignments !== "[]" OR $this->assignments22 !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->glossaries !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
     }
 
 }

@@ -149,12 +149,12 @@ img {
 }
 
 #left_menu {
-    width: 250px;
+    width: 275px;
     float: left;
     background-color: #333333;
 }
 #chart {
-    margin-left: 250px;
+    margin-left: 275px;
     clear: right;
 }
 
@@ -174,7 +174,7 @@ img {
 #lm_header {
     background:#333;
     border-right: 1px solid #999999;
-    width: 250px;
+    width: 275px;
 }
 #lm_header #htoggle {
     height: 27px;
@@ -192,7 +192,7 @@ img {
     margin: 5px 3px;
 }
 #lm_content {
-    width: 250px;
+    width: 275px;
     background:#333;
     color: #FFFFFF;
     overflow: auto;

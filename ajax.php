@@ -652,12 +652,14 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             break;
         case "teacher@chats":
         case "teacher@forums":
+        case "teacher@glossaries":
         case "teacher@wikis":
             // specific info
             $spec_info = array(
                 "teacher@chats" => array("title" => "chats_chart_title", "subtitle" => "chats_ud_chart_title", "activity" => "chat", "back" => "chats"),
                 "teacher@forums" => array("title" => "forums_chart_title", "subtitle" => "forums_ud_chart_title", "activity" => "forum", "back" => "forums"),
-            "teacher@wikis" => array("title" => "wikis_chart_title", "subtitle" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis")
+                "teacher@glossaries" => array("title" => "glossaries_chart_title", "subtitle" => "glossaries_ud_chart_title", "activity" => "glossary", "back" => "glossaries"),
+                "teacher@wikis" => array("title" => "wikis_chart_title", "subtitle" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis")
             );
             switch ($subtype) {
                 case "users-details":
@@ -692,6 +694,7 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             break;
         case "student@chats-over-time":
         case "student@forums-over-time":
+        case "student@glossaries-over-time":
         case "student@wikis-over-time":
             // add filters to extract data related to the current student only and then do
             // the same things as for teacher
@@ -699,14 +702,17 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             array_push($ctu_params, $current_user_id);
         case "teacher@chats-over-time":
         case "teacher@forums-over-time":
+        case "teacher@glossaries-over-time":
         case "teacher@wikis-over-time":
             // specific info
             $spec_info = array(
                 "teacher@chats-over-time" => array("title" => "chats_over_time_chart_title", "activity" => "chat"),
                 "teacher@forums-over-time" => array("title" => "forums_over_time_chart_title", "activity" => "forum"),
+                "teacher@glossaries-over-time" => array("title" => "glossaries_over_time_chart_title", "activity" => "glossary"),
                 "teacher@wikis-over-time" => array("title" => "wikis_over_time_chart_title", "activity" => "wiki"),
                 "student@chats-over-time" => array("title" => "chats_over_time_chart_title", "activity" => "chat"),
                 "student@forums-over-time" => array("title" => "forums_over_time_chart_title", "activity" => "forum"),
+                "student@glossaries-over-time" => array("title" => "glossaries_over_time_chart_title", "activity" => "glossary"),
                 "student@wikis-over-time" => array("title" => "wikis_over_time_chart_title", "activity" => "wiki")
             );
             // chart title
@@ -739,11 +745,13 @@ $users = get_users_by_capability($context, "block/gismo:trackuser");
             break;
         case "student@chats":
         case "student@forums":
+        case "student@glossaries":
         case "student@wikis":
             // specific info
             $spec_info = array(
                 "student@chats" => array("title" => "chats_chart_title", "activity" => "chat"),
                 "student@forums" => array("title" => "forums_chart_title", "activity" => "forum"),
+                "student@glossaries" => array("title" => "glossaries_chart_title", "activity" => "glossary"),
                 "student@wikis" => array("title" => "wikis_chart_title", "activity" => "wiki")
             );
             // chart title
