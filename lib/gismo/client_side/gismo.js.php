@@ -517,16 +517,16 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     for (item in this.static_data[restype]) {
                         uid = this.lm.get_unique_id(restype, this.static_data[restype][item], "id", "type");
                         if ($.inArray(uid, selected_items[restype]) != -1) {
-                            xticks.unshift(this.util.intelligent_substring(this.static_data[restype][item].name, false));
-                            xticks_pos.unshift(uid);
+                            xticks.push(this.util.intelligent_substring(this.static_data[restype][item].name, false));
+                            xticks_pos.push(uid);
                         }
                     }
 
                     for (item in this.static_data["users"]) {
                         uid = this.lm.get_unique_id("users", this.static_data["users"][item], "id", "type");
                         if ($.inArray(uid, selected_items["users"]) != -1) {
-                            yticks.push(this.util.intelligent_substring(this.static_data["users"][item].name, false));
-                            yticks_pos.push(uid);
+                            yticks.unshift(this.util.intelligent_substring(this.static_data["users"][item].name, false));
+                            yticks_pos.unshift(uid);
                         }
                     }
 
