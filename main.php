@@ -26,7 +26,7 @@ $gismo_static_data->init();
                     foreach ($client_side_libs as $client_side_lib) {
                         $res=explode('.',$client_side_lib);
                         $ext='';
-                        if(count($res) < 2) { //no extension inserted in the name included
+                        if(count($res) < 2 ) { //no extension inserted in the name included
                             $ext = '.js';
                         }
                         $lib_full_path = LIB_DIR . $key . DIRECTORY_SEPARATOR . "client_side" . DIRECTORY_SEPARATOR . $client_side_lib . $ext;
@@ -95,6 +95,9 @@ $gismo_static_data->init();
                     setTimeout(function () {
                         g.resize();
                     }, 100);
+
+                    // window unload event
+                    $(window).unload(function () { g.reset_dom(); });
                 });
 
                 // -->
