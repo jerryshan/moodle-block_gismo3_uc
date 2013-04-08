@@ -78,6 +78,9 @@ $gismo_static_data->init();
 
                     // force resize
                     setTimeout(function() { g.resize(); }, 100);
+
+                    // window unload event
+                    $(window).unload(function () { g.reset_dom(); });
                 });
 
                 // -->
