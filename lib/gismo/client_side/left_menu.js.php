@@ -45,6 +45,10 @@ function left_menu(g) {
         'forums': {
             img: 'forum.gif', 
             tooltip: '<?php print_string('forums', 'block_gismo'); ?>'
+        },
+        'glossaries': {
+            img: 'glossaries.png', 
+            tooltip: '<?php print_string('glossaries', 'block_gismo'); ?>'
         }, 
         'quizzes': {
             img: 'quizzes.png', 
@@ -216,6 +220,32 @@ function left_menu(g) {
         },
         'student@forums-over-time': {
             'lists': ['forums'],
+            'default': 0,
+            'details': []
+        },
+        // activities -> glossaries
+        'teacher@glossaries': {
+            'lists': ['users', 'glossaries'],
+            'default': 0,
+            'details': ['users']
+        },
+        'teacher@glossaries-over-time': {
+            'lists': ['users', 'glossaries'],
+            'default': 0,
+            'details': []
+        },
+        'teacher@glossaries:users-details': {
+            'lists': ['glossaries'],
+            'default': 0,
+            'details': []
+        },
+        'student@glossaries': {
+            'lists': ['glossaries'],
+            'default': 0,
+            'details': []
+        },
+        'student@glossaries-over-time': {
+            'lists': ['glossaries'],
             'default': 0,
             'details': []
         },

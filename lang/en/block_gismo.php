@@ -10,7 +10,7 @@ $string['gismo:track-user'] = 'Gismo Student';
 $string['gismo:track-teacher'] = 'Gismo Teacher';
 
 // help
-$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
+$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
 
 // General
 $string['page_title'] = "Gismo - ";
@@ -73,6 +73,14 @@ $string['forums_over_time'] = 'Forums over time'; //************
 $string['forums_chart_title'] = 'Activities: forums overview';
 $string['forums_ud_chart_title'] = 'Activities: student details on forums';
 $string['forums_over_time_chart_title'] = 'Activities: contributions to forums over time';
+
+$string['glossaries'] = 'Glossaries';
+
+$string['glossaries_over_time'] = 'Glossaries over time'; //************
+
+$string['glossaries_chart_title'] = 'Activities: glossaries overview';
+$string['glossaries_ud_chart_title'] = 'Activities: student details on glossaries';
+$string['glossaries_over_time_chart_title'] = 'Activities: contributions to glossaries over time';
 
 $string['quizzes'] = 'Quizzes';
 $string['quizzes_chart_title'] = 'Activities: quizzes overview';

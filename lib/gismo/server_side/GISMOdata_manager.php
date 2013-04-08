@@ -136,6 +136,10 @@ class GISMOdata_manager {
                             "read"  => array("view discussion"),
                             "write" => array("add post", "update post", "delete post", "add discussion", "delete discussion"),
                         ),
+                        "glossary"     => array(
+                            "read"  => array("view", "view entry"),
+                            "write" => array("add entry", "update entry", "delete entry"),
+                        ),
                         "wiki"      => array(
                             "read"  => array("view"),
                             "write" => array("edit", "comments"),
