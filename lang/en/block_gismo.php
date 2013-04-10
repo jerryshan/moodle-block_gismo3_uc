@@ -38,6 +38,8 @@ $string['home'] = 'Gismo home';
 $string['close'] = 'Close';
 
 $string['users'] = 'users'; //************
+$string['groups'] = 'Groups';
+$string['not_in_a_grouping'] = 'Not in a Grouping';
 $string['teachers'] = 'teachers'; //************
 // Students
 $string['students'] = 'Students';
