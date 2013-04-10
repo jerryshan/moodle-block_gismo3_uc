@@ -22,6 +22,10 @@ function left_menu(g) {
             img: 'users.png', 
             tooltip: '<?php print_string('users', 'block_gismo'); ?>'
         },
+        'groups': {
+            img: 'groups.png', 
+            tooltip: '<?php print_string('groups', 'block_gismo'); ?>'
+        },
         'teachers': {
             img: 'teachers.png', 
             tooltip: '<?php print_string('teachers', 'block_gismo'); ?>'
@@ -63,7 +67,7 @@ function left_menu(g) {
     // list hidden on load
     // this field specify the lists that have to be hidden on load (icons in the header)
     this.lists_load_hidden = {
-        'student': new Array('users', 'teachers'),
+        'student': new Array('users', 'groups', 'teachers'),
         'teacher': new Array()
     };
     
@@ -79,7 +83,7 @@ function left_menu(g) {
     this.list_options ={
         // students
         'teacher@student-resources-access': {
-            'lists': ['users', 'resources'],
+            'lists': ['users', 'groups', 'resources'],
             'default': 0,
             'details': ['users']
         },
@@ -89,7 +93,7 @@ function left_menu(g) {
             'details': []
         }, 
         'teacher@student-books-access': {
-            'lists': ['users', 'books'],
+            'lists': ['users', 'groups', 'books'],
             'default': 0,
             'details': ['users']
         },
@@ -99,12 +103,12 @@ function left_menu(g) {
             'details': []
         }, 
         'teacher@student-accesses': {
-            'lists': ['users'],
+            'lists': ['users', 'groups'],
             'default': 0,
             'details': []
         },
         'teacher@student-accesses-overview': {
-            'lists': ['users'],
+            'lists': ['users', 'groups'],
             'default': 0,
             'details': []
         },
@@ -115,13 +119,13 @@ function left_menu(g) {
             'details': []
         }, 
         'teacher@resources-students-overview': {
-            'lists': ['users', 'resources'],
+            'lists': ['users', 'groups', 'resources'],
             'default': 1,
             'details': []
         },  
         'teacher@resources-access': {
-            'lists': ['users', 'resources'],
-            'default': 1,
+            'lists': ['users', 'groups', 'resources'],
+            'default': 2,
             'details': ['resources']
         },
         'student@resources-access': {
@@ -130,7 +134,7 @@ function left_menu(g) {
             'details': []
         },
         'teacher@resources-access:resources-details': {
-            'lists': ['users'],
+            'lists': ['users', 'groups'],
             'default': 0,
             'details': []
         }, 
@@ -141,13 +145,13 @@ function left_menu(g) {
             'details': []
         }, 
         'teacher@books-students-overview': {
-            'lists': ['users', 'books'],
-            'default': 1,
+            'lists': ['users', 'groups', 'books'],
+            'default': 2,
             'details': []
         },  
         'teacher@books-access': {
-            'lists': ['users', 'books'],
-            'default': 1,
+            'lists': ['users', 'groups', 'books'],
+            'default': 2,
             'details': ['books']
         },
         'student@books-access': {
@@ -156,13 +160,13 @@ function left_menu(g) {
             'details': []
         },
         'teacher@books-access:books-details': {
-            'lists': ['users'],
+            'lists': ['users', 'groups'],
             'default': 0,
             'details': []
         }, 
         // activities -> assignments
         'teacher@assignments': {
-            'lists': ['users', 'assignments'],
+            'lists': ['users', 'groups', 'assignments'],
             'default': 0,
             'details': []
         },
@@ -173,12 +177,12 @@ function left_menu(g) {
         },
         // activities -> chats
         'teacher@chats': {
-            'lists': ['users', 'chats'],
+            'lists': ['users', 'groups', 'chats'],
             'default': 0,
-            'details': ['users']
+            'details': ['users', 'groups']
         },
         'teacher@chats-over-time': {
-            'lists': ['users', 'chats'],
+            'lists': ['users', 'groups', 'chats'],
             'default': 0,
             'details': []
         },
@@ -199,12 +203,12 @@ function left_menu(g) {
         },
         // activities -> forums
         'teacher@forums': {
-            'lists': ['users', 'forums'],
+            'lists': ['users', 'groups', 'forums'],
             'default': 0,
-            'details': ['users']
+            'details': ['users', 'groups']
         },
         'teacher@forums-over-time': {
-            'lists': ['users', 'forums'],
+            'lists': ['users', 'groups', 'forums'],
             'default': 0,
             'details': []
         },
@@ -225,12 +229,12 @@ function left_menu(g) {
         },
         // activities -> glossaries
         'teacher@glossaries': {
-            'lists': ['users', 'glossaries'],
+            'lists': ['users', 'groups', 'glossaries'],
             'default': 0,
-            'details': ['users']
+            'details': ['users', 'groups']
         },
         'teacher@glossaries-over-time': {
-            'lists': ['users', 'glossaries'],
+            'lists': ['users', 'groups', 'glossaries'],
             'default': 0,
             'details': []
         },
@@ -251,7 +255,7 @@ function left_menu(g) {
         },
         // activities -> quizzes
         'teacher@quizzes': {
-            'lists': ['users', 'quizzes'],
+            'lists': ['users', 'groups', 'quizzes'],
             'default': 0,
             'details': []
         },
@@ -262,12 +266,12 @@ function left_menu(g) {
         },
         // activities -> wikis
         'teacher@wikis': {
-            'lists': ['users', 'wikis'],
+            'lists': ['users', 'groups', 'wikis'],
             'default': 0,
-            'details': ['users']
+            'details': ['users', 'groups']
         },
         'teacher@wikis-over-time': {
-            'lists': ['users', 'wikis'],
+            'lists': ['users', 'groups', 'wikis'],
             'default': 0,
             'details': []
         },
@@ -384,6 +388,14 @@ function left_menu(g) {
         */
     }
     
+    // toggle all students in a group
+    this.toggle_group_students = function(grouping, group, selected) {
+        for (var i in this.gismo.static_data['groups'][grouping].groups[group].members) {
+            var id = this.gismo.static_data['groups'][grouping].groups[group].members[i];
+            $('#users_cb_'+id).prop('checked', selected);
+        }
+    }
+    
     // init lm content method
     this.init_lm_content = function() {
         // local variables
@@ -400,6 +412,9 @@ function left_menu(g) {
                 switch (item) {
                     case 'users':
                         lab = "<?php print_string('students', 'block_gismo'); ?>";
+                    break;
+                    case 'groups':
+                        lab = "<?php print_string('groups', 'block_gismo'); ?>";
                     break;
                     case 'teachers': 
                         lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
@@ -439,6 +454,16 @@ function left_menu(g) {
                                         {list: item},
                                         function(event) {
                                             $('#' + event.data.list + '_list input:checkbox').prop('checked', $(this).prop('checked'));
+                                            if (event.data.list == 'groups') {
+                                                for (var grouping in lm.gismo.static_data['groups']) {
+                                                    for (var group in lm.gismo.static_data['groups'][grouping].groups) {
+                                                        lm.toggle_group_students(grouping, group, $(this).prop('checked'));
+                                                    }
+                                                }
+                                                var selector = '#users_list input[id!=users_cb_control]:checkbox';
+                                                var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
+                                                $('input#users_cb_control').prop('checked', global_checked);
+                                            }
                                             if (lm.gismo.current_analysis.plot != null && 
                                                 lm.gismo.current_analysis.plot != undefined) {
                                                 lm.gismo.update_chart();
@@ -448,61 +473,164 @@ function left_menu(g) {
                             )
                     )
                 );
-                // add items checkboxes
-                for (var k=0; k<this.gismo.static_data[item].length; k++) {
-                    if (this.gismo.is_item_visible(this.gismo.static_data[item][k])) {
+
+                if (item=='groups') {
+                    delete this.gismo.static_data[item].length;
+                    for (var grouping in this.gismo.static_data[item]) {
+                        groups_count = 0;
+                        grouping_element = $('<div></div>').attr('id', 'grouping' + grouping).addClass("grouping");
+                        for (var group in this.gismo.static_data[item][grouping].groups) {
+                            groups_count++;
+                        }
+                        // add header with a checkbox to control items selection
                         cb_item = $('<input></input>').attr("type", "checkbox");
-                        // cb_item.attr("value", this.gismo.static_data[item][k].id);
-                        cb_item.attr("value", this.get_unique_id(item, this.gismo.static_data[item][k], "id", "type"));
-                        cb_item.attr("name", item + "_cb[" + this.gismo.static_data[item][k].id + "]");
-                        cb_item.attr("id", item + "_cb_" + this.gismo.static_data[item][k].id);
+                        cb_item.attr("value", "0");
+                        cb_item.attr("name", item + "_cb_control_" + grouping);
+                        cb_item.attr("id", item + "_cb_control_" + grouping);
                         cb_item.prop("checked", true);
                         cb_item.addClass("cb_element");
-                        cb_item.bind("click", {list: item}, function (event) {
+                        cb_item.bind("click", {list: item, grouping: grouping}, function(event) {
+                            $('#' + event.data.list + '_list #grouping' + event.data.grouping + ' input:checkbox').prop('checked', $(this).prop('checked'));
+                            for (var id in lm.gismo.static_data['groups'][event.data.grouping].groups) {
+                                lm.toggle_group_students(event.data.grouping, id, $(this).prop('checked'));
+                            }
+                            if (lm.gismo.current_analysis.type != null && lm.gismo.current_analysis.type != undefined) {
+                                lm.gismo.update_chart();
+                            }
+                        });
+                        /*cb_item.bind("click", {list: item}, function (event) {
                             // if alt key has been pressed then this is the only one selected
                             if (event.altKey) {
                                 $('#' + event.data.list + '_list input:checkbox').prop('checked', false);
                                 $(this).prop('checked', true);
                             }
                             // manage global cb
-                            var selector = '#' + event.data.list + '_list input[id!=' + event.data.list + '_cb_control]:checkbox';
+                            var selector = '#' + event.data.list + '_list #grouping input[id!=' + event.data.list + '_cb_control]:checkbox';
                             var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
                             $('input#' + event.data.list + '_cb_control').prop('checked', global_checked);
                             // update chart
                             if (lm.gismo.current_analysis.plot != null && lm.gismo.current_analysis.plot != undefined) {
                                 lm.gismo.update_chart();
                             }
-                        });
-                        cb_label = $("<label style='float: left;'></label>")
-                                        .html(this.gismo.static_data[item][k].name)
-                                        .mouseover(function () {
-                                            $(this).addClass("selected");
-                                        })
-                                        .mouseout(function () {
-                                            $(this).removeClass("selected");
-                                        });
+                        });*/
+                        var lab = this.gismo.static_data[item][grouping].name;
+                        cb_label = $("<label></label>").html("<b>" + lab.toUpperCase() + " (" + groups_count + " GROUPS)</b>");
                         cb_label.addClass("cb_label");
                         cb_label.prepend(cb_item);
-                        element.append(
-                            $("<div></div>").addClass("cb")
-                            .append(cb_label)
-                            .append(
-                                $("<image style='float: left; margin-top: 3px; margin-left: 5px;'></image>")
-                                .attr("id", item + "_" + this.gismo.static_data[item][k].id)
-                                .attr({src: "images/eye.png", title: "<?php print_string('details', 'block_gismo'); ?>"})
-                                .addClass(item + "_details image_link float_right")
-                                .mouseover(function () {
-                                    $(this).parent().addClass("selected");
-                                })
-                                .mouseout(function () {
-                                    $(this).parent().removeClass("selected");
-                                })
-                                .click(function () {
-                                    var options = $(this).attr("id").split("_");
-                                    g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1]});
-                                })
-                            )
-                        );
+                        element.append($('<div></div>').addClass("cb cb_grey").append(cb_label));
+
+                        for (var group in this.gismo.static_data[item][grouping].groups) {
+                            cb_item = $('<input></input>').attr("type", "checkbox");
+                            cb_item.attr("value", group);
+                            cb_item.attr("name", item + grouping + "_cb[" + group + "]");
+                            cb_item.attr("id", item + grouping + "_cb_" + group);
+                            cb_item.prop("checked", true);
+                            cb_item.addClass("cb_element");
+                            cb_item.bind("click", {list: item, grouping: grouping, group: group}, function (event) {
+                                // if shift key has been pressed then this is the only one selected
+                                if (event.altKey) {
+                                    $('#' + event.data.list + '_list input:checkbox').attr('checked', false);
+                                    $('#users_list input:checkbox').attr('checked', false);
+                                    lm.toggle_group_students(event.data.grouping, event.data.group, true);
+                                    $(this).attr('checked', true);
+                                } else {
+                                    lm.toggle_group_students(event.data.grouping, event.data.group, $(this).prop('checked'));
+                                }
+                                if (lm.gismo.current_analysis.type != null && lm.gismo.current_analysis.type != undefined) {
+                                    lm.gismo.update_chart();
+                                }
+                            });
+                            cb_label = $("<label style='float: left;'></label>")
+                                            .html(this.gismo.static_data[item][grouping].groups[group].name)
+                                            .mouseover(function () {
+                                                $(this).addClass("selected");
+                                            })
+                                            .mouseout(function () {
+                                                $(this).removeClass("selected");
+                                            });
+                            cb_label.addClass("cb_label");
+                            cb_label.prepend(cb_item);
+                            grouping_element.append(
+                                $("<div></div>").addClass("cb")
+                                .append(cb_label)
+                                .append(
+                                    $("<image style='float: left; margin-top: 3px; margin-left: 5px;'></image>")
+                                    .attr("id", item + grouping + "_" + group)
+                                    .attr({src: "images/eye.png", title: "Details"})
+                                    .addClass(item + "_details image_link float_right")
+                                    .mouseover(function () {
+                                        $(this).parent().addClass("selected");
+                                    })
+                                    .mouseout(function () {
+                                        $(this).parent().removeClass("selected");
+                                    })
+                                    .click(function () {
+                                        var options = $(this).attr("id").split("_");
+                                        g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1]});
+                                    })
+                                )
+                            );
+                        }
+                        grouping_element.append($('<br />').attr('clear', 'all'));
+                        element.append(grouping_element);
+                    }
+                } else {
+                    // add items checkboxes
+                    for (var k=0; k<this.gismo.static_data[item].length; k++) {
+                        if (this.gismo.is_item_visible(this.gismo.static_data[item][k])) {
+                            cb_item = $('<input></input>').attr("type", "checkbox");
+                            // cb_item.attr("value", this.gismo.static_data[item][k].id);
+                            cb_item.attr("value", this.get_unique_id(item, this.gismo.static_data[item][k], "id", "type"));
+                            cb_item.attr("name", item + "_cb[" + this.gismo.static_data[item][k].id + "]");
+                            cb_item.attr("id", item + "_cb_" + this.gismo.static_data[item][k].id);
+                            cb_item.prop("checked", true);
+                            cb_item.addClass("cb_element");
+                            cb_item.bind("click", {list: item}, function (event) {
+                                // if alt key has been pressed then this is the only one selected
+                                if (event.altKey) {
+                                    $('#' + event.data.list + '_list input:checkbox').prop('checked', false);
+                                    $(this).prop('checked', true);
+                                }
+                                // manage global cb
+                                var selector = '#' + event.data.list + '_list input[id!=' + event.data.list + '_cb_control]:checkbox';
+                                var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
+                                $('input#' + event.data.list + '_cb_control').prop('checked', global_checked);
+                                // update chart
+                                if (lm.gismo.current_analysis.plot != null && lm.gismo.current_analysis.plot != undefined) {
+                                    lm.gismo.update_chart();
+                                }
+                            });
+                            cb_label = $("<label style='float: left;'></label>")
+                                            .html(this.gismo.static_data[item][k].name)
+                                            .mouseover(function () {
+                                                $(this).addClass("selected");
+                                            })
+                                            .mouseout(function () {
+                                                $(this).removeClass("selected");
+                                            });
+                            cb_label.addClass("cb_label");
+                            cb_label.prepend(cb_item);
+                            element.append(
+                                $("<div></div>").addClass("cb")
+                                .append(cb_label)
+                                .append(
+                                    $("<image style='float: left; margin-top: 3px; margin-left: 5px;'></image>")
+                                    .attr("id", item + "_" + this.gismo.static_data[item][k].id)
+                                    .attr({src: "images/eye.png", title: "<?php print_string('details', 'block_gismo'); ?>"})
+                                    .addClass(item + "_details image_link float_right")
+                                    .mouseover(function () {
+                                        $(this).parent().addClass("selected");
+                                    })
+                                    .mouseout(function () {
+                                        $(this).parent().removeClass("selected");
+                                    })
+                                    .click(function () {
+                                        var options = $(this).attr("id").split("_");
+                                        g.analyse(g.current_analysis.type, {subtype: options[0] + "-details", id: options[1]});
+                                    })
+                                )
+                            );
+                        }
                     }
                 }
             } else {
