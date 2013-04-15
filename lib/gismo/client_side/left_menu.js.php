@@ -25,11 +25,11 @@ function left_menu(g) {
         'groups': {
             img: 'groups.png', 
             tooltip: '<?php print_string('groups', 'block_gismo'); ?>'
-        },
+        },/*
         'teachers': {
             img: 'teachers.png', 
             tooltip: '<?php print_string('teachers', 'block_gismo'); ?>'
-        },
+        },*/
         'resources': {
             img: 'resources.png', 
             tooltip: '<?php print_string('resources', 'block_gismo'); ?>'
@@ -67,7 +67,7 @@ function left_menu(g) {
     // list hidden on load
     // this field specify the lists that have to be hidden on load (icons in the header)
     this.lists_load_hidden = {
-        'student': new Array('users', 'groups', 'teachers'),
+        'student': new Array('users', 'groups'/*, 'teachers'*/),
         'teacher': new Array()
     };
     
