@@ -10,12 +10,12 @@
 //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
 header("Content-type: application/javascript ; charset=UTF-8") ;
 
-// define constants
-define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
-define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);    
+    // define constants
+    define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
+    define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);    
 
-// include moodle config file
-require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
+    // include moodle config file
+    require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
 $PAGE->set_context(context_system::instance()); //Tim Lock Fix up some page context warnings 
 
 ?>
@@ -157,6 +157,13 @@ function top_menu(g) {
                     "sub": null 
                 },
                 { 
+                    "label": "<?php print_string('quizzes', 'block_gismo'); ?>", 
+                    "action": "g.analyse('quizzes')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("quizzes"), 
+                    "sub": null 
+                },
+                { 
                     "label": "<?php print_string('chats', 'block_gismo'); ?>", 
                     "action": "g.analyse('chats')", 
                     "roles": new Array("teacher", "student"), 
@@ -196,13 +203,6 @@ function top_menu(g) {
                     "action": "g.analyse('glossaries-over-time')", 
                     "roles": new Array("teacher", "student"), 
                     "require": new Array("glossaries"), 
-                    "sub": null 
-                },
-                { 
-                    "label": "<?php print_string('quizzes', 'block_gismo'); ?>", 
-                    "action": "g.analyse('quizzes')", 
-                    "roles": new Array("teacher", "student"), 
-                    "require": new Array("quizzes"), 
                     "sub": null 
                 },
                 { 
@@ -337,7 +337,7 @@ function top_menu(g) {
     // build menu
     // this method builds the menu structure working on its definition (menu field)
     this.build = function (container, items, first_level) {
-        var k, i, check, el, tmp, list = $("<ul></ul>");
+        var k, i, check, el, tmp, needsseparator = false, list = $("<ul></ul>");
         // id for the first level ul
         if (first_level) {
             list.attr("id", "panelMenu");
@@ -355,6 +355,9 @@ function top_menu(g) {
             }
             // build item and sub items only if check is true
             if (check) {
+                if (items[k].action == "g.analyse('assignments')" || items[k].action == "g.analyse('quizzes')") {
+                    needsseparator = true;
+                }
                 // add entry
                 el = $("<li></li>");
                 tmp = (first_level) ? items[k].label + '&nbsp;&nbsp;<img src="images/menu_icon.gif" alt="">' : $("<div></div>").append($("<nobr></nobr>").html(items[k].label));
@@ -371,6 +374,9 @@ function top_menu(g) {
                 if ($.isArray(items[k].sub) && items[k].sub.length > 0) {
                     this.build(el, items[k].sub, false);
                 }
+            }
+            if (items[k].action == "g.analyse('quizzes')" && needsseparator) {
+                list.append($('<li style="border-bottom:1px solid #999;margin-bottom:5px;margin-top:5px;"></li>'));
             }
         }
         // append
