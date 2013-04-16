@@ -439,3 +439,7 @@ a.guide{
 .help ul.contents, .help ul.contents ul, .help .book_toc_indented ul, .help .book_toc_indented ul ul {
     list-style: none;
 }
+
+#welcome_page .help h2 {
+    padding-top:0;
+}

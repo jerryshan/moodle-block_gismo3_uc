@@ -101,6 +101,7 @@
                                 </li>
                             </ul>
                         </td>
+                        <td class="home-image" valign="bottom"><img width="200" height="100" src="images/home/resources-access-overview_thumb.png" /></td>
                     </tr>
                 </table>
             </div>
