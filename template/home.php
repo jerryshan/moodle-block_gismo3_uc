@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div id="welcome_page">
-                <h1 align="center">Welcome to GISMO</h1>
+                <h1 align="center">Welcome to LearnTrak</h1>
 		<div style="margin: 0 auto; text-align: center;">
 <!--		
 			<p>

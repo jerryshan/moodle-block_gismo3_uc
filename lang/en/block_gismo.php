@@ -1,26 +1,26 @@
 <?php
 //GISMO EN language file
 // block title
-$string['pluginname'] = 'Gismo';
-$string['gismo'] = 'MOCLOG - Gismo';
-$string['gismo_report_launch'] = 'Reporting Tool';
+$string['pluginname'] = 'LearnTrak';
+$string['gismo'] = 'LearnTrak';
+$string['gismo_report_launch'] = 'View LearnTrak Reports';
 
 // capabilities
-$string['gismo:track-user'] = 'Gismo Student';
-$string['gismo:track-teacher'] = 'Gismo Teacher';
+$string['gismo:track-user'] = 'LearnTrak Student';
+$string['gismo:track-teacher'] = 'LearnTrak Teacher';
 
 // help
-$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
+$string['gismo_help'] = "<p>LearnTrak works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
 
 // General
-$string['page_title'] = "Gismo - ";
+$string['page_title'] = "LearnTrak - ";
 $string['file'] = 'File';
 $string['options'] = 'Options';
 $string['save'] = 'Export chart as image';
 $string['print'] = 'Print';
 $string['exit'] = 'Exit';
 $string['help'] = 'Help';
-$string['home'] = 'Gismo home';
+$string['home'] = 'LearnTrak home';
 $string['close'] = 'Close';
 
 $string['users'] = 'users'; //************
@@ -99,7 +99,7 @@ $string['wikis_over_time_chart_title'] = 'Activities: contributions to wikis ove
 $string['help'] = 'Help';
 $string['help_docs'] = 'Short overview';
 $string['tutorial'] = 'Tutorial';
-$string['about'] = 'About Gismo';
+$string['about'] = 'About LearnTrak';
 
 $string['date'] = 'Date';
 $string['from'] = 'From';
@@ -114,7 +114,7 @@ $string['detail_show'] = 'Show details'; //************
 
 $string['items'] = 'ITEMS'; //************
 $string['details'] = 'Details'; //************
-$string['info_title'] = 'GISMO - Lists'; //************
+$string['info_title'] = 'LearnTrak - Lists'; //************
 $string['info_text'] = '<p>To customize the chart you can select/unselect items from enabled menus.</p>";
         message += "<p>Instructions</p>";
         message += "<ul style=\'list-style-position: inside;\'>";
@@ -133,11 +133,11 @@ $string['err_access_denied'] = 'You are not authorized to perform this action.';
 $string['err_srv_data_not_set'] = 'One or more required parameters are missing!';
 $string['err_missing_parameters'] = 'One or more required parameters are missing!';
 $string['err_missing_course_students'] = 'Cannot extract course students!';
-$string['gismo:view'] = "GISMO - Authorization failed";
+$string['gismo:view'] = "LearnTrak - Authorization failed";
 
 
 //OTHERS
-$string['welcome'] = "Welcome to GISMO v. 3.0.1Beta2";
+$string['welcome'] = "Welcome to LearnTrak v. 3.0.1Beta2";
 $string['processing_wait'] = "Processing data, please wait!";
 
 //Graphs labels
@@ -167,18 +167,18 @@ $string['save'] = 'Save';
 $string['cancel'] = 'Cancel';
 
 
-$string['export_chart_as_image'] = 'GISMO - Export chart as image';
+$string['export_chart_as_image'] = 'LearnTrak - Export chart as image';
 $string['no_chart_at_the_moment'] = 'There isn\'t any chart at the moment!';
 
 
-$string['about_gismo'] = 'About GISMO';
+$string['about_gismo'] = 'About LearnTrak';
 $string['intro_information_about_gismo'] = 'Information about this release is reported below:';  
 $string['gismo_version'] = 'Version ';
 $string['release_date'] = 'Release date ';
 $string['authors'] = 'Authors ';
 $string['contact_us']= 'Please feel free to contact authors for questions or for reporting bugs at the following addresses: ';
 $string['close'] = 'Close';
-$string['confirm_exiting'] = 'Do you really want to exit Gismo?';
+$string['confirm_exiting'] = 'Do you really want to exit LearnTrak?';
 
 
 
