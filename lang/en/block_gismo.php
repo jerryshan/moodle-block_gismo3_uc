@@ -12,29 +12,29 @@ $string['gismo_version_value'] = '3.3';
 $string['release_date_value'] = '2014-12-15';
 
 // block title
-$string['pluginname'] = 'Gismo';
-$string['gismo'] = 'Gismo';
-$string['gismo_report_launch'] = 'Reporting Tool';
+$string['pluginname'] = 'LearnTrak';
+$string['gismo'] = 'LearnTrak';
+$string['gismo_report_launch'] = 'View LearnTrak Reports';
 $string['exportlogs_missing'] = 'Missing exportlogs parameter';
 $string['exportlogs_missingcourselogs'] = 'Log analysis process runs on fixed hours, usually at nighttime. Your course data will be available within 24 hours';
 
 // capabilities
-$string['gismo:trackuser'] = 'Gismo Student';
-$string['gismo:trackteacher'] = 'Gismo Teacher';
-$string['gismo:addinstance'] = 'Add new gismo block';
+$string['gismo:trackuser'] = 'LearnTrak Student';
+$string['gismo:trackteacher'] = 'LearnTrak Teacher';
+$string['gismo:addinstance'] = 'Add new LearnTrak block';
 
 // help
-$string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
+$string['gismo_help'] = "<p>LearnTrak works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
 
 // General
-$string['page_title'] = "Gismo - ";
+$string['page_title'] = "LearnTrak - ";
 $string['file'] = 'File';
 $string['options'] = 'Options';
 $string['save'] = 'Export chart as image';
 $string['print'] = 'Print';
 $string['exit'] = 'Exit';
 $string['help'] = 'Help';
-$string['home'] = 'Gismo home';
+$string['home'] = 'LearnTrak home';
 $string['close'] = 'Close';
 
 $string['users'] = 'users'; //************
@@ -113,7 +113,7 @@ $string['wikis_over_time_chart_title'] = 'Activities: contributions to wikis ove
 $string['help'] = 'Help';
 $string['help_docs'] = 'Short overview';
 $string['tutorial'] = 'Tutorial';
-$string['about'] = 'About Gismo';
+$string['about'] = 'About LearnTrak';
 
 $string['date'] = 'Date';
 $string['from'] = 'From';
@@ -128,7 +128,7 @@ $string['detail_show'] = 'Show details'; //************
 
 $string['items'] = 'ITEMS'; //************
 $string['details'] = 'Details'; //************
-$string['info_title'] = 'GISMO - Lists'; //************
+$string['info_title'] = 'LearnTrak - Lists'; //************
 $string['info_text'] = '<p>To customize the chart you can select/unselect items from enabled menus.</p>";
         message += "<p>Instructions</p>";
         message += "<ul style=\'list-style-position: inside;\'>";
@@ -145,11 +145,11 @@ $string['err_access_denied'] = 'You are not authorized to perform this action.';
 $string['err_srv_data_not_set'] = 'One or more required parameters are missing!';
 $string['err_missing_parameters'] = 'One or more required parameters are missing!';
 $string['err_missing_course_students'] = 'Cannot extract course students!';
-$string['gismo:view'] = "GISMO - Authorization failed";
+$string['gismo:view'] = "LearnTrak - Authorization failed";
 
 
 //OTHERS
-$string['welcome'] = "Welcome to GISMO v. 3.3";
+$string['welcome'] = "Welcome to LearnTrak v. 3.3";
 $string['processing_wait'] = "Processing data, please wait!";
 
 //Graphs labels
@@ -183,34 +183,34 @@ $string['export_chart_as_image'] = 'Export chart as image';
 $string['no_chart_at_the_moment'] = 'There isn\'t any chart at the moment!';
 
 
-$string['about_gismo'] = 'About GISMO';
+$string['about_gismo'] = 'About LearnTrak';
 $string['intro_information_about_gismo'] = 'Information about this release is reported below:';  
 $string['gismo_version'] = 'Version ';
 $string['release_date'] = 'Release date ';
 $string['authors'] = 'Authors ';
 $string['contact_us']= 'Please feel free to contact authors for questions or for reporting bugs at the following addresses: ';
 $string['close'] = 'Close';
-$string['confirm_exiting'] = 'Do you really want to exit Gismo?';
+$string['confirm_exiting'] = 'Do you really want to exit LearnTrak?';
 
 //Settings
 $string['manualexportpassword'] = 'Manual export password';
 $string['manualexportpassworddesc'] = 'This means that the export_data.php script cannot be run from a web browser without supplying the password using the following form of URL:<br /><br />http://site.example.com/blocks/gismo/lib/gismo/server_side/export_data.php?password=something<br /><br />If this is left empty, no password is required.';
-$string['manualexportpassworderror'] = 'GISMO manual export password missing or wrong';
+$string['manualexportpassworderror'] = 'LearnTrak manual export password missing or wrong';
 $string['export_data_limit_records'] = 'Limit Records in SQL queries';
 $string['export_data_limit_recordsdesc'] = 'Limit the number of records selected for each query during data export (in GISMOdata_manager.php).
 <br /> Please don\'t change it if you don\'t know what you are doing.';
 $string['export_data_hours_from_last_run'] = 'Delay (hours) before next data export process execution';
-$string['export_data_hours_from_last_rundesc'] = 'Gismo data export process can be re-executed only after X hours, setting this time too low can create performance problems.<br /> Please don\'t change it if you don\'t know what you are doing.';
-$string['export_data_run_inf'] = 'Run Gismo data export from';
-$string['export_data_run_infdesc'] = 'Execute Gismo data export only from this time.<br /> This setting must be lower then export_data_run_sup.';
-$string['export_data_run_sup'] = 'Run Gismo data export until';
-$string['export_data_run_supdesc'] = 'Don\'t execute gismo data export after this time.<br /> This setting must be higher then export_data_run_inf.';
+$string['export_data_hours_from_last_rundesc'] = 'LearnTrak data export process can be re-executed only after X hours, setting this time too low can create performance problems.<br /> Please don\'t change it if you don\'t know what you are doing.';
+$string['export_data_run_inf'] = 'Run LearnTrak data export from';
+$string['export_data_run_infdesc'] = 'Execute LearnTrak data export only from this time.<br /> This setting must be lower then export_data_run_sup.';
+$string['export_data_run_sup'] = 'Run LearnTrak data export until';
+$string['export_data_run_supdesc'] = 'Don\'t execute LearnTrak data export after this time.<br /> This setting must be higher then export_data_run_inf.';
 $string['exportlogs'] = 'Export logs';
-$string['exportlogsdesc'] = 'Export all logs: this option creates Gismo logs from all courses in the moodle platform, this creates a lot of records in gismo database tables, but data is immediately available when Gismo block is placed in a course.<br /> Export only courses with block gismo: Export only the courses that have a block gismo, if you select this option the Gismo data of the course will be available only after several hours you place a Gismo block in a course.';
+$string['exportlogsdesc'] = 'Export all logs: this option creates LearnTrak logs from all courses in the moodle platform, this creates a lot of records in gismo database tables, but data is immediately available when Gismo block is placed in a course.<br /> Export only courses with block gismo: Export only the courses that have a block gismo, if you select this option the Gismo data of the course will be available only after several hours you place a Gismo block in a course.';
 $string['exportalllogs'] = 'Export all logs';
-$string['exportcourselogs'] = 'Export only courses with block gismo';
+$string['exportcourselogs'] = 'Export only courses with LearnTrak block';
 $string['debug_mode'] = 'Debug mode';
-$string['debug_modedesc'] = 'If set to true, debug messages will be displayed during Gismo data export process.';
+$string['debug_modedesc'] = 'If set to true, debug messages will be displayed during LearnTrak data export process.';
 $string['debug_mode_true'] = 'Enabled';
 $string['debug_mode_false'] = 'Disabled';
 $string['student_reporting'] = 'Students reporting';
@@ -244,11 +244,11 @@ $string['err_cannot_extract_data'] = 'Cannot extract data from server!';
 $string['err_unknown'] = 'Unknown error!';
 
 //Homepage text
-$string['homepage_title'] = 'Welcome to GISMO';
+$string['homepage_title'] = 'Welcome to LearnTrak';
 $string['homepage_processing_data_wait'] = 'Processing data, please wait!';
 $string['homepage_processing_data'] = 'Processing data';
-$string['homepage_text'] = 'GISMO is a graphical interactive student monitoring and tracking system tool that extracts tracking data from the Moodle Course Management System. It generates also useful graphical representations that can be explored by course instructors and students to get an overview of the learning activities.<br />
-Please select one of the menus on the top of this page to start using GISMO.<br />
+$string['homepage_text'] = 'LearnTrak is a graphical interactive student monitoring and tracking system tool that extracts tracking data from the Moodle Course Management System. It generates also useful graphical representations that can be explored by course instructors and students to get an overview of the learning activities.<br />
+Please select one of the menus on the top of this page to start using LearnTrak.<br />
 If you would like to have a look at the tutorial please click on the menu "Help"> "Tutorial".';
 
 $string['hide_menu'] = 'Hide menu';
@@ -266,5 +266,5 @@ $string['homepage_chart_students_accesses_by_students'] = 'Students: accesses by
 //Added missing string 21.10.2013
 $string['accesses_tooltip'] = 'accesses';
 
-$string['export_data_task'] = 'GISMO data exporter task';
+$string['export_data_task'] = 'LearnTrak data exporter task';
 ?>
