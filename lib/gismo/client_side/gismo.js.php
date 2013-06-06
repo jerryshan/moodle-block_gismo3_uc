@@ -838,7 +838,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["xticks_min_len"] = 15;
                         prepared_data["yaxis_max"] = this.get_yaxis_max(lines, 2);
                         prepared_data["x_label"] = "<?php print_string('students', 'block_gismo'); ?>";
-                        prepared_data["y_label"] = "<?php print_string('actions_on', 'block_gismo'); ?>" + this.current_analysis.type;     //"action on" + this.current_analysis.type;
+                        prepared_data["y_label"] = "<?php print_string('actions_on', 'block_gismo'); ?>" + (this.current_analysis.type=='activitysummary'?'activities':this.current_analysis.type);     //"action on" + this.current_analysis.type;
                     }
                 }
                 break;
