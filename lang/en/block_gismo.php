@@ -184,7 +184,10 @@ $string['no_chart_at_the_moment'] = 'There isn\'t any chart at the moment!';
 
 
 $string['about_gismo'] = 'About LearnTrak';
-$string['intro_information_about_gismo'] = 'Information about this release is reported below:';  
+$string['intro_information_about_learntrak'] = 'LearnTrak is the University of Canterbury\'s build of Gismo.';
+$string['learntrak_more_information'] = 'For more information, see <a href=\"http://github.com/pauln/moodle-block_gismo3_uc\">LearnTrak on Github</a>.';
+$string['intro_information_about_gismo'] = 'Information about this release of Gismo is reported below:';  
+$string['gismo_more_information'] = 'For more information, see the <a href=\"http://gismo.sourceforge.net/\">Gismo</a> and <a href=\"http://moclog.ch/\">MOCLog</a> websites.';
 $string['gismo_version'] = 'Version ';
 $string['release_date'] = 'Release date ';
 $string['authors'] = 'Authors ';
