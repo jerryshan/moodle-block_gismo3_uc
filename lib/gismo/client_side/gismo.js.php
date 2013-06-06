@@ -46,6 +46,12 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
         plot: null,
         status: false
     };
+    this.activity_plurals = {
+        chat: 'chats',
+        forum: 'forums',
+        glossary: 'glossaries',
+        wiki: 'wikis'
+    };
 
     // resize management
     this.resize_scheduled = false;
@@ -792,6 +798,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
             case 'teacher@forums':
             case 'teacher@glossaries':
             case 'teacher@wikis':
+            case 'teacher@activitysummary':
                 if (this.static_data["users"].length > 0 && this.static_data[this.current_analysis.type].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     // series
                     lines[0] = new Array();
@@ -808,9 +815,10 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     }
                     // sum contributes for each activity that is selected in the left menu
                     for (item in this.current_analysis.data) {
+                        var acttype = this.activity_plurals[this.current_analysis.data[item].activity];
                         uid = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
-                        uid2 = this.lm.get_unique_id(this.current_analysis.type, this.current_analysis.data[item], "actid");
-                        if ($.inArray(uid2, selected_items[this.current_analysis.type]) != -1) {
+                        uid2 = this.lm.get_unique_id(acttype, this.current_analysis.data[item], "actid");
+                        if ($.inArray(uid2, selected_items[acttype]) != -1) {
                             index = $.inArray(uid, yticks);
                             if (index != -1) {
                                 if (this.current_analysis.data[item].context == "read") {
@@ -838,30 +846,35 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
             case 'teacher@forums-over-time':
             case 'teacher@glossaries-over-time':
             case 'teacher@wikis-over-time':
+            case 'teacher@activitysummary-over-time':
             case 'student@chats-over-time':
             case 'student@forums-over-time':
             case 'student@glossaries-over-time':
             case 'student@wikis-over-time':
+            case 'student@activitysummary-over-time':
                 var ft = this.get_full_type();
                 var spec_info = {
                     'teacher@chats-over-time': {'static': 'chats'},
                     'teacher@forums-over-time': {'static': 'forums'},
                     'teacher@glossaries-over-time': {'static': 'glossaries'},
                     'teacher@wikis-over-time': {'static': 'wikis'},
+                    'teacher@activitysummary-over-time': {'static': 'activitysummary'},
                     'student@chats-over-time': {'static': 'chats'},
                     'student@forums-over-time': {'static': 'forums'},
                     'student@glossaries-over-time': {'static': 'glossaries'},
-                    'student@wikis-over-time': {'static': 'wikis'}
+                    'student@wikis-over-time': {'static': 'wikis'},
+                    'student@activitysummary-over-time': {'static': 'activitysummary'}
                 };
                 if (this.static_data["users"].length > 0 && this.static_data[spec_info[ft]["static"]].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
                     date = null;
                     tmp = new Array();
                     // build line
                     for (item in this.current_analysis.data) {
+                        var acttype = this.activity_plurals[this.current_analysis.data[item].activity];
                         uid = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
-                        uid2 = this.lm.get_unique_id(spec_info[ft]["static"], this.current_analysis.data[item], "actid");
+                        uid2 = this.lm.get_unique_id(acttype, this.current_analysis.data[item], "actid");
                         if ($.inArray(uid, selected_items["users"]) != -1 &&
-                            $.inArray(uid2, selected_items[spec_info[ft]["static"]]) != -1) {
+                            $.inArray(uid2, selected_items[acttype]) != -1) {
                             // sum user contribute if date already in the list, add new entry otherwise
                             date = this.current_analysis.data[item].timedate;
                             count = this.current_analysis.data[item].numval;
@@ -1130,10 +1143,12 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 case 'teacher@forums-over-time':
                 case 'teacher@glossaries-over-time':
                 case 'teacher@wikis-over-time':
+                case 'teacher@activitysummary-over-time':
                 case 'student@chats-over-time':
                 case 'student@forums-over-time':
                 case 'student@glossaries-over-time':
                 case 'student@wikis-over-time':
+                case 'student@activitysummary-over-time':
                     this.current_analysis.plot = $.jqplot(this.plot_id, [data.lines], {
                         title: {
                             show: true,
@@ -1369,14 +1384,17 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                 case 'teacher@forums':
                 case 'teacher@glossaries':
                 case 'teacher@wikis':
+                case 'teacher@activitysummary':
                 case 'teacher@chats:users-details':
                 case 'teacher@forums:users-details':
                 case 'teacher@glossaries:users-details':
                 case 'teacher@wikis:users-details':
+                case 'teacher@activitysummary:users-details':
                 case 'student@chats':
                 case 'student@forums':
                 case 'student@glossaries':
                 case 'student@wikis':
+                case 'student@activitysummary':
                     this.current_analysis.plot = $.jqplot(this.plot_id, data.lines, {
                       title: {
                             show: true,

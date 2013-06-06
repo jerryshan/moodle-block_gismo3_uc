@@ -95,6 +95,13 @@ $string['wikis_chart_title'] = 'Activities: wikis overview';
 $string['wikis_ud_chart_title'] = 'Activities: student details on wikis';
 $string['wikis_over_time_chart_title'] = 'Activities: contributions to wikis over time';
 
+$string['activitysummary'] = 'Activities summary';
+
+$string['activitysummary_over_time'] = 'Activities summary: over time'; //************
+
+$string['activitysummary_chart_title'] = 'Activities summary: overview';
+$string['activitysummary_over_time_chart_title'] = 'Activities summary: contributions over time';
+
 // Help
 $string['help'] = 'Help';
 $string['help_docs'] = 'Short overview';

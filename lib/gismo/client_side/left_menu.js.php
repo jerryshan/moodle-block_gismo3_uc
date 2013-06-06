@@ -289,6 +289,32 @@ function left_menu(g) {
             'lists': ['wikis'],
             'default': 0,
             'details': []
+        },
+        // activities -> summary
+        'teacher@activitysummary': {
+            'lists': ['users', 'groups', 'wikis', 'glossaries', 'forums', 'chats'],
+            'default': 0,
+            'details': []
+        },
+        'teacher@activitysummary-over-time': {
+            'lists': ['users', 'groups', 'wikis', 'glossaries', 'forums', 'chats'],
+            'default': 0,
+            'details': []
+        },
+        'teacher@activitysummary:users-details': {
+            'lists': ['wikis', 'glossaries', 'forums', 'chats'],
+            'default': 0,
+            'details': []
+        },
+        'student@activitysummary': {
+            'lists': ['wikis', 'glossaries', 'forums', 'chats'],
+            'default': 0,
+            'details': []
+        },
+        'student@activitysummary-over-time': {
+            'lists': ['wikis', 'glossaries', 'forums', 'chats'],
+            'default': 0,
+            'details': []
         }
     };
     
