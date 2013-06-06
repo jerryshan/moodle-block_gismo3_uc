@@ -61,7 +61,7 @@ class block_gismo extends block_base {
     }
 
     public function applicable_formats() {
-        return array('site' => false, 'course-view' => true);
+        return array('site' => true, 'course-view' => true);
     }
 
     public function check_data() {

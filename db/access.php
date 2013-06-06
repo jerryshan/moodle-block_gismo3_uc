@@ -32,6 +32,18 @@
 // For the core capabilities, the variable is $moodle_capabilities.
 
 $capabilities = array(
+    'block/gismo:addinstance' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ),
     /*
     'block/gismo:view' => array(
         'captype' => 'read',
@@ -64,7 +76,7 @@ $capabilities = array(
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
-            'manager' => CAP_PROHIBIT
+            'manager' => CAP_ALLOW
         )
     )
 );
