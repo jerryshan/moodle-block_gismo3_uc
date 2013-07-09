@@ -137,7 +137,7 @@ function left_menu(g) {
         }, 
         'teacher@resources-students-overview': {
             'lists': ['users', 'groups', 'resources'],
-            'default': 1,
+            'default': 2,
             'details': []
         },  
         'teacher@resources-access': {
