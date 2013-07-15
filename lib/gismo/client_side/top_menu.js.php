@@ -200,20 +200,6 @@ function top_menu(g) {
                     "roles": new Array("teacher", "student"), 
                     "require": new Array("wikis"), 
                     "sub": null 
-                },
-                { 
-                    "label": "<?php print_string('activitysummary', 'block_gismo'); ?>", 
-                    "action": "g.analyse('activitysummary')", 
-                    "roles": new Array("teacher"), 
-                    "require": new Array("two_activities"), 
-                    "sub": null 
-                },
-                { 
-                    "label": "<?php print_string('activitysummary_over_time', 'block_gismo'); ?>", 
-                    "action": "g.analyse('activitysummary-over-time')", 
-                    "roles": new Array("teacher", "student"), 
-                    "require": new Array("two_activities"), 
-                    "sub": null 
                 }
             )
         },
@@ -275,7 +261,7 @@ function top_menu(g) {
     // build menu
     // this method builds the menu structure working on its definition (menu field)
     this.build = function (container, items, first_level) {
-        var k, i, check, el, tmp, numsiblings = 0, needsseparator = false, list = $("<ul></ul>");
+        var k, i, check, el, tmp, needsseparator = false, list = $("<ul></ul>");
         // id for the first level ul
         if (first_level) {
             list.attr("id", "panelMenu");
@@ -286,19 +272,13 @@ function top_menu(g) {
             // check on requirements
             if ($.isArray(items[k].require) && items[k].require.length > 0) {
                 for (i=0; i<items[k].require.length; i++) {
-                    if (items[k].require[i] == 'two_activities') {
-                        check = check && numsiblings >= 4;
-                    } else {
-                        check = check && this.lists_status[items[k].require[i]];
-                    }
+                    check = check && this.lists_status[items[k].require[i]];
                 }
             }
             // build item and sub items only if check is true
             if (check) {
                 if (items[k].action == "g.analyse('assignments')" || items[k].action == "g.analyse('quizzes')") {
                     needsseparator = true;
-                } else {
-                    numsiblings++;
                 }
                 // add entry
                 el = $("<li></li>");

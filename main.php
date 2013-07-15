@@ -61,7 +61,6 @@ $gismo_static_data->init();
                 static_data['glossaries'] = <?php echo $gismo_static_data->glossaries; ?>;
                 static_data['quizzes'] = <?php echo $gismo_static_data->quizzes; ?>;
                 static_data['wikis'] = <?php echo $gismo_static_data->wikis; ?>;
-                static_data['activitysummary'] = static_data['chats'].concat(static_data['forums'], static_data['glossaries'], static_data['wikis']);
                 static_data['course_full_name'] = '<?php echo str_replace("'", "\\'", $gismo_static_data->fullname); ?>';
                 var course_start_time = <?php echo $gismo_static_data->start_time; ?>;
                 var current_time = <?php echo $gismo_static_data->end_time; ?>;

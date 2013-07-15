@@ -566,14 +566,12 @@
         case "teacher@forums":
         case "teacher@glossaries":
         case "teacher@wikis":
-        case "teacher@activitysummary":
             // specific info
             $spec_info = array(
                 "teacher@chats" => array("title" => "chats_chart_title", "subtitle" => "chats_ud_chart_title", "activity" => "chat", "back" => "chats"),
                 "teacher@forums" => array("title" => "forums_chart_title", "subtitle" => "forums_ud_chart_title", "activity" => "forum", "back" => "forums"),
                 "teacher@glossaries" => array("title" => "glossaries_chart_title", "subtitle" => "glossaries_ud_chart_title", "activity" => "glossary", "back" => "glossaries"),
-                "teacher@wikis" => array("title" => "wikis_chart_title", "title" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis"),
-                "teacher@activitysummary" => array("title" => "activitysummary_chart_title", "subtitle" => "activitysummary_ud_chart_title", "activity" => "activitysummary", "back" => "activitysummary")
+                "teacher@wikis" => array("title" => "wikis_chart_title", "title" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis")
             );
             switch ($subtype) {
                 case "users-details":
@@ -593,10 +591,8 @@
                     break;
             }
             // add filters to extract data related to the selected activity only
-            if ($spec_info[$query]["activity"] != 'activitysummary') {
-                $ctu_filters .= "AND activity = ?";
-                array_push($ctu_params, $spec_info[$query]["activity"]);
-            }
+            $ctu_filters .= "AND activity = ?";
+            array_push($ctu_params, $spec_info[$query]["activity"]);
             // chart data
             
             $activity_data = $DB->get_records_select("block_gismo_activity", $ctu_filters, $ctu_params, "time ASC");
@@ -612,7 +608,6 @@
         case "student@forums-over-time":
         case "student@glossaries-over-time":
         case "student@wikis-over-time":
-        case "student@activitysummary-over-time":
             // add filters to extract data related to the current student only and then do
             // the same things as for teacher
             $ctu_filters .= "AND userid = ? ";
@@ -621,30 +616,24 @@
         case "teacher@forums-over-time":
         case "teacher@glossaries-over-time":
         case "teacher@wikis-over-time":
-        case "teacher@activitysummary-over-time":
             // specific info
             $spec_info = array(
                 "teacher@chats-over-time" => array("title" => "chats_over_time_chart_title", "activity" => "chat"),
                 "teacher@forums-over-time" => array("title" => "forums_over_time_chart_title", "activity" => "forum"),
                 "teacher@glossaries-over-time" => array("title" => "glossaries_over_time_chart_title", "activity" => "glossary"),
                 "teacher@wikis-over-time" => array("title" => "wikis_over_time_chart_title", "activity" => "wiki"),
-                "teacher@activitysummary-over-time" => array("title" => "activitysummary_over_time_chart_title", "activity" => "activitysummary"),
                 "student@chats-over-time" => array("title" => "chats_over_time_chart_title", "activity" => "chat"),
                 "student@forums-over-time" => array("title" => "forums_over_time_chart_title", "activity" => "forum"),
                 "student@glossaries-over-time" => array("title" => "glossaries_over_time_chart_title", "activity" => "glossary"),
-                "student@wikis-over-time" => array("title" => "wikis_over_time_chart_title", "activity" => "wiki"),
-                "student@activitysummary-over-time" => array("title" => "activitysummary_over_time_chart_title", "activity" => "activitysummary")
+                "student@wikis-over-time" => array("title" => "wikis_over_time_chart_title", "activity" => "wiki")
             );
             // chart title
             $result->name = get_string($spec_info[$query]["title"], "block_gismo");
             // links
             $result->links = null;
             // add filters to extract data related to the selected activity only
-            if ($spec_info[$query]["activity"] != 'activitysummary') {
-                $ctu_filters .= "AND activity = ? ";
-                array_push($ctu_params, $spec_info[$query]["activity"]);
-            }
-            $ctu_filters .= "AND context = ?";
+            $ctu_filters .= "AND activity = ? AND context = ?";
+            array_push($ctu_params, $spec_info[$query]["activity"]);
             array_push($ctu_params, "write");
             // chart data
             $activity_data = $DB->get_records_select("block_gismo_activity", $ctu_filters, $ctu_params, "time ASC");
@@ -668,25 +657,20 @@
         case "student@forums":
         case "student@glossaries":
         case "student@wikis":
-        case "student@activitysummary":
             // specific info
             $spec_info = array(
                 "student@chats" => array("title" => "chats_chart_title", "activity" => "chat"),
                 "student@forums" => array("title" => "forums_chart_title", "activity" => "forum"),
                 "student@glossaries" => array("title" => "glossaries_chart_title", "activity" => "glossary"),
-                "student@wikis" => array("title" => "wikis_chart_title", "activity" => "wiki"),
-                "student@activitysummary" => array("title" => "activitysummary_chart_title", "activity" => "activitysummary")
+                "student@wikis" => array("title" => "wikis_chart_title", "activity" => "wiki")
             );
             // chart title
             $result->name = get_string($spec_info[$query]["title"], "block_gismo");
             // links
             $result->links = null;
             // add filters to extract data related to the selected activity only
-            if ($spec_info[$query]["activity"] != 'activitysummary') {
-                $ctu_filters .= "AND activity = ? ";
-                array_push($ctu_params, $spec_info[$query]["activity"]);
-            }
-            $ctu_filters .= "AND userid = ? ";
+            $ctu_filters .= "AND activity = ? AND userid = ? ";
+            array_push($ctu_params, $spec_info[$query]["activity"]);
             array_push($ctu_params, $current_user_id);
             // chart data
             $activity_data = $DB->get_records_select("block_gismo_activity", $ctu_filters, $ctu_params, "time ASC");
