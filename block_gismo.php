@@ -26,7 +26,7 @@ class block_gismo extends block_base {
         $this->content = new stdClass;
         
         // check gismo:view capability
-        // if (has_capability('block/gismo:view', get_context_instance(CONTEXT_BLOCK, $this->instance->id))) {
+        if (has_capability('block/gismo:track-teacher', get_context_instance(CONTEXT_COURSE, $this->course->id))) {
             // server data
             $data = new stdClass();
             $data->block_instance_id = $this->instance->id;
@@ -46,7 +46,7 @@ class block_gismo extends block_base {
                 $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
             }
             $this->content->footer = '';
-        // }
+        }
         
         // return content
         return $this->content;
