@@ -237,7 +237,7 @@
                     // check resource id
                     if (isset($_REQUEST["id"])) {
                         // chart title
-                        $result->name = get_string("student_resources_details_chart_title", "block_gismo");
+                        $result->name = get_string("resources_access_detail_chart_title", "block_gismo");
                         // links
                         $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"resources-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
                         // filters
