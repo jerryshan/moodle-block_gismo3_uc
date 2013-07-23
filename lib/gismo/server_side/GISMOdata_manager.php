@@ -417,6 +417,11 @@ class GISMOdata_manager {
     public function devel_mode_reset() {
         global $CFG, $DB;
         
+        if (!self::devel_mode) {
+            echo "Developer mode not enabled.  Skipping requested reset.";
+            return false;
+        }
+
         // delete data
         $DB->delete_records("block_gismo_activity");
         $DB->delete_records("block_gismo_resource");
