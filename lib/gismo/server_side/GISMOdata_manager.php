@@ -120,6 +120,8 @@ class GISMOdata_manager {
                 
                 // sync data for each course
                 foreach ($courses as $course) {
+                    // Skip site course
+                    if ($course->id == 1) continue;
                     /*
                      * SYNC block_gismo_activity table (GISMO Activities)
                      */
