@@ -6,8 +6,8 @@
  * @copyright  eLab Christian Milani
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// libraries & acl
-require_once "common.php";
+    // libraries & acl
+    require_once "common.php";
 ?>
 <div id="app_content">
     <div id="left_menu">
@@ -16,7 +16,7 @@ require_once "common.php";
             <img class="image_link" id="close_control" src="images/close.png" alt="<?php print_string('hide_menu', 'block_gismo'); ?>" title="<?php print_string('hide_menu', 'block_gismo'); ?>" style="float: right; margin: 0; padding: 0;" onclick="javascript:g.lm.hide();" />
             <img class="image_link" id="left_menu_info" src="images/left_menu_info.gif" alt="<?php print_string('show_details', 'block_gismo'); ?>" title="<?php print_string('show_details', 'block_gismo'); ?>" style="float: right; margin-right: 15px;"  onclick="javascript:g.lm.show_info();" />
         </div>
-        <div id="lm_content"><!-- Users / Resources / Assignments / Quizzes lists --></div>    
+        <div id="lm_content"><!-- Users / Resources / Assignments / Quizzes lists --></div>
     </div>
     <div id="chart">
         <div id="ch_header" class="ct_header">
@@ -40,47 +40,56 @@ require_once "common.php";
                 </div>
             </div>
             <div id="welcome_page">
-                <h1 align="center"><?php print_string('homepage_title', 'block_gismo'); ?></h1>
-
-                <div style="width:70%;text-align:center;margin:0 auto;font-size:130%;">
-                    <p><?php print_string('homepage_text', 'block_gismo'); ?></p>
-                </div>
-                <div id="slideshowWrapper" style="margin: 0 auto; text-align: center;">
-                    <h2><?php print_string('homepage_charts_preview_title', 'block_gismo'); ?></h2>
-                    <ul id="slideshow" class="slideshow">                        
-                        <li>
-                            <img src="images/help/slider_activities_assignments.png" width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_activities_assignments_overview', 'block_gismo'); ?></div>
-                        </li>
-                        <li>
-                            <img src="images/help/slider_resources_accesses_overview.png" width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_resources_access_overview', 'block_gismo'); ?></div>
-                        </li>
-                        <li>
-                            <img src="images/help/slider_resources_students_overview.png" width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_resources_students_overview', 'block_gismo'); ?></div>
-                        </li> 
-                        <li>
-                            <img src="images/help/slider_students_accesses_overview_on_resources.png" width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_students_access_overview_on_resources', 'block_gismo'); ?></div>
-                        </li>
-                        <li>
-                            <img src="images/help/slider_students_accesses_overview.png" width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_students_access_overview', 'block_gismo'); ?></div>
-                        </li>
-                        <li>
-                            <img src="images/help/slider_students_accesses_by_students.png"width="400" height="300" border="0" alt="" />
-                            <div class="ss_caption"><?php print_string('homepage_chart_students_accesses_by_students', 'block_gismo'); ?></div>
-                        </li>
-                    </ul><br clear="all" />
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('#slideshow').fadeSlideShow();
-                    });
-                </script>
-            </div>           
-        </div>    
+                <h1 align="center">Welcome to LearnTrak</h1>
+                <table id="charts_list" cellspacing="0" cellpadding="5" align="center" width="840">
+                    <tr>
+                        <td class="home-image"><img width="200" height="100" src="images/home/students-accesses-overview_thumb.png" /></td>
+                        <td>LearnTrak is a graphical interactive student monitoring and tracking system tool that extracts tracking data from this Learn course, and generates useful graphical representations that can be explored by course instructors to examine various aspects of student engagement. The LearnTrak block is only visible to the instructors of the course.</td>
+                        <td class="home-image"><img width="200" height="100" src="images/home/activities-assignments-quizzes_thumb.png" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><p style="margin-top:0;">As a teacher in your Learn course, you may wonder what use your students are making of the site: Are they regularly accessing the course? Are they viewing or downloading course materials? Are they participating in activities? Are there students who are over-achieving or under-achieving? This is where LearnTrak can help you.</p><p>LearnTrak generates graphical representations of activity within Learn courses. There are three main categories of visualizations: Students, Resources and Activities.</p></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="home-image" valign="bottom"><img width="200" height="100" src="images/home/students-accesses_thumb.png" /></td>
+                        <td class="help" style="width:auto;">
+                            <h2>LearnTrak Help Topics</h2>
+                            <ul class="contents" style="margin-bottom:0;">
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#overview">Overview</a></li>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#options">Options</a></li>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#saving">Saving displayed information</a></li>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#students-accesses">Students</a>
+                                    <ul>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#students-accesses">Accesses by students</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#students-accesses-overview">Accesses overview</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#students-accesses-overview-resources">Accesses overview on resources or books</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#student-details-resources">Student details on resources or books</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#groups">Groups and Groupings of students</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#resources-students-overview">Resources</a>
+                                    <ul>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#resources-students-overview">Students overview of resources or books</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#resources-accesses-overview">Accesses overview of resources or books</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#resources-details-students">Resource details on students</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-assignments-quizzes">Activities</a>
+                                    <ul>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-assignments-quizzes">Assignments or Quizzes overview</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-forums-accesses-overview">Forums, glossaries or wikis overview</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-forums-details-students">Student details on forums, glossaries or wikis</a></li>
+                                        <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-forums-student-overview">Forums, glossaries or wikis contributions over time</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <div id="help" style="display: none;">
