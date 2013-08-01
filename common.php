@@ -210,14 +210,14 @@
 
     // get gismo settings
 
-    $gismo_settings = $DB->get_field("block_instances", "configdata", array("id" => intval($srv_data->block_instance_id)));
+    global $USER;
 
-    if (is_null($gismo_settings) OR $gismo_settings === "") {
+    $gismo_settings = $DB->get_field("block_gismo_user_options", "configdata", array("user" => intval($USER->id)));
 
+    if (empty($gismo_settings)) {
         $gismo_settings = get_object_vars(GISMOutil::get_default_options());   
 
     } else {
-
         $gismo_settings = get_object_vars(unserialize(base64_decode($gismo_settings)));
 
         if (is_array($gismo_settings) AND count($gismo_settings) > 0) {
