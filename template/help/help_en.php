@@ -70,6 +70,9 @@
     <p>
         It is possible to save a copy of any display by either clicking on the save button (<img src="images/help/saveicon.png" width="24" height="25">) which appears at the top of a display, or by choosing "Save" from the "File" dropdown menu.
     </p>
+    <p>
+        To archive information about the course activity for a whole semester, save a copy of each display and store them on your computer. This should be done during the 6 week period at the end of the course before your students are un-enrolled from the Learn site.
+    </p>
     <hr class="category" />
     
     <h2 id="students-accesses">Students: Accesses by students &nbsp; <a href="#">[Back to top]</a></h2>
