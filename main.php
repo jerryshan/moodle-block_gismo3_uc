@@ -113,6 +113,7 @@ $gismo_static_data->init();
             <form class="hidden" id="save_form" name="save_form" action="export_as_image.php" target="_blank" method="post">
                 <textarea class="hidden" id="data" name="data"></textarea>
                 <input class="hidden" type="hidden" id="chart_id" name="chart_id" value="" />
+                <input class="hidden" type="hidden" name="course_shortname" value="<?php echo $course->shortname; ?>" />
             </form>
             <div id="menu">
             </div>
