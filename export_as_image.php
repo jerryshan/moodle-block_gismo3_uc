@@ -11,11 +11,12 @@
             }
         }
     }
+    $course_shortname =  (isset($_POST['course_shortname'])) ? str_replace(array(" ", ".", "\\", "/"), array("_"), trim($_POST['course_shortname'])) . '-' : "";
     
     // send headers
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT\n");
     header("Content-type: " . $img_mime . ";\n");
-    header("Content-Disposition: attachment; filename=\"GISMOChart" . $chart_id . ".png\";\n");
+    header("Content-Disposition: attachment; filename=\"LearnTrak-" . $course_shortname . $chart_id . ".png\";\n");
     
     // send output
     echo $img_data;
