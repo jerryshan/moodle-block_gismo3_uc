@@ -1891,6 +1891,7 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
     this.show_content = function () {
         // hide help section
         $("div#help").hide();
+        $("div#why").hide();
         $("div#short_overview").hide();
         // show content section
         $("div#app_content").show();
