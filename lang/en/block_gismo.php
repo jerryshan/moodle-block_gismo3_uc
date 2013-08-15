@@ -112,6 +112,7 @@ $string['wikis_over_time_chart_title'] = 'Activities: contributions to wikis ove
 // Help
 $string['help'] = 'Help';
 $string['help_docs'] = 'Overview';
+$string['why_docs'] = 'How can LearnTrak support your teaching?';
 $string['tutorial'] = 'Tutorial';
 $string['about'] = 'About LearnTrak';
 

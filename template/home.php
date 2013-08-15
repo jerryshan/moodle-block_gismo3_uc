@@ -49,7 +49,19 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><p style="margin-top:0;">As a teacher in your Learn course, you may wonder what use your students are making of the site: Are they regularly accessing the course? Are they viewing or downloading course materials? Are they participating in activities? Are there students who are over-achieving or under-achieving? This is where LearnTrak can help you.</p><p>LearnTrak generates graphical representations of activity within Learn courses. There are three main categories of visualizations: Students, Resources and Activities.</p></td>
+                        <td class="help">
+                            <?php
+                                require_once($CFG->dirroot.'/mod/book/locallib.php');
+                                $cm = get_coursemodule_from_id('book', 112405, 0, false, MUST_EXIST);
+                                $book = $DB->get_record('book', array('id'=>$cm->instance), '*', MUST_EXIST);
+                                $context = context_module::instance($cm->id);
+                                $chapters = book_preload_chapters($book);
+                                echo "<h2>How can LearnTrak support your teaching?</h2>";
+                                $toc = book_get_toc($chapters, $chapter, $book, $cm, false);
+                                $toc = str_replace('href="view.php', 'target="_blank" href="'.$CFG->wwwroot.'/mod/book/view.php', $toc);
+                                echo $toc;
+                            ?>
+                        </td>
                         <td></td>
                     </tr>
                     <tr>
@@ -94,4 +106,7 @@
 </div>
 <div id="help" style="display: none;">
     <?php require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "help.php"); ?>
+</div>
+<div id="why" style="display: none;">
+    <?php require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "why.php"); ?>
 </div>

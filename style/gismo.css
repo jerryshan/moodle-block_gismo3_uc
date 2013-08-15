@@ -270,10 +270,10 @@ img {
 #plot {
     margin: 10px;
 }
-#inner {
+#inner, .inner {
     padding: 10px;
 }
-#inner * {
+#inner, .inner * {
     text-align: left;
 }
 .local_fieldset { padding: 5px; margin: 0px; border: none; border-top: 1px solid #D8D8D8; }
@@ -426,10 +426,16 @@ a.guide{
 .help ul {
     margin-left:20px;
 }
-.help ul.contents {
+#welcome_page .help ul {
+    margin-bottom:0px;
+}
+#welcome_page .help h2 {
+    margin-top:5px;
+}
+.help ul.contents, .help .book_toc_indented ul {
     margin-bottom:25px;
     margin-left:2px;
 }
-.help ul.contents, .help ul.contents ul {
+.help ul.contents, .help ul.contents ul, .help .book_toc_indented ul, .help .book_toc_indented ul ul {
     list-style: none;
 }

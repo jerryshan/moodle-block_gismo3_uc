@@ -293,6 +293,13 @@ function top_menu(g) {
                     "require": null, 
                     "sub": null 
                 },
+                { 
+                    "label": "<?php print_string('why_docs', 'block_gismo'); ?>", 
+                    "action": "g.show_why()", 
+                    "roles": new Array("teacher"), 
+                    "require": null, 
+                    "sub": null 
+                },
                 /*{ 
                     "label": "<?php print_string('tutorial', 'block_gismo'); ?>", 
                     "action": "g.show_short_overview()", 
