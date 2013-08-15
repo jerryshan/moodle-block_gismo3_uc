@@ -1683,7 +1683,23 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
         $("div#footer").hide();
         // show help section
         $("div#short_overview").hide();
+        $("div#why").hide();
         $("div#help").show();
+    };
+
+    // show "How LearnTrak can help you" docs
+    this.show_why = function () {
+        // reset
+        this.reset();
+        this.current_analysis.status = false;
+        // hide content section
+        $("div#app_content").hide();
+        // hide footer
+        $("div#footer").hide();
+        // show help section
+        $("div#short_overview").hide();
+        $("div#help").hide();
+        $("div#why").show();
     };
 
     // show short_overview

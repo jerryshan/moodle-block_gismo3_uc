@@ -41,7 +41,7 @@ $gismo_static_data->init();
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/simpleFadeSlideShow/style.css" />
         <?php
         // static data + gismo instance not needed by help page
-        if (!in_array($query, array("help"))) {
+        if (!in_array($query, array("help", "why"))) {
             ?>
             <script type="text/javascript">
                 // <!--
@@ -110,6 +110,10 @@ $gismo_static_data->init();
                     $content = "template" . DIRECTORY_SEPARATOR . "help.php";
                     $footer = false;
                     break;
+                case "why":
+                    $content = "template" . DIRECTORY_SEPARATOR . "why.php";
+                    $footer = false;
+                    break;
                 default:
                     $content = "template" . DIRECTORY_SEPARATOR . "home.php";
                     $footer = true;
@@ -133,7 +137,7 @@ $gismo_static_data->init();
         ?>
     </body>
     <?php
-        if (in_array($query, array("help"))) {
+        if (in_array($query, array("help", "why"))) {
         // HACK
     ?>
         <script>
