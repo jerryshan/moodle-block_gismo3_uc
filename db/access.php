@@ -32,23 +32,23 @@
 // For the core capabilities, the variable is $moodle_capabilities.
 
 $capabilities = array(
-    /*
+    
     'block/gismo:view' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_BLOCK,
         'legacy' => array(
-            'student' => CAP_ALLOW,
+            'student' => CAP_PROHIBIT,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
     ),
-    */
-    'block/gismo:track-user' => array(
+    
+    'block/gismo:trackuser' => array( //changed name from track-user
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'legacy' => array(
+        'archetypes' => array(
             'student' => CAP_ALLOW,
             'teacher' => CAP_PROHIBIT,
             'editingteacher' => CAP_PROHIBIT,
@@ -56,16 +56,33 @@ $capabilities = array(
             'manager' => CAP_PROHIBIT
         )
     ),
-    'block/gismo:track-teacher' => array(
+    'block/gismo:trackteacher' => array( //changed name from track-teacher
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'legacy' => array(
+        'archetypes' => array(
             'student' => CAP_PROHIBIT,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_PROHIBIT
         )
+    ),
+    
+     'block/gismo:addinstance' => array(
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(            
+            'student' => CAP_PROHIBIT,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
     )
+
 );
 ?>

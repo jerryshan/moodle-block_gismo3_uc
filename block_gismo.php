@@ -1,13 +1,15 @@
 <?php
+
 class block_gismo extends block_base {
+
     protected $course;
-    
+
     public function init() {
         $this->title = get_string('gismo', 'block_gismo');
     }
 
     public function has_config() {
-        return false;
+        return true;
     }
 
     public function specialization() {
@@ -16,38 +18,66 @@ class block_gismo extends block_base {
     }
 
     public function get_content() {
-        global $CFG, $OUTPUT;
-        
+        global $OUTPUT, $DB;
+
         if ($this->content !== NULL) {
             return $this->content;
         }
-        
+
         // init content
         $this->content = new stdClass;
         
-        // check gismo:view capability
-        // if (has_capability('block/gismo:view', get_context_instance(CONTEXT_BLOCK, $this->instance->id))) {
-            // server data
-            $data = new stdClass();
-            $data->block_instance_id = $this->instance->id;
-            $data->course_id = $this->course->id;
-            $srv_data_encoded = urlencode(base64_encode(serialize($data)));
-
-            // moodle bug fix
-            $fix_style = "line-height: 20px; vertical-align: top;";
-
-            // block content
-            $this->content->text = html_writer::empty_tag('img', array('src' => '../blocks/gismo/images/gismo.gif', 'alt' => '', 'style' => $fix_style));
-            $this->content->text .= html_writer::tag('span', '&nbsp;');
-            if ($this->check_data() === true) {
-                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => '../blocks/gismo/main.php?srv_data=' . $srv_data_encoded, 'target' => '_blank'));
-            } else {
-                $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
-                $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
-            }
-            $this->content->footer = '';
-        // }
+        //Get block_gismo settings
+        $gismoconfig = get_config('block_gismo');
         
+        if (isset($gismoconfig->student_reporting)) {
+            if($gismoconfig->student_reporting === "false"){
+                //check gismo:view capability
+                if (!has_capability('block/gismo:view', get_context_instance(CONTEXT_BLOCK, $this->instance->id))) {        
+                    // return empty content
+                    return $this->content;
+                }
+            }  
+        }
+        //Check if setting exportlogs exists
+        if (empty($gismoconfig->exportlogs)) {
+            $this->content->text = html_writer::tag('span', get_string("exportlogs_missing", "block_gismo"));
+            $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
+            $this->content->footer = '';
+            return $this->content;
+        }
+        //Check if exportlogs is "course" & there are logs
+        if ($gismoconfig->exportlogs == 'course') {
+            if (!($last_export_max_log_id = $DB->record_exists("block_gismo_config", array("name" => "last_export_max_log_id_" . $this->course->id))) || $last_export_max_log_id == 0) {
+                $this->content->text = html_writer::tag('span', get_string("exportlogs_missingcourselogs", "block_gismo"));
+                $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
+                $this->content->footer = '';
+                return $this->content;
+            }
+        }
+
+
+        // server data
+        $data = new stdClass();
+        $data->block_instance_id = $this->instance->id;
+        $data->course_id = $this->course->id;
+        $srv_data_encoded = urlencode(base64_encode(serialize($data)));
+
+        // moodle bug fix
+        $fix_style = "line-height: 20px; vertical-align: top;";
+
+        // block content
+        $this->content->text = html_writer::empty_tag('img', array('src' => '../blocks/gismo/images/gismo.gif', 'alt' => '', 'style' => $fix_style));
+        $this->content->text .= html_writer::tag('span', '&nbsp;');
+        if ($this->check_data() === true) {
+            $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => '../blocks/gismo/main.php?srv_data=' . $srv_data_encoded, 'target' => '_blank'));
+        } else {
+            $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
+            $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
+        }
+        $this->content->footer = '';
+        
+
         // return content
         return $this->content;
     }
@@ -85,7 +115,7 @@ class block_gismo extends block_base {
         require_once $lib_dir . "GISMOdata_manager.php";
 
         // trace start
-        mtrace("GISMO - cron (start)!");
+        mtrace("\nGISMO - cron (start)!");
 
         $gdm = new GISMOdata_manager(false);
 
@@ -111,6 +141,7 @@ class block_gismo extends block_base {
         // ok     
         return true;
     }
-    
+
 }
+
 ?>

@@ -33,11 +33,11 @@ $gismo_static_data->init();
             }
         }
         ?>
-        <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="lib/third_parties/client_side/jqplot.1.0.0b2.r1012/excanvas.js"></script><![endif]-->
+        <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="lib/third_parties/client_side/jqplot.1.0.8r1250/excanvas.js"></script><![endif]-->
         <!-- client side libraries END -->
         <link rel="stylesheet" href="style/gismo.css" type="text/css" media="screen" charset="utf-8" />
-        <link rel="stylesheet" href="lib/third_parties/client_side/jquery-ui-1.8.16/css/ui-darkness/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" charset="utf-8" />
-        <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/jqplot.1.0.0b2.r1012/jquery.jqplot.min.css" />
+        <link rel="stylesheet" href="lib/third_parties/client_side/jquery-ui-1.10.3/css/ui-darkness/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen" charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/jqplot.1.0.8r1250/jquery.jqplot.min.css" />
         <link rel="stylesheet" type="text/css" href="lib/third_parties/client_side/simpleFadeSlideShow/style.css" />
         <?php
         // static data + gismo instance not needed by help page 
@@ -54,6 +54,7 @@ $gismo_static_data->init();
                 static_data['teachers'] = <?php echo $gismo_static_data->teachers; ?>;
                 static_data['resources'] = <?php echo $gismo_static_data->resources; ?>;
                 static_data['assignments'] = <?php echo $gismo_static_data->assignments; ?>;
+                static_data['assignments22'] = <?php echo $gismo_static_data->assignments22; ?>;
                 static_data['chats'] = <?php echo $gismo_static_data->chats; ?>;
                 static_data['forums'] = <?php echo $gismo_static_data->forums; ?>;
                 static_data['quizzes'] = <?php echo $gismo_static_data->quizzes; ?>;

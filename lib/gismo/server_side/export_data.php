@@ -1,5 +1,16 @@
 <?php
     require_once "../../../../../config.php";
+        
+    $config = get_config('block_gismo');
+    // This script is being called via the web, so check the password if there is one.
+    if (!empty($config->manualexportpassword)) {
+        $pass = optional_param('password', '', PARAM_RAW);
+        if ($pass != $config->manualexportpassword) {
+            // wrong password.
+            print_error('manualexportpassworderror', 'block_gismo');
+            exit;
+        }
+    }
     
     // libraries
     $d = DIRECTORY_SEPARATOR;

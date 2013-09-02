@@ -2,12 +2,15 @@
 //GISMO EN language file
 // block title
 $string['pluginname'] = 'Gismo';
-$string['gismo'] = 'MOCLOG - Gismo';
+$string['gismo'] = 'Gismo';
 $string['gismo_report_launch'] = 'Reporting Tool';
+$string['exportlogs_missing'] = 'Missing exportlogs parameter';
+$string['exportlogs_missingcourselogs'] = 'Log analysis process runs on fixed hours, usually at nighttime. Your course data will be available within 24 hours';
 
 // capabilities
-$string['gismo:track-user'] = 'Gismo Student';
-$string['gismo:track-teacher'] = 'Gismo Teacher';
+$string['gismo:trackuser'] = 'Gismo Student';
+$string['gismo:trackteacher'] = 'Gismo Teacher';
+$string['gismo:addinstance'] = 'Add new gismo block';
 
 // help
 $string['gismo_help'] = "<p>Gismo works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled to the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources</li><li>Assignments</li><li>Quizzes</li></ul></li></ul>";
@@ -49,6 +52,8 @@ $string['resources_access_detail_chart_title'] = 'Resources: resource details on
 $string['activities'] = 'Activities';
 $string['assignments'] = 'Assignments';
 $string['assignments_chart_title'] = 'Activities: assignments overview';
+$string['assignments22'] = 'Assignments 2.2';
+$string['assignments22_chart_title'] = 'Activities: assignments 2.2 overview';
 $string['chats'] = 'Chats';
 
 $string['chats_over_time'] = 'Chats over time'; //************
@@ -117,7 +122,7 @@ $string['gismo:view'] = "GISMO - Authorization failed";
 
 
 //OTHERS
-$string['welcome'] = "Welcome to GISMO v. 3.0.1Beta2";
+$string['welcome'] = "Welcome to GISMO v. 3.1.1";
 $string['processing_wait'] = "Processing data, please wait!";
 
 //Graphs labels
@@ -159,7 +164,29 @@ $string['contact_us']= 'Please feel free to contact authors for questions or for
 $string['close'] = 'Close';
 $string['confirm_exiting'] = 'Do you really want to exit Gismo?';
 
-
-
-
+//Settings
+$string['manualexportpassword'] = 'Manual export password';
+$string['manualexportpassworddesc'] = 'This means that the export_data.php script cannot be run from a web browser without supplying the password using the following form of URL:<br /><br />'.$CFG->wwwroot.'/blocks/gismo/lib/gismo/server_side/export_data.php?password=something<br /><br />If this is left empty, no password is required.';
+$string['manualexportpassworderror'] = 'GISMO manual export password missing or wrong';
+$string['export_data_limit_records'] = 'Limit Records in SQL queries';
+$string['export_data_limit_recordsdesc'] = 'Limit the number of records selected for each query during data export (in GISMOdata_manager.php).
+<br /> Please don\'t change it if you don\'t know what you are doing.';
+$string['export_data_hours_from_last_run'] = 'Delay (hours) before next data export process execution';
+$string['export_data_hours_from_last_rundesc'] = 'Gismo data export process can be re-executed only after X hours, setting this time too low can create performance problems.<br /> Please don\'t change it if you don\'t know what you are doing.';
+$string['export_data_run_inf'] = 'Run Gismo data export from';
+$string['export_data_run_infdesc'] = 'Execute Gismo data export only from this time.<br /> This setting must be lower then export_data_run_sup.';
+$string['export_data_run_sup'] = 'Run Gismo data export until';
+$string['export_data_run_supdesc'] = 'Don\'t execute gismo data export after this time.<br /> This setting must be higher then export_data_run_inf.';
+$string['exportlogs'] = 'Export logs';
+$string['exportlogsdesc'] = 'Export all logs: this option creates Gismo logs from all courses in the moodle platform, this creates a lot of records in gismo database tables, but data is immediately available when Gismo block is placed in a course.<br /> Export only courses with block gismo: Export only the courses that have a block gismo, if you select this option the Gismo data of the course will be available only after several hours you place a Gismo block in a course.';
+$string['exportalllogs'] = 'Export all logs';
+$string['exportcourselogs'] = 'Export only courses with block gismo';
+$string['debug_mode'] = 'Debug mode';
+$string['debug_modedesc'] = 'If set to true, debug messages will be displayed during Gismo data export process.';
+$string['debug_mode_true'] = 'Enabled';
+$string['debug_mode_false'] = 'Disabled';
+$string['student_reporting'] = 'Students reporting';
+$string['student_reporting_desc'] = 'If enabled students will be able to see their logs';
+$string['student_reporting_enabled'] = 'Enabled';
+$string['student_reporting_disabled'] = 'Disabled';
 ?>

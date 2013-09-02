@@ -1,4 +1,6 @@
 <?PHP
+    //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
+    header("Content-type: application/javascript ; charset=UTF-8") ;
 
     // define constants
     define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
@@ -115,6 +117,13 @@ function top_menu(g) {
                     "action": "g.analyse('assignments')", 
                     "roles": new Array("teacher", "student"), 
                     "require": new Array("assignments"), 
+                    "sub": null 
+                },
+                { 
+                    "label": "<?php print_string('assignments22', 'block_gismo'); ?>", 
+                    "action": "g.analyse('assignments22')", 
+                    "roles": new Array("teacher", "student"), 
+                    "require": new Array("assignments22"), 
                     "sub": null 
                 },
                 { 

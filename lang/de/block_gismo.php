@@ -2,13 +2,13 @@
 //GISMO DE language file
 // block title
 $string['pluginname'] = 'Gismo';
-$string['gismo'] = 'MOCLOG - Gismo';
+$string['gismo'] = 'Gismo';
 //$string['gismo_report_launch'] = 'Werkzeug zur Berichterstattung';
 $string['gismo_report_launch'] = 'Reporting Tool';
 
 // capabilities
-$string['gismo:track-user'] = 'Gismo Student/in';
-$string['gismo:track-teacher'] = 'Gismo Dozent/in';
+$string['gismo:trackuser'] = 'Gismo Student/in';
+$string['gismo:trackteacher'] = 'Gismo Dozent/in';
 
 // help
 $string['gismo_help'] = "<p>Gismo funktioniert bei Kursen, welche die folgenden Anforderungen erfüllen:</p><ul><li> mindestens ein Student muss für den Kurs eingetragen sein</li><li>der Kurs muss mindestens eines der folgenden Module enthalten:<ul><li>Ressourcen</li><li>Aufgaben</li><li>Tests</li></ul></li></ul>";
@@ -50,6 +50,8 @@ $string['resources_access_detail_chart_title'] = 'Ressourcen: Einzelheiten bezü
 $string['activities'] = 'Aktivitäten';
 $string['assignments'] = 'Aufgaben';
 $string['assignments_chart_title'] = 'Aktivitäten: Übersicht über Aufgaben';
+$string['assignments22'] = 'Aufgaben 2.2';
+$string['assignments22_chart_title'] = 'Aktivitäten: Übersicht über Aufgaben 2.2';
 $string['chats'] = 'Chats';
 
 $string['chats_over_time'] = 'Chats im Zeitablauf'; //************
@@ -118,7 +120,7 @@ $string['gismo:view'] = "GISMO - Autorisierung nicht möglich";
 
 
 //OTHERS
-$string['welcome'] = "Willkommen zu GISMO v. 3.0.1Beta2";
+$string['welcome'] = "Willkommen zu GISMO v. 3.1.1";
 $string['processing_wait'] = "Die Daten werden aufbereitet, bitte warten Sie!";
 
 //Graphs labels
@@ -159,8 +161,5 @@ $string['authors'] = 'Autoren ';
 $string['contact_us']= 'Bei Fragen oder wenn Sie irgendwelche Fehler melden möchten, wenden Sie sich bitte an die Autoren unter den nachstehenden Adressen: ';
 $string['close'] = 'Schliessen';
 $string['confirm_exiting'] = 'Möchten Sie Gismo wirklich verlassen?';
-
-
-
 
 ?>

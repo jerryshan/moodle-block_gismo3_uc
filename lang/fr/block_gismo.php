@@ -2,12 +2,12 @@
 //GISMO FR language file
 // block title
 $string['pluginname'] = 'Gismo';
-$string['gismo'] = 'MOCLOG - Gismo';
+$string['gismo'] = 'Gismo';
 $string['gismo_report_launch'] = 'Outil de reporting';
 
 // capabilities
-$string['gismo:track-user'] = 'Gismo étudiant-e';
-$string['gismo:track-teacher'] = 'Gismo professeur-e';
+$string['gismo:trackuser'] = 'Gismo étudiant-e';
+$string['gismo:trackteacher'] = 'Gismo professeur-e';
 
 // help
 $string['gismo_help'] = "<p>Gismo fonctionne sur les cours répondant aux exigences suivantes:</p><ul><li>il y a au moins un étudiant inscrit au cours</li><li>il y a au moins une instance de l'un des modules suivants :<ul><li>Ressources</li><li>Devoirs</li><li>Questionnaires</li></ul></li></ul>";
@@ -49,6 +49,8 @@ $string['resources_access_detail_chart_title'] = 'Ressources : détails des acc�
 $string['activities'] = 'Activités';
 $string['assignments'] = 'Devoirs';
 $string['assignments_chart_title'] = 'Activités : aperçu des devoirs';
+$string['assignments22'] = 'Devoirs 2.2';
+$string['assignments22_chart_title'] = 'Activités : aperçu des devoirs 2.2';
 $string['chats'] = 'Discussions';
 
 $string['chats_over_time'] = 'Discussions à travers le temps'; //************
@@ -117,7 +119,7 @@ $string['gismo:view'] = "GISMO - Échec de l\'autorisation";
 
 
 //OTHERS
-$string['welcome'] = "Bienvenue dans GISMO v. 3.0.1Beta2";
+$string['welcome'] = "Bienvenue dans GISMO v. 3.1.1";
 $string['processing_wait'] = "Traitement des données, veuillez patienter !";
 
 //Graphs labels
@@ -158,8 +160,5 @@ $string['authors'] = 'Auteurs ';
 $string['contact_us']= 'N\'hésitez pas à contacter les auteurs pour des questions ou pour signaler des erreurs à l\'adresse suivante : ';
 $string['close'] = 'Fermer';
 $string['confirm_exiting'] = 'Souhaitez vous vraiment quitter Gismo?';
-
-
-
 
 ?>

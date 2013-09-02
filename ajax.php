@@ -1,4 +1,7 @@
 <?php
+    //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
+    header("Content-type: application/json; charset=UTF-8") ;
+
     // mode (json)
     $error_mode = "json";
     
@@ -47,7 +50,7 @@
         GISMOutil::gismo_error('err_missing_course_students', $error_mode);
         exit;
     }
-    $users = get_users_by_capability($context, "block/gismo:track-user");
+    $users = get_users_by_capability($context, "block/gismo:trackuser");
     if ($users === FALSE) {
         GISMOutil::gismo_error('err_missing_course_students', $error_mode);
         exit;
@@ -97,11 +100,11 @@
         case "teacher@student-accesses-overview":
             // chart title
             switch($query) {
-//LkM79 - error: it was the followinbg: case "student-accesses-overview":	    
+                //LkM79 - error: it was the followinbg: case "student-accesses-overview":	    
                 case "teacher@student-accesses-overview":
                     $lang_index = "student_accesses_overview_chart_title";
                     break;
-//LkM79 - error: it was the followinbg: case "student-accesses":		    
+                //LkM79 - error: it was the followinbg: case "student-accesses":		    
                 case "teacher@student-accesses":
                 default:
                     $lang_index = "student_accesses_chart_title";
@@ -110,8 +113,13 @@
             $result->name = get_string($lang_index, "block_gismo");
             // links
             $result->links = null;
+            
+            $ctu_filters .= " GROUP BY course, timedate, userid"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY, we need to group by course,timedate & USERID
+            $sort = "time ASC";
+            $fields = "id, course, userid, timedate, time, sum(numval) as numval"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY        
+            
             // chart data
-            $student_resource_access = $DB->get_records_select("block_gismo_sl", $ctu_filters, $ctu_params, "time ASC");
+            $student_resource_access = $DB->get_records_select("block_gismo_sl", $ctu_filters, $ctu_params, $sort,$fields);
             // build result 
             if ($student_resource_access !== false) {
                 // evaluate start date and end date
@@ -155,9 +163,12 @@
                         $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"student-resources-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
                         // filters
                         $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "userid = ?")));  // remove null values / empty strings / ... before imploding
+                        $filters .= " GROUP BY course,resid,timedate,userid"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY, we need to group by course,timedate & RESOURCEID!!!
                         $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
+                        $sort = "time ASC";
+                        $fields = "id, course, userid, restype, resid, timedate, time, sum(numval) as numval"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY
                         // get data
-                        $student_resource_access = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        $student_resource_access = $DB->get_records_select("block_gismo_resource", $filters, $params,$sort, $fields); //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY
                         // build result 
                         if ($student_resource_access !== false) {
                             // evaluate start date and end date
@@ -242,9 +253,12 @@
                         $result->links = "<a href='javascript:void(0);' onclick='javascript:g.analyse(\"resources-access\");'><img src=\"images/back.png\" alt=\"Close details\" title=\"Close details\" /></a>";
                         // filters
                         $filters = implode(" AND ", array_filter(array($course_sql, $time_sql, "resid = ?")));  // remove null values / empty strings / ... before imploding
+                        $filters .= " GROUP BY course,timedate,resid,userid"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY, we need to group by course,timedate, resrouceid & userid
                         $params = array_merge($course_params, $time_params, array(intval($_REQUEST["id"])));
+                        $sort = "time ASC";
+                        $fields = "id, course, userid, restype, resid, timedate, time, sum(numval) as numval"; //BUG FIX WHEN GISMO EXPORTER RUN MORE THEN ONCE A DAY
                         // chart data
-                        $resource_accesses = $DB->get_records_select("block_gismo_resource", $filters, $params, "time ASC");
+                        $resource_accesses = $DB->get_records_select("block_gismo_resource", $filters, $params, $sort, $fields);
                         // result
                         if ($resource_accesses !== false) {
                             // evaluate start date and end date
@@ -312,6 +326,58 @@
             $result->name = get_string("assignments_chart_title", "block_gismo");
             // links
             $result->links = null;
+            // chart data
+            $qry = "
+                SELECT g.id, g.userid, g.grade, g.timemodified, a.id AS test_id, a.grade AS test_max_grade 
+                FROM {assign} AS a INNER JOIN {assign_grades} AS g ON a.id = g.assignment 
+                WHERE a.course = " . intval($course_id) . " AND g.timemodified BETWEEN " . $from . " AND " . $to . "
+            ";
+            // need to filter on user id ?
+            if ($query === "student@assignments") {
+                $qry .= " AND a.userid = " . $current_user_id;
+            }
+            $entries = $DB->get_records_sql($qry);
+            // build result 
+            if (is_array($entries) AND count($entries) > 0 AND
+                is_array($users) AND count($users) > 0) { 
+                foreach ($entries as $entry) {
+                    if (array_key_exists($entry->userid, $users)) {
+                        $item = array(
+                            "test_id" => $entry->test_id,
+                            "test_max_grade" => $entry->test_max_grade,
+                            "userid" => $entry->userid,
+                            "user_grade" => $entry->grade,
+                            "user_grade_label" => sprintf("%s / %s", format_float($entry->grade, 2), format_float($entry->test_max_grade, 2)),
+                            "submission_time" => $entry->timemodified
+                        );
+                        // net to extract custom grade scale ?
+                        if (intval($entry->test_max_grade) < 0 AND intval($entry->grade) !== -1) {
+                            // scale id
+                            $scale_id = abs($entry->test_max_grade);
+                            // get scale
+                            try {
+                                $scale = $DB->get_field("scale", "scale", array("id" => $scale_id), MUST_EXIST);
+                                $scale_values = explode(",", $scale);
+                                $ug_idx = intval($entry->grade) - 1;
+                                if (is_array($scale_values) AND count($scale_values) > 0 AND array_key_exists($ug_idx, $scale_values)) {
+                                    $item["test_max_grade"] = count($scale_values);
+                                    $item["user_grade_label"] = trim($scale_values[$ug_idx]);
+                                }
+                            } catch(Exception $e) {
+                                echo "ERROR";
+                            }
+                        }
+                        array_push($result->data, $item);
+                    }          
+                }    
+            }
+            break;
+        case "teacher@assignments22":
+        case "student@assignments22":
+            // chart title
+            $result->name = get_string("assignments22_chart_title", "block_gismo");
+            // links
+            $result->links = null;
             // chart data (select s.id because the stupid moodle get_records__sql function set array key with the first selected field (use a unique key to avoid data loss))
             $qry = "
                 SELECT s.id, s.userid, s.grade, s.timemarked, a.id AS test_id, a.grade AS test_max_grade 
@@ -319,7 +385,7 @@
                 WHERE a.course = " . intval($course_id) . " AND s.timemodified BETWEEN " . $from . " AND " . $to . "
             ";
             // need to filter on user id ?
-            if ($query === "student@assignments") {
+            if ($query === "student@assignments22") {
                 $qry .= " AND s.userid = " . $current_user_id;
             }
             $entries = $DB->get_records_sql($qry);
@@ -402,7 +468,7 @@
             $spec_info = array(
                 "teacher@chats" => array("title" => "chats_chart_title", "subtitle" => "chats_ud_chart_title", "activity" => "chat", "back" => "chats"),
                 "teacher@forums" => array("title" => "forums_chart_title", "subtitle" => "forums_ud_chart_title", "activity" => "forum", "back" => "forums"),
-                "teacher@wikis" => array("title" => "wikis_chart_title", "title" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis")
+                "teacher@wikis" => array("title" => "wikis_chart_title", "subtitle" => "wikis_ud_chart_title", "activity" => "wiki", "back" => "wikis")
             );
             switch ($subtype) {
                 case "users-details":

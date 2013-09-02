@@ -1,5 +1,7 @@
-<?PHP
-          
+<?PHP        
+    //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
+    header("Content-type: application/javascript ; charset=UTF-8") ;
+
     // define constants
     define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
     define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);
@@ -33,6 +35,10 @@ function left_menu(g) {
         'assignments': {
             img: 'assignments.png', 
             tooltip: '<?php print_string('assignments', 'block_gismo'); ?>'
+        },
+        'assignments22': {
+            img: 'assignments22.png', 
+            tooltip: '<?php print_string('assignments22', 'block_gismo'); ?>'
         },
         'chats': {
             img: 'chat.gif', 
@@ -124,6 +130,17 @@ function left_menu(g) {
         },
         'student@assignments': {
             'lists': ['assignments'],
+            'default': 0,
+            'details': []
+        },
+        // activities -> assignments22
+        'teacher@assignments22': {
+            'lists': ['users', 'assignments22'],
+            'default': 0,
+            'details': []
+        },
+        'student@assignments22': {
+            'lists': ['assignments22'],
             'default': 0,
             'details': []
         },
@@ -339,8 +356,11 @@ function left_menu(g) {
 			case 'resources':
 				lab = "<?php print_string('resources', 'block_gismo'); ?>";
 			break;
-			case 'assignments':
+                        case 'assignments':
 				lab = "<?php print_string('assignments', 'block_gismo'); ?>";
+			break;
+			case 'assignments22':
+				lab = "<?php print_string('assignments22', 'block_gismo'); ?>";
 			break;
 			case 'forums':
 				lab = "<?php print_string('forums', 'block_gismo'); ?>";

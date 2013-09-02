@@ -1,4 +1,6 @@
 <?PHP
+    //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
+    header("Content-type: application/javascript ; charset=UTF-8") ;
 
     // define constants
     define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
@@ -697,6 +699,83 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         prepared_data["y_label"] = "<?php print_string('assignments', 'block_gismo'); ?>";
                     }       
                 }
+                break;    
+            case 'teacher@assignments22':
+            case 'student@assignments22':
+                if (this.static_data["users"].length > 0 && this.static_data["assignments22"].length > 0 && this.util.get_assoc_array_length(this.current_analysis.data) > 0) {
+                    // xticks / yticks
+                    for (item in this.static_data["users"]) {
+                        uid = this.lm.get_unique_id("users", this.static_data["users"][item], "id", "type");
+                        if ($.inArray(uid, selected_items["users"]) != -1) {
+                            xticks.push(this.util.intelligent_substring(this.static_data["users"][item].name, false));
+                            xticks_pos.push(uid);
+                        }    
+                    }
+                    for (item in this.static_data["assignments22"]) {
+                        uid = this.lm.get_unique_id("assignments22", this.static_data["assignments22"][item], "id", "type");
+                        if ($.inArray(uid, selected_items["assignments22"]) != -1) {
+                            yticks.unshift(this.util.intelligent_substring(this.static_data["assignments22"][item].name, true));
+                            yticks_pos.unshift(uid);
+                        }    
+                    }
+                    // generate series only for selected users / assignments22
+                    colors = this.get_series_colors();
+                    for (item in this.current_analysis.data) {
+                        uid = this.lm.get_unique_id("users", this.current_analysis.data[item], "userid");
+                        uid2 = this.lm.get_unique_id("assignments22", this.current_analysis.data[item], "test_id");
+                        if ($.inArray(uid, selected_items["users"]) != -1 &&
+                            $.inArray(uid2, selected_items["assignments22"]) != -1) {
+                            
+                            // evaluate serie
+                            num_serie = 0;
+                            if (parseInt(this.current_analysis.data[item].user_grade) != -1) { 
+                                num_serie = Math.round(parseFloat(this.current_analysis.data[item].user_grade)/parseFloat(this.current_analysis.data[item].test_max_grade)*(this.cfg.matrix_num_series_limit - 2)) + 1;
+                            } else {
+                                if (parseInt(this.current_analysis.data[item].test_max_grade) != 0) {
+                                    num_serie = 0;
+                                } else {
+                                    num_serie = this.cfg.matrix_num_series_limit + 10;
+                                }
+                            }
+                            
+                            // lines
+                            if (lines[num_serie] == undefined) {
+                                lines[num_serie] = new Array();
+                                genseries[num_serie] = {color: (colors[num_serie] != undefined) ? colors[num_serie] : "#CCCCCC", markerOptions:{style: (num_serie != 0) ? "filledSquare" : "square"}};
+                            }
+                            lines[num_serie].push(
+                                new Array(
+                                    $.inArray(uid, xticks_pos) + 1,
+                                    $.inArray(uid2, yticks_pos) + 1,
+                                    (parseInt(this.current_analysis.data[item].user_grade) == -1) ? ((parseInt(this.current_analysis.data[item].test_max_grade) !== 0) ? "Grade has not been assigned yet." : "There isn't any grade scale associated to the assignment.") : "Grade: " + this.current_analysis.data[item].user_grade_label
+                                )
+                            );
+                        }    
+                    }
+                    // keep only used lines
+                    used_lines = new Array();
+                    used_genseries = new Array();
+                    for (k=0; k<genseries.length;k++) {
+                        if (lines[k] != undefined && genseries[k] != undefined) {
+                            used_lines.push(lines[k]);
+                            used_genseries.push(genseries[k]);   
+                        }
+                    }
+                    
+                    // set prepared data (at least on resource must have been selected)
+                    if (used_lines.length > 0 && xticks.length > 0) {
+                        prepared_data["lines"] = used_lines;
+                        prepared_data["genseries"] = used_genseries;
+                        prepared_data["xticks"] = xticks;
+                        prepared_data["yticks"] = yticks;
+                        prepared_data["xticks_num"] = xticks.length;
+                        prepared_data["xticks_min_len"] = 18;
+                        prepared_data["yticks_num"] = yticks.length;
+                        prepared_data["yticks_min_len"] = 18;
+                        prepared_data["x_label"] = "<?php print_string('students', 'block_gismo'); ?>";
+                        prepared_data["y_label"] = "<?php print_string('assignments22', 'block_gismo'); ?>";
+                    }       
+                }
                 break;
             case 'teacher@quizzes':
             case 'student@quizzes':
@@ -795,8 +874,10 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                             if (index != -1) {
                                 if (this.current_analysis.data[item].context == "read") {
                                     lines[0][index] += parseInt(this.current_analysis.data[item].numval);
-                                } else {
+                                } else if (this.current_analysis.data[item].context == "write") {//Check if Write SUM
                                     lines[1][index] += parseInt(this.current_analysis.data[item].numval);
+                                } else if (this.current_analysis.data[item].context == "delete") {//Check if Delete SUBTRACT
+                                    lines[1][index] -= parseInt(this.current_analysis.data[item].numval);
                                 }
                             }        
                         }    
@@ -897,8 +978,10 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                             if (index != -1) {
                                 if (this.current_analysis.data[item].context == "read") {
                                     lines[0][index] += parseInt(this.current_analysis.data[item].numval);
-                                } else {
+                                }  else if (this.current_analysis.data[item].context == "write") {//Check if Write SUM
                                     lines[1][index] += parseInt(this.current_analysis.data[item].numval);
+                                } else if (this.current_analysis.data[item].context == "delete") {//Check if Delete SUBTRACT
+                                    lines[1][index] -= parseInt(this.current_analysis.data[item].numval);
                                 }
                             }        
                         }    
@@ -1264,9 +1347,11 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                     break;
                 case 'student@resources-students-overview':
                 case 'teacher@resources-students-overview':
+                case 'teacher@assignments22':
                 case 'teacher@assignments':
                 case 'teacher@quizzes':
-                case 'student@assignments':
+                case 'student@assignments22':                
+                 case 'student@assignments':
                 case 'student@quizzes':
                     var msize = this.get_matrix_entry_side_pixels();
                     var formatString;
@@ -1685,19 +1770,19 @@ function gismo(config, srv_data, static_data, course_start_time, current_time, a
                         .append($("<legend></legend>").html("Gismo"))
                         .append("<?php print_string('intro_information_about_gismo', 'block_gismo'); ?>")
                         .append($("<p></p>").append($("<ul></ul>")
-                            .append($("<li></li>").append("<?php print_string('gismo_version', 'block_gismo'); ?>: 3.0.1 beta 2"))
-                            .append($("<li></li>").append("<?php print_string('release_date', 'block_gismo'); ?>: 2012-05-27"))
+                            .append($("<li></li>").append("<?php print_string('gismo_version', 'block_gismo'); ?>: 3.1.1"))
+                            .append($("<li></li>").append("<?php print_string('release_date', 'block_gismo'); ?>: 2013-06-18"))
                         )) 
                     )
                     .append($('<fieldset></fieldset>')
                         .addClass("local_fieldset")
                         .append($("<legend></legend>").html("<?php print_string('authors', 'block_gismo'); ?>"))
                         .append("<?php print_string('contact_us', 'block_gismo'); ?>")
-                        .append($("<p></p>").append($("<ul></ul>")
-                            .append($("<li></li>").append("Mauro Nidola (mauro.nidola _AT_ usi.ch)"))
-                            .append($("<li></li>").append("Riccardo Mazza (riccardo.mazza _AT_ usi.ch)"))
+                        .append($("<p></p>").append($("<ul></ul>")                        
                             .append($("<li></li>").append("Christian Milani (christian.milani _AT_ usi.ch)"))
+                            .append($("<li></li>").append("Riccardo Mazza (riccardo.mazza _AT_ usi.ch)"))
 			    .append($("<li></li>").append("Luca Mazzola (mazzola.luca _AT_ gmail.com)"))
+                            .append($("<li></li>").append("Mauro Nidola (mauro.nidola _AT_ usi.ch)"))
                         ))
                     )
         dialog.html(about.html());

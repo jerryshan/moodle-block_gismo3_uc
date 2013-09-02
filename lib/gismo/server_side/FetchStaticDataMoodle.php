@@ -27,7 +27,7 @@ class FetchStaticDataMoodle {
     protected $users;
     protected $teachers;
     protected $resources;
-    protected $assignments;
+    protected $assignments22;
     protected $chats;
     protected $forums;
     protected $quizzes;
@@ -54,6 +54,7 @@ class FetchStaticDataMoodle {
         $check &= $this->FetchTeachers();
         $check &= $this->FetchResources();
         $check &= $this->FetchAssignments();
+        $check &= $this->FetchAssignments22();
         $check &= $this->FetchChats();
         $check &= $this->FetchForums();
         $check &= $this->FetchQuizzes();
@@ -94,7 +95,7 @@ class FetchStaticDataMoodle {
                 // fetch students
                 $context = get_context_instance(CONTEXT_COURSE, $this->course->id);
                 if ($context !== FALSE) {
-                    $users = get_users_by_capability($context, "block/gismo:track-user", "", "lastname, firstname");
+                    $users = get_users_by_capability($context, "block/gismo:trackuser", "", "lastname, firstname");
                     // save data
                     if ($users !== FALSE) {
                         $json_users = array();
@@ -134,7 +135,7 @@ class FetchStaticDataMoodle {
                 // fetch teachers
                 $context = get_context_instance(CONTEXT_COURSE, $this->course->id);
                 if ($context !== FALSE) {
-                    $teachers = get_users_by_capability($context, "block/gismo:track-teacher", "", "lastname, firstname");
+                    $teachers = get_users_by_capability($context, "block/gismo:trackteacher", "", "lastname, firstname");
                     // save data
                     if ($teachers !== FALSE) {
                         $json_teachers = array();
@@ -184,7 +185,9 @@ class FetchStaticDataMoodle {
                 }
                 unset($tmp_modules);
                 // MOODLE BUG (get_all_instances_in_course doesn't return an array indexed by cm.id) END
-                $sections = get_all_sections($this->id);
+                //$sections = get_all_sections($this->id); //DEPRECATED 2 new lines added
+                $modinfo = get_fast_modinfo($course);
+                $sections = $modinfo->get_section_info_all();
                 if (is_array($sections) AND count($sections) > 0) {
                     foreach ($sections as $s) {
                         if (!is_null($s->sequence)) {
@@ -240,7 +243,7 @@ class FetchStaticDataMoodle {
         $check = false;
         $this->assignments = "[]";
         // fetch assignments
-        $assignments = get_all_instances_in_course("assignment", $this->course, null, true);
+        $assignments = get_all_instances_in_course("assign", $this->course, null, true);
         // $assignments = $this->FetchCourseModulesOrderedByPosition("assignment", $this->course, $USER->id, true);
         // save data
         if ($assignments !== FALSE) {
@@ -251,13 +254,44 @@ class FetchStaticDataMoodle {
                     $json_assignments[] = array(
                         "id" => $assignment->id,
                         "name" => $assignment->name,
+                        "allowsubmissionsfromdate" => $assignment->allowsubmissionsfromdate,
+                        "gradeOver" => $assignment->grade,
+                        "duedate" => $assignment->duedate,
+                        "visible" => $assignment->visible
+                    );
+                }
+                $this->assignments = json_encode($json_assignments);
+            }
+        }
+        // return result
+        return $check;
+    }
+    
+    // fetch assignments22
+    protected function FetchAssignments22() {
+        global $USER;
+        // default variables
+        $check = false;
+        $this->assignments22 = "[]";
+        // fetch assignments22
+        $assignments22 = get_all_instances_in_course("assignment", $this->course, null, true);
+        // $assignments22 = $this->FetchCourseModulesOrderedByPosition("assignment", $this->course, $USER->id, true);
+        // save data
+        if ($assignments22 !== FALSE) {
+            $json_assignments22 = array();
+            $check = true;
+            if (is_array($assignments22) AND count($assignments22) > 0) {
+                foreach ($assignments22 as $assignment) {
+                    $json_assignments22[] = array(
+                        "id" => $assignment->id,
+                        "name" => $assignment->name,
                         "timeavailable" => $assignment->timeavailable,
                         "gradeOver" => $assignment->grade,
                         "timedue" => $assignment->timedue,
                         "visible" => $assignment->visible
                     );
                 }
-                $this->assignments = json_encode($json_assignments);
+                $this->assignments22 = json_encode($json_assignments22);
             }
         }
         // return result
@@ -457,7 +491,7 @@ class FetchStaticDataMoodle {
     }
     
     public function checkActivities() {
-        return ($this->assignments !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
+        return ($this->assignments22 !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
     }
 }
 ?>
