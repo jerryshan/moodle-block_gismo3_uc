@@ -81,7 +81,7 @@
                                         <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#resources-details-students">Resource details on students</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-assignments-quizzes">Activities</a>
+                                <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities">Activities</a>
                                     <ul>
                                         <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-assignments-quizzes">Assignments or Quizzes overview</a></li>
                                         <li><a href="?q=help&srv_data=<?php echo $srv_data_encoded;?>#activities-forums-accesses-overview">Forums, glossaries or wikis overview</a></li>
