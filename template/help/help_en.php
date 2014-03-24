@@ -32,7 +32,7 @@ require_once "common.php";
                 <li><a href="#resources-details-students">Resource details on students</a></li>
             </ul>
         </li>
-        <li><a href="#activities-assignments-quizzes">Activities</a>
+        <li><a href="#activities">Activities</a>
             <ul>
                 <li><a href="#activities-assignments-quizzes">Assignments or Quizzes overview</a></li>
                 <li><a href="#activities-forums-accesses-overview">Forums, glossaries or wikis overview</a></li>
@@ -166,6 +166,13 @@ require_once "common.php";
     </p>
     <hr class="category" />
     
+    <h2 id="activities">Activities &nbsp; <a href="#">[Back to top]</a></h2>
+    <img src="images/help/item-type-icon-bar.png" width="273" height="26">
+    <p>
+        LearnTrak Information on a specific activity can be viewed by clicking on the icon for that activity type in the ‘Item type’ icon bar (pictured above), and choosing only the specific activity from the list provided.  Holding 'Alt' and clicking on a checkbox will untick any other checkboxes in the list, leaving only that one checkbox ticked.
+    </p>
+    <hr class="section" />
+
     <h2 id="activities-assignments-quizzes">Activities: Assignments or Quizzes overview &nbsp; <a href="#">[Back to top]</a></h2>
     <img src="images/help/activities-assignments-quizzes.png" width="700" height="317">
     <p>
