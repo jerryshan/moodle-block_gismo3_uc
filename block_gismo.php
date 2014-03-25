@@ -10,7 +10,7 @@
 class block_gismo extends block_base {
 
     protected $course;
-
+    
     public function init() {
         $this->title = get_string('gismo', 'block_gismo');
     }
@@ -26,20 +26,20 @@ class block_gismo extends block_base {
 
     public function get_content() {
         global $OUTPUT, $DB, $CFG;
-
+        
         if ($this->content !== NULL) {
             return $this->content;
         }
-
+        
         // init content
         $this->content = new stdClass;
-
+        
         //Get block_gismo settings
         $gismoconfig = get_config('block_gismo');
 
         if (isset($gismoconfig->student_reporting)) {
             if ($gismoconfig->student_reporting === "false") {
-                //check gismo:view capability
+        // check gismo:view capability
                 if (!has_capability('block/gismo:view', context_block::instance($this->instance->id))) {
                     // return empty content
                     return $this->content;
@@ -64,35 +64,35 @@ class block_gismo extends block_base {
         }
 
 
-        // server data
-        $data = new stdClass();
-        $data->block_instance_id = $this->instance->id;
-        $data->course_id = $this->course->id;
-        $srv_data_encoded = urlencode(base64_encode(serialize($data)));
+            // server data
+            $data = new stdClass();
+            $data->block_instance_id = $this->instance->id;
+            $data->course_id = $this->course->id;
+            $srv_data_encoded = urlencode(base64_encode(serialize($data)));
 
-        // moodle bug fix
-        $fix_style = "line-height: 20px; vertical-align: top;";
+            // moodle bug fix
+            $fix_style = "line-height: 20px; vertical-align: top;";
 
-        // block content
-        $this->content->text = html_writer::empty_tag('img', array('src' => '../blocks/gismo/images/gismo.gif', 'alt' => '', 'style' => $fix_style));
-        $this->content->text .= html_writer::tag('span', '&nbsp;');
-        if ($this->check_data() === true) {
+            // block content
+            $this->content->text = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/gismo/images/gismo.gif', 'alt' => '', 'style' => $fix_style));
+            $this->content->text .= html_writer::tag('span', '&nbsp;');
+            if ($this->check_data() === true) {
             /**
              * Modifications: remove 'target' => '_blank' when behat enable
              * @link https://github.com/moodle/moodle/blob/MOODLE_25_STABLE/lib/behat/classes/util.php (is_test_mode_enabled() function)
              * @author Corbière Alain <alain.corbiere@univ-lemans.fr>
              */            
             if (defined('BEHAT_SITE_RUNNING')) {
-                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => '../blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
+                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
             } else {
-                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => '../blocks/gismo/main.php?srv_data=' . $srv_data_encoded, 'target' => '_blank'));
+                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded, 'target' => '_blank'));
             }
-        } else {
-            $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
-            $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
-        }
-        $this->content->footer = '';
-
+            } else {
+                $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
+                $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
+            }
+            $this->content->footer = '';
+        
 
         // return content
         return $this->content;
@@ -122,8 +122,8 @@ class block_gismo extends block_base {
     public function cron() {
         //Disabled CRON
         return false;
-    }
+        }
 
-}
+        }
 
 ?>
