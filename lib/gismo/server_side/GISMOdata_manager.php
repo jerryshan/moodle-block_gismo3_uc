@@ -304,7 +304,7 @@ class GISMOdata_manager {
                              "{course_modules}.instance AS res_id, COUNT({course_modules}.instance) AS count FROM {log}, ".
                              "{course_modules} WHERE {course_modules}.id = {log}.cmid AND ".
                              "{log}.course = ".$course->id." AND {log}.action = 'view' AND ".
-                             "{log}.module IN('folder', 'imscp', 'page', 'resource', 'url', 'book') $filter GROUP BY res_type, res_id, date_val, userid LIMIT " . self::limit_records . " OFFSET ";
+                             "{log}.module IN('folder', 'imscp', 'page', 'resource', 'url', 'book', 'coursereadings') $filter GROUP BY res_type, res_id, date_val, userid LIMIT " . self::limit_records . " OFFSET ";
                     
                     // loop
                     while ($loop === true) {
