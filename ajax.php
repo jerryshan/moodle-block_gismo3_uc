@@ -500,7 +500,7 @@
                             "test_id" => $entry->test_id,
                             "test_max_grade" => $entry->test_max_grade,
                             "userid" => $entry->userid,
-                            "user_grade" => $entry->grade,                  // -1 if it hasn't been corrected
+                            "user_grade" => ($entry->grade == null) ? -1 : $entry->grade,                  // -1 if it hasn't been corrected
                             "user_grade_label" => sprintf("%s / %s", $entry->grade, $entry->test_max_grade),
                             "test_timemarked" => $entry->timemarked         // 0 if it hasn't been corrected
                         );
