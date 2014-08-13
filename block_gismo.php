@@ -7,7 +7,7 @@ class block_gismo extends block_base {
     }
 
     public function has_config() {
-        return false;
+        return true;
     }
 
     public function specialization() {

@@ -11,7 +11,8 @@ $string['gismo:track-teacher'] = 'LearnTrak Teacher';
 
 // help
 $string['gismo_help'] = "<p>LearnTrak works on those courses that meet the following requirements:</p><ul><li>there is at least one student enrolled in the course</li><li>there is at least one instance of one of the following modules:<ul><li>Resources (URLs, Files, Folders, Pages or Books)</li><li>Assignments</li><li>Chats</li><li>Forums</li><li>Glossaries</li><li>Quizzes</li><li>Wikis</li></ul></li></ul>";
-
+$string['additionalhelp_bookid'] = "Book CMID for additional documentation";
+$string['additionalhelp_bookid_detail'] = "If specified, the contents of the Book module with this course module ID will be included in LearnTrak as additional documentation.";
 // General
 $string['page_title'] = "LearnTrak - ";
 $string['file'] = 'File';

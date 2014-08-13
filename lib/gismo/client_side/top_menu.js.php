@@ -221,7 +221,7 @@ function top_menu(g) {
                     "label": "<?php print_string('why_docs', 'block_gismo'); ?>", 
                     "action": "g.show_why()", 
                     "roles": new Array("teacher"), 
-                    "require": null, 
+                    "require": new Array("additionalhelp"), 
                     "sub": null 
                 },
                 /*{ 
@@ -279,6 +279,10 @@ function top_menu(g) {
             // check on requirements
             if ($.isArray(items[k].require) && items[k].require.length > 0) {
                 for (i=0; i<items[k].require.length; i++) {
+                    if (items[k].require[i] == 'additionalhelp') {
+                        check = check && this.gismo.static_data.additionalhelp;
+                        continue;
+                    }
                     check = check && this.lists_status[items[k].require[i]];
                 }
             }

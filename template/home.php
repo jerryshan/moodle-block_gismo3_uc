@@ -1,6 +1,7 @@
 <?php
     // libraries & acl
     require_once "common.php";
+    $bookid = get_config('moodle', 'block_gismo_additionalhelp');
 ?>
 <div id="app_content">
     <div id="left_menu">
@@ -44,15 +45,17 @@
                         <td></td>
                         <td class="help">
                             <?php
-                                require_once($CFG->dirroot.'/mod/book/locallib.php');
-                                $cm = get_coursemodule_from_id('book', 112405, 0, false, MUST_EXIST);
-                                $book = $DB->get_record('book', array('id'=>$cm->instance), '*', MUST_EXIST);
-                                $context = context_module::instance($cm->id);
-                                $chapters = book_preload_chapters($book);
-                                echo "<h2>How can LearnTrak support your teaching?</h2>";
-                                $toc = book_get_toc($chapters, $chapter, $book, $cm, false);
-                                $toc = str_replace('href="view.php', 'target="_blank" href="'.$CFG->wwwroot.'/mod/book/view.php', $toc);
-                                echo $toc;
+                                if (!empty($bookid)) {
+                                    require_once($CFG->dirroot.'/mod/book/locallib.php');
+                                    $cm = get_coursemodule_from_id('book', $bookid, 0, false, MUST_EXIST);
+                                    $book = $DB->get_record('book', array('id'=>$cm->instance), '*', MUST_EXIST);
+                                    $context = context_module::instance($cm->id);
+                                    $chapters = book_preload_chapters($book);
+                                    echo "<h2>How can LearnTrak support your teaching?</h2>";
+                                    $toc = book_get_toc($chapters, $chapter, $book, $cm, false);
+                                    $toc = str_replace('href="view.php', 'target="_blank" href="'.$CFG->wwwroot.'/mod/book/view.php', $toc);
+                                    echo $toc;
+                                }
                             ?>
                         </td>
                         <td></td>
@@ -102,5 +105,9 @@
     <?php require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "help.php"); ?>
 </div>
 <div id="why" style="display: none;">
-    <?php require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "why.php"); ?>
+    <?php
+        if (!empty($bookid)) {
+            require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "why.php");
+        }
+    ?>
 </div>
