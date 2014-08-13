@@ -7,7 +7,7 @@
     <h1 align="center">How can LearnTrak support your teaching?</h1>
     <?php
         require_once($CFG->dirroot.'/mod/book/locallib.php');
-        $cm = get_coursemodule_from_id('book', 112405, 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_id('book', $bookid, 0, false, MUST_EXIST);
         $book = $DB->get_record('book', array('id'=>$cm->instance), '*', MUST_EXIST);
         $context = context_module::instance($cm->id);
         $chapters = book_preload_chapters($book);

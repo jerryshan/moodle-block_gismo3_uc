@@ -29,4 +29,8 @@ if ($ADMIN->fulltree) {
     $options = array('true' => get_string('student_reporting_enabled', 'block_gismo'), 'false' => get_string('student_reporting_disabled', 'block_gismo'));
 
     $settings->add(new admin_setting_configselect('block_gismo/student_reporting', get_string('student_reporting', 'block_gismo'), get_string('student_reporting_desc', 'block_gismo'), 'false', $options));
+
+    // Book module ID for additional help (optional).
+    $settings->add(new admin_setting_configtext('block_gismo_additionalhelp', get_string('additionalhelp_bookid', 'block_gismo'),
+                   get_string('additionalhelp_bookid_detail', 'block_gismo'), 0, PARAM_INT));
 }
