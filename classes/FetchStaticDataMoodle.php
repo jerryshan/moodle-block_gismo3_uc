@@ -285,6 +285,25 @@ class FetchStaticDataMoodle {
         return $ordered_modules;
     }
 
+    // Get list of resource modules.
+    public static function ListResourceModules() {
+        global $CFG;
+        $modules = get_plugin_list('mod');
+        $resources = array();
+        foreach ($modules as $mod => $path) {
+            if ($mod === 'label') {
+                // Skip labels, as there isn't meaningful data available for them.
+                continue;
+            }
+            if (plugin_supports('mod', $mod, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER) === MOD_ARCHETYPE_RESOURCE) {
+                // It's a resource module, so we're interested in it.
+                $resources[] = $mod;
+            }
+        }
+
+        return $resources;
+    }
+
     // fetch resources
     protected function FetchResources() {
         global $USER;
@@ -292,7 +311,8 @@ class FetchStaticDataMoodle {
         $check = false;
         $this->resources = "[]";
         // fetch resources
-        $resources = $this->FetchCourseModulesOrderedByPosition(array("book", "folder", "imscp", "page", "resource", "url"), $this->course, $USER->id, true, true); //Added book
+        // $resources = get_all_instances_in_course("resource", $this->course, null, true);
+        $resources = $this->FetchCourseModulesOrderedByPosition(self::ListResourceModules(), $this->course, $USER->id, true);
         // save data
         if ($resources !== FALSE) {
             $json_resources = array();
@@ -625,7 +645,7 @@ class FetchStaticDataMoodle {
 
     public function sort_by_name($a, $b) {
         return (strcmp(strtolower($a->name), strtolower($b->name))); // Case-insensitive search by way of lowercase.
-    }
+}
 
 }
 
