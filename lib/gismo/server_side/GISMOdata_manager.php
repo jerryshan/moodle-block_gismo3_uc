@@ -1,5 +1,5 @@
 <?php
-include_once('./FetchStaticDataMoodle.php');
+include_once($CFG->dirroot.'/blocks/gismo/lib/gismo/server_side/FetchStaticDataMoodle.php');
 
 class GISMOdata_manager {
     // constants
