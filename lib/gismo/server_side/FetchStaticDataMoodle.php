@@ -245,7 +245,8 @@ class FetchStaticDataMoodle {
                 }
                 unset($tmp_modules);
                 // MOODLE BUG (get_all_instances_in_course doesn't return an array indexed by cm.id) END
-                $sections = get_all_sections($this->id);
+                $modinfo = get_fast_modinfo($this->course);
+                $sections = $modinfo->get_section_info_all();
                 if (is_array($sections) AND count($sections) > 0) {
                     foreach ($sections as $s) {
                         if (!is_null($s->sequence)) {
