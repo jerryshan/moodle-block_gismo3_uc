@@ -16,13 +16,13 @@
 	//define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
 	define('ROOT', substr(realpath(dirname( __FILE__ )),0,stripos(realpath(dirname( __FILE__ )),"blocks",0)).'blocks/gismo/');
     }
-	//$path_base=substr(realpath(dirname( __FILE__ )),0,stripos(realpath(dirname( __FILE__ )),"blocks",0)).'blocks/gismo/'; 
-	
+	//$path_base=substr(realpath(dirname( __FILE__ )),0,stripos(realpath(dirname( __FILE__ )),"blocks",0)).'blocks/gismo/';
+
     if(!defined('LIB_DIR')){
 	define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);
 	//define('LIB_DIR', $path_base . "lib" . DIRECTORY_SEPARATOR);
     }
-    
+
     // include moodle config file
 
     require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
@@ -35,7 +35,7 @@ $query = (isset($q)) ? addslashes($q) : '';
 
     // LIBRARIES MANAGEMENT
     // Please use this section to set server side and cliend side libraries to be included
-    // server side: please note that '.php' extension will be automatically added                                             
+    // server side: please note that '.php' extension will be automatically added
 
 $server_side_libraries = array("third_parties" => array());
 
@@ -70,14 +70,14 @@ $server_side_libraries = array("third_parties" => array());
 
                     if (is_file($lib_full_path) AND is_readable($lib_full_path)) {
 
-                        require_once $lib_full_path;    
-                    }    
+                        require_once $lib_full_path;
+                    }
                 }
-            }          
+            }
         }
     }
 
-    
+
 
     // check input data
 
@@ -85,12 +85,12 @@ if (!isset($srv_data_encoded)) {
 
     block_gismo\GISMOutil::gismo_error('err_srv_data_not_set', $error_mode);
 
-        exit;    
+        exit;
     }
 
     $srv_data = (object) unserialize(base64_decode(urldecode($srv_data_encoded)));
 
-    
+
 
     // course id
 
@@ -98,10 +98,10 @@ if (!isset($srv_data_encoded)) {
 
     block_gismo\GISMOutil::gismo_error('err_course_not_set', $error_mode);
 
-        exit;       
+        exit;
     }
 
-    
+
 
     // block instance id
 
@@ -109,10 +109,10 @@ if (!isset($srv_data_encoded)) {
 
     block_gismo\GISMOutil::gismo_error('err_block_instance_id_not_set', $error_mode);
 
-        exit;        
+        exit;
     }
 
-    
+
 
     // check authentication
 
@@ -127,7 +127,7 @@ if (!isset($srv_data_encoded)) {
 
             block_gismo\GISMOutil::gismo_error("err_authentication", $error_mode);
 
-                exit; 
+                exit;
             }
 
             break;
@@ -141,9 +141,9 @@ if (!isset($srv_data_encoded)) {
             break;
     }
 
-    
 
-    // extract the course    
+
+    // extract the course
 
     if (! $course = $DB->get_record("course", array("id" => intval($srv_data->course_id))) ) {
 
@@ -152,12 +152,13 @@ if (!isset($srv_data_encoded)) {
         exit;
     }
 
-    
-    // context 
+
+    // context
 
 $context_obj = context_course::instance(intval($srv_data->course_id));
+$PAGE->set_context($context_obj);
 
-    
+
 //Get block_gismo settings
 $gismoconfig = get_config('block_gismo');
 if ($gismoconfig->student_reporting === "false") {
@@ -171,7 +172,7 @@ if ($gismoconfig->student_reporting === "false") {
     $gismo_settings = $DB->get_field("block_gismo_user_options", "configdata", array("user" => intval($USER->id)));
 
     if (empty($gismo_settings)) {
-        $gismo_settings = get_object_vars(block_gismo\GISMOutil::get_default_options());   
+        $gismo_settings = get_object_vars(block_gismo\GISMOutil::get_default_options());
 
     } else {
         $gismo_settings = get_object_vars(unserialize(base64_decode($gismo_settings)));
@@ -187,9 +188,9 @@ if ($gismoconfig->student_reporting === "false") {
                         $gismo_settings[$key] = intval($value);
                     } else if (strval(floatval($value)) === strval($value)) {
 
-                        $gismo_settings[$key] = floatval($value);    
+                        $gismo_settings[$key] = floatval($value);
                     }
-                }       
+                }
             }
         }
 
@@ -203,7 +204,7 @@ if ($gismoconfig->student_reporting === "false") {
 
     $block_gismo_config = json_encode($gismo_settings);
 
-    
+
 
     // actor (teacher or student)
 
