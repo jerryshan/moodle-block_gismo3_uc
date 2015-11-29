@@ -42,7 +42,7 @@ class FetchStaticDataMoodle {
     protected $glossaries;
     protected $quizzes;
     protected $wikis;
-    
+
     // constructor
     public function __construct($id, $actor) {
         $this->id = $id;
@@ -97,7 +97,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch users
     protected function FetchUsers() {
         global $USER;
@@ -152,7 +152,7 @@ class FetchStaticDataMoodle {
             foreach ($records as $rec) {
                 $groupings[$rec->id] = array('name'=>$rec->name, 'groups'=>array());
                 if ($groups = groups_get_all_groups($this->id, 0, $rec->id)) {
-                    uasort($groups, 'obj_name_sort_compare');
+                    uasort($groups, '\block_gismo\FetchStaticDataMoodle::sort_by_name');
                     foreach ($groups as $group) {
                         $groupings[$rec->id]['groups'][$group->id] = array('name'=>format_string($group->name), 'members'=>array());
                         if ($members = groups_get_members($group->id, $fields='u.id')) {
@@ -166,13 +166,13 @@ class FetchStaticDataMoodle {
             }
         }
         // Groups not in groupings
-        $sql = "SELECT g.id, name 
-                FROM {groups} g LEFT JOIN {groupings_groups} gg ON g.id=gg.groupid 
+        $sql = "SELECT g.id, name
+                FROM {groups} g LEFT JOIN {groupings_groups} gg ON g.id=gg.groupid
                 WHERE g.courseid={$this->id} AND gg.groupingid IS NULL";
         if ($records = $DB->get_records_sql($sql)) {
             $check = true;
             $groupings[-1] = array('name'=>get_string('not_in_a_grouping', 'block_gismo'), 'groups'=>array());
-            uasort($records, 'obj_name_sort_compare');
+            uasort($records, '\block_gismo\FetchStaticDataMoodle::sort_by_name');
             foreach ($records as $rec) {
                 $groupings[-1]['groups'][$rec->id] = array('name'=>format_string($rec->name), 'members'=>array());
                 if ($members = groups_get_members($rec->id, $fields='u.id')) {
@@ -192,7 +192,7 @@ class FetchStaticDataMoodle {
         // return true even if there are no groups in this course
         return true;
     }
-    
+
     // fetch teachers
     protected function FetchTeachers() {
         // default variables
@@ -226,14 +226,14 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch course modules ordered by position
     protected function FetchCourseModulesOrderedByPosition($modulenames, $course, $userid, $includeinvisible, $orderbytype = false) {
         $ordered_modules = array();
         if (is_array($modulenames) AND count($modulenames) > 0) {
             $modules = array();
             // extract modules instances specified in $modulenames
-            $tmp_modules = array(); 
+            $tmp_modules = array();
             foreach ($modulenames as $m) {
                 $tmp = get_all_instances_in_course($m, $course, $userid, $includeinvisible);
                 //Order by name
@@ -284,7 +284,7 @@ class FetchStaticDataMoodle {
         }
         return $ordered_modules;
     }
-    
+
     // fetch resources
     protected function FetchResources() {
         global $USER;
@@ -312,7 +312,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch books
     protected function FetchBooks() {
         global $USER;
@@ -428,7 +428,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch forums
     protected function FetchForums() {
         global $USER;
@@ -454,7 +454,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch glossaries
     protected function FetchGlossaries() {
         global $USER;
@@ -509,7 +509,7 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     // fetch wikis
     protected function FetchWikis() {
         global $USER;
@@ -539,26 +539,26 @@ class FetchStaticDataMoodle {
     // fetch start date and time
     protected function FetchStartDateAndTime() {
         global $DB, $CFG;
-        
+
         // check variable
         $check = true;
-        
+
         // select min date / time & max date / time for each log table
         // default
         $this->end_time = time();
         $this->end_date = date("Y-m-d", $this->end_time);
         $this->start_time = (empty($CFG->loglifetime)) ? $this->coursestart : ($this->end_time - ($CFG->loglifetime * 86400));
         $this->start_date = date("Y-m-d", $this->start_time);
-        
+
         // adjust values according to logs
         if (is_array($this->users_ids) AND count($this->users_ids) > 0) {
             // useful data for queries
             $tables = array("block_gismo_activity", "block_gismo_resource", "block_gismo_sl");
             list($userid_sql, $params) = $DB->get_in_or_equal($this->users_ids);
-            
+
             // push to the params array the course id
             array_push($params, $this->id);
-            
+
             // get the lowest date & time from the gismo tables and adjust START date and time
             $time = null;
             $date = null;
@@ -574,7 +574,7 @@ class FetchStaticDataMoodle {
                 $this->start_time = $time;
                 $this->start_date = $date;
             }
-            
+
             // get the highest date & time from the gismo tables and adjust END date and time
             $time = null;
             $date = null;
@@ -590,11 +590,11 @@ class FetchStaticDataMoodle {
                 $this->end_time = $time;
                 $this->end_date = $date;
             }
-            
+
             // start date & time => to the first day of the month
             $this->start_time = \block_gismo\GISMOutil::this_month_first_day_time($this->start_time);
             $this->start_date = date("Y-m-d", $this->start_time);
-            
+
             // end date & time => to the first day of the next month
             $this->end_time = \block_gismo\GISMOutil::next_month_first_day_time($this->end_time);
             $this->end_date = date("Y-m-d", $this->end_time);
@@ -602,25 +602,29 @@ class FetchStaticDataMoodle {
         // return result
         return $check;
     }
-    
+
     public function checkData() {
         return ($this->checkUsers() AND ($this->checkResources() OR $this->checkActivities())) ? true : false;
     }
-    
+
     public function checkUsers() {
         return ($this->users !== "[]") ? true : false;
     }
-    
+
     public function checkTeachers() {
         return ($this->users !== "[]") ? true : false;
     }
-    
+
     public function checkResources() {
         return ($this->resources !== "[]" OR $this->books !== "[]") ? true : false;
     }
-    
+
     public function checkActivities() {
         return ($this->assignments !== "[]" OR $this->assignments22 !== "[]" OR $this->chats !== "[]" OR $this->forums !== "[]" OR $this->glossaries !== "[]" OR $this->quizzes !== "[]" OR $this->wikis !== "[]") ? true : false;
+    }
+
+    public function sort_by_name($a, $b) {
+        return (strcmp(strtolower($a->name), strtolower($b->name))); // Case-insensitive search by way of lowercase.
     }
 
 }
