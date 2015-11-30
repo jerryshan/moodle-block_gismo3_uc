@@ -10,7 +10,7 @@
 class block_gismo extends block_base {
 
     protected $course;
-    
+
     public function init() {
         $this->title = get_string('gismo', 'block_gismo');
     }
@@ -26,21 +26,21 @@ class block_gismo extends block_base {
 
     public function get_content() {
         global $OUTPUT, $DB, $CFG;
-        
+
         if ($this->content !== NULL) {
             return $this->content;
         }
-        
+
         // init content
         $this->content = new stdClass;
-        
+
         //Get block_gismo settings
         $gismoconfig = get_config('block_gismo');
 
         if (isset($gismoconfig->student_reporting)) {
             if ($gismoconfig->student_reporting === "false") {
         // check gismo:view capability
-                if (!has_capability('block/gismo:view', context_block::instance($this->instance->id))) {
+                if (!has_capability('block/gismo:view', context_course::instance($this->course->id))) {
                     // return empty content
                     return $this->content;
                 }
@@ -81,7 +81,7 @@ class block_gismo extends block_base {
              * Modifications: remove 'target' => '_blank' when behat enable
              * @link https://github.com/moodle/moodle/blob/MOODLE_25_STABLE/lib/behat/classes/util.php (is_test_mode_enabled() function)
              * @author Corbière Alain <alain.corbiere@univ-lemans.fr>
-             */            
+             */
             if (defined('BEHAT_SITE_RUNNING')) {
                 $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
             } else {
@@ -92,7 +92,7 @@ class block_gismo extends block_base {
                 $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
             }
             $this->content->footer = '';
-        
+
 
         // return content
         return $this->content;
