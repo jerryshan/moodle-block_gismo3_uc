@@ -9,11 +9,11 @@
  */
     // mode (josn)
     $error_mode = "json";
-    
+
     // libraries & acl
     require_once "common.php";
     global $USER;
-    
+
     // query
 //$q = optional_param('q', '', PARAM_TEXT);
 $config_data = optional_param_array('config_data',array(),PARAM_INT);
@@ -26,23 +26,23 @@ $config_data = optional_param_array('config_data',array(),PARAM_INT);
             $config_data_encode = base64_encode(serialize((object) $config_data ));
                 // update config
                 if ($opts = $DB->get_record('block_gismo_user_options', array('user'=>$USER->id))) {
-                    $opts->configdata = $config_data;
+                    $opts->configdata = $config_data_encode;
                     $check = $DB->update_record('block_gismo_user_options', $opts);
                 } else {
                     $opts = new stdClass;
                     $opts->user = $USER->id;
-                    $opts->configdata = $config_data;
+                    $opts->configdata = $config_data_encode;
                     $check = $DB->insert_record('block_gismo_user_options', $opts);
                 }
                 if ($check !== false) {
-                    $result["status"] = "true";    
-                }    
+                    $result["status"] = "true";
+                }
             }
             break;
         default:
-            break;    
+            break;
     }
-    
+
     // send response
-    echo json_encode($result);   
+    echo json_encode($result);
 ?>
