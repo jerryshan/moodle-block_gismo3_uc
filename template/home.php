@@ -59,7 +59,9 @@
                                     $context = context_module::instance($cm->id);
                                     $chapters = book_preload_chapters($book);
                                     echo "<h2>How can LearnTrak support your teaching?</h2>";
-                                    $toc = book_get_toc($chapters, $chapter, $book, $cm, false);
+                                    $nochapter = new stdClass();
+                                    $nochapter->id = 0;
+                                    $toc = book_get_toc($chapters, $nochapter, $book, $cm, false);
                                     $toc = str_replace('href="view.php', 'target="_blank" href="'.$CFG->wwwroot.'/mod/book/view.php', $toc);
                                     echo $toc;
                                 }
