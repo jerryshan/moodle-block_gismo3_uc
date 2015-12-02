@@ -312,7 +312,7 @@ class FetchStaticDataMoodle {
         $this->resources = "[]";
         // fetch resources
         // $resources = get_all_instances_in_course("resource", $this->course, null, true);
-        $resources = $this->FetchCourseModulesOrderedByPosition(self::ListResourceModules(), $this->course, $USER->id, true);
+        $resources = $this->FetchCourseModulesOrderedByPosition(self::ListResourceModules(), $this->course, $USER->id, true, true);
         // save data
         if ($resources !== FALSE) {
             $json_resources = array();
