@@ -1,100 +1,107 @@
 <?PHP
-          
+
 /**
  * GISMO block
  *
  * @package    block_gismo
  * @copyright  eLab Christian Milani
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */  
+ */
 //Fix from Corbière Alain - http://sourceforge.net/p/gismo/wiki/Home/#cf25
 header("Content-type: application/javascript ; charset=UTF-8") ;
 
     // define constants
     define('ROOT', (realpath(dirname( __FILE__ )) . DIRECTORY_SEPARATOR));
     define('LIB_DIR', ROOT . "lib" . DIRECTORY_SEPARATOR);
-    
+
     // include moodle config file
     require_once realpath(ROOT . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config.php");
 $PAGE->set_context(context_system::instance()); //Tim Lock Fix up some page context warnings
+
+$resourcemods = \block_gismo\FetchStaticDataMoodle::ListResourceModules();
+$resourcenames = array();
+foreach ($resourcemods as $mod) {
+    $resourcenames[] = '"'.$mod.'": '.json_encode(get_string('modulename',$mod));
+}
+$resourcenames = implode(',', $resourcenames);
 
 ?>
 function left_menu(g) {
     // gismo instance
     this.gismo = g;
-    
+
     // current visible list
     this.visible_list;
-    
-    this.resources_list_names= {"book":"<?php print_string('modulename','book'); ?>","page":"<?php print_string('modulename','page'); ?>","folder":"<?php print_string('modulename','folder'); ?>","resource":"<?php print_string('modulename','resource'); ?>","url":"<?php print_string('modulename','url'); ?>","imscp":"<?php print_string('modulename','imscp'); ?>"};
-     
+
+    this.resources_list_names= {<?php echo $resourcenames ?>};
+
     // lists
     // this field is a javascript object that provides information for the supported lists of items such as icon & tooltip
     this.lists = {
         'users': {
-            img: 'users.png', 
+            img: 'users.png',
             tooltip: '<?php print_string('users', 'block_gismo'); ?>'
         },
         'groups': {
-            img: 'groups.png', 
+            img: 'groups.png',
             tooltip: '<?php print_string('groups', 'block_gismo'); ?>'
         },/*
         'teachers': {
-            img: 'teachers.png', 
+            img: 'teachers.png',
             tooltip: '<?php print_string('teachers', 'block_gismo'); ?>'
         },*/
         'resources': {
-            img: 'resources.png', 
+            img: 'resources.png',
             tooltip: '<?php print_string('resources', 'block_gismo'); ?>'
-        }, 
+        },
         'books': {
-            img: 'books.png', 
+            img: 'books.png',
             tooltip: '<?php print_string('books', 'block_gismo'); ?>'
-        }, 
+        },
         'assignments': {
-            img: 'assignments.png', 
+            img: 'assignments.png',
             tooltip: '<?php print_string('assignments', 'block_gismo'); ?>'
         },
         'assignments22': {
-            img: 'assignments22.png', 
+            img: 'assignments22.png',
             tooltip: '<?php print_string('assignments22', 'block_gismo'); ?>'
         },
         'chats': {
-            img: 'chat.gif', 
+            img: 'chat.gif',
             tooltip: '<?php print_string('chats', 'block_gismo'); ?>'
-        }, 
+        },
         'forums': {
-            img: 'forum.gif', 
+            img: 'forum.gif',
             tooltip: '<?php print_string('forums', 'block_gismo'); ?>'
         },
         'glossaries': {
-            img: 'glossaries.png', 
+            img: 'glossaries.png',
             tooltip: '<?php print_string('glossaries', 'block_gismo'); ?>'
-        }, 
+        },
         'quizzes': {
-            img: 'quizzes.png', 
+            img: 'quizzes.png',
             tooltip: '<?php print_string('quizzes', 'block_gismo'); ?>'
-        }, 
+        },
         'wikis': {
-            img: 'wiki.gif', 
+            img: 'wiki.gif',
             tooltip: '<?php print_string('wikis', 'block_gismo'); ?>'
         }
     };
-    
+
     // list hidden on load
     // this field specify the lists that have to be hidden on load (icons in the header)
     this.lists_load_hidden = {
         'student': new Array('users', 'groups'/*, 'teachers'*/),
         'teacher': new Array()
     };
-    
+
     // list visible on load
     // this field specify the list that has to be shown on load (list body)
     this.lists_load_default = {
         'student': 'resources',
         'teacher': 'users'
     };
-    
+
     // list options
     // this field is a javascript object that provides information about lists for specific analysis
     this.list_options ={
@@ -108,7 +115,7 @@ function left_menu(g) {
             'lists': ['resources'],
             'default': 0,
             'details': []
-        }, 
+        },
         'teacher@student-books-access': {
             'lists': ['users', 'groups', 'books'],
             'default': 0,
@@ -118,7 +125,7 @@ function left_menu(g) {
             'lists': ['resources'],
             'default': 0,
             'details': []
-        }, 
+        },
         'teacher@student-accesses': {
             'lists': ['users', 'groups'],
             'default': 0,
@@ -134,12 +141,12 @@ function left_menu(g) {
             'lists': ['resources'],
             'default': 0,
             'details': []
-        }, 
+        },
         'teacher@resources-students-overview': {
             'lists': ['users', 'groups', 'resources'],
             'default': 2,
             'details': []
-        },  
+        },
         'teacher@resources-access': {
             'lists': ['users', 'groups', 'resources'],
             'default': 2,
@@ -154,18 +161,18 @@ function left_menu(g) {
             'lists': ['users', 'groups'],
             'default': 0,
             'details': []
-        }, 
+        },
         // books
         'student@books-students-overview': {
             'lists': ['books'],
             'default': 0,
             'details': []
-        }, 
+        },
         'teacher@books-students-overview': {
             'lists': ['users', 'groups', 'books'],
             'default': 2,
             'details': []
-        },  
+        },
         'teacher@books-access': {
             'lists': ['users', 'groups', 'books'],
             'default': 2,
@@ -180,7 +187,7 @@ function left_menu(g) {
             'lists': ['users', 'groups'],
             'default': 0,
             'details': []
-        }, 
+        },
         // activities -> assignments
         'teacher@assignments': {
             'lists': ['users', 'groups', 'assignments'],
@@ -361,7 +368,7 @@ function left_menu(g) {
             'lists': ['forums'],
             'default': 0,
             'details': []
-        },        
+        },
         // Completion -> quizzes
         'teacher@completion-quizzes': {
             'lists': ['users', 'quizzes'],
@@ -396,7 +403,7 @@ function left_menu(g) {
             'details': []
         }
     };
-    
+
     // lists methods
     this.get_lists = function() {
         var result = new Array();
@@ -434,7 +441,7 @@ function left_menu(g) {
         }
         return result;
     };
-    
+
     // init lm header method
     this.init_lm_header = function() {
         // local variables
@@ -459,20 +466,20 @@ function left_menu(g) {
                                 .attr({
                                     "src": "images/" + this.lists[item]["img"],
                                     "alt": "<?php print_string('show', 'block_gismo'); ?> " + this.lists[item]["tooltip"] + " <?php print_string('list', 'block_gismo'); ?>",
-                                    "title": "<?php print_string('show', 'block_gismo'); ?> " + this.lists[item]["tooltip"] + " <?php print_string('list', 'block_gismo'); ?>" 
+                                    "title": "<?php print_string('show', 'block_gismo'); ?> " + this.lists[item]["tooltip"] + " <?php print_string('list', 'block_gismo'); ?>"
                                 })
                         )
                         .css(
-                            "display", 
-                            (this.lists_load_hidden[this.gismo.actor] != undefined && 
-                            $.isArray(this.lists_load_hidden[this.gismo.actor]) && 
+                            "display",
+                            (this.lists_load_hidden[this.gismo.actor] != undefined &&
+                            $.isArray(this.lists_load_hidden[this.gismo.actor]) &&
                             $.inArray(item, this.lists_load_hidden[this.gismo.actor]) != -1) ? "none" : "inline"
                         )
                 );
             }
         }
     };
-    
+
     // unique identifier
     // this function return an identifier for the item
     this.get_unique_id = function(item_type, item, id_field, type_field) {
@@ -483,7 +490,7 @@ function left_menu(g) {
         }
         return result;
     }
-    
+
     // toggle all students in a group
     this.toggle_group_students = function(grouping, group, selected) {
         for (var i in this.gismo.static_data['groups'][grouping].groups[group].members) {
@@ -491,7 +498,7 @@ function left_menu(g) {
             $('#users_cb_'+id).prop('checked', selected);
         }
     }
-    
+
     // init lm content method
     this.init_lm_content = function() {
         // local variables
@@ -512,9 +519,9 @@ function left_menu(g) {
                     case 'groups':
                         lab = "<?php print_string('groups', 'block_gismo'); ?>";
                     break;
-                    case 'teachers': 
-                        lab = "<?php print_string('teachers', 'block_gismo'); ?>";  
-                    break;  
+                    case 'teachers':
+                        lab = "<?php print_string('teachers', 'block_gismo'); ?>";
+                    break;
                     case 'resources':
                         lab = "<?php print_string('resources', 'block_gismo'); ?>";
                     break;
@@ -569,7 +576,7 @@ function left_menu(g) {
                                                 var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
                                                 $('input#users_cb_control').prop('checked', global_checked);
                                             }
-                                            if (lm.gismo.current_analysis.plot != null && 
+                                            if (lm.gismo.current_analysis.plot != null &&
                                                 lm.gismo.current_analysis.plot != undefined) {
                                                 lm.gismo.update_chart();
                                             }
@@ -687,44 +694,44 @@ function left_menu(g) {
                     for (var k=0; k<this.gismo.static_data[item].length; k++) {
                         if (this.gismo.is_item_visible(this.gismo.static_data[item][k])) {
                         if(this.gismo.static_data[item][k]['type']!==undefined){ //ONLY RESOURCES HAVE TYPE ATTRIBUTE
-                             
+
                             if(oldtype == undefined || oldtype != this.gismo.static_data[item][k]['type']){ //Check if new type then we must print the TYPE instead of the element
                                 oldtype = this.gismo.static_data[item][k]['type'];
                                 typename=this.resources_list_names[oldtype];
                             cb_item = $('<input></input>').attr("type", "checkbox");
-                                cb_item.attr("value", oldtype);                         
+                                cb_item.attr("value", oldtype);
                                 cb_item.attr("name", oldtype);
                                 cb_item.attr("id", oldtype);
                                 cb_item.prop("checked", true);
                                 cb_item.addClass("cb_element");
                                 cb_item.bind("click", {}, function (event) {
                                     item_value= $(this).prop('checked');//get attribute checked -> true or false
-                                    
+
                                     $("input:checkbox[value^="+this.name+"-]").each(function(element){  //get all elements with this type
                                         $(this).prop('checked', item_value);  //Set attribute checked -> true or false
                                     });
-                                    
+
                                     // manage global checkbox
                                     var selector = '#resources_list input[id!=resources_cb_control]:checkbox'; //get all checkboxes in resources_list except of resources_cb_control
                                     var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
                                     $('input#resources_cb_control').prop('checked', global_checked);
-                                    
+
                                     // update chart
                                     if (lm.gismo.current_analysis.plot != null && lm.gismo.current_analysis.plot != undefined) {
                                         lm.gismo.update_chart();
-                                    } 
-                                    
-                                }); 
+                                    }
+
+                                });
                                 cb_label = $("<label style='float: left;'></label>")
                                         .html(typename);
                                 cb_label.addClass("cb_label_type");
                                 cb_label.prepend(cb_item);
                                 element.append(
                                     $("<div></div>").addClass("cb")
-                                    .append(cb_label)                                    
+                                    .append(cb_label)
                                 );
                             }
-                        }   
+                        }
                         cb_item = $('<input></input>').attr("type", "checkbox");
                             // cb_item.attr("value", this.gismo.static_data[item][k].id);
                             cb_item.attr("value", this.get_unique_id(item, this.gismo.static_data[item][k], "id", "type"));
@@ -733,14 +740,14 @@ function left_menu(g) {
                             cb_item.prop("checked", true);
                             cb_item.addClass("cb_element");
                             cb_item.bind("click", {list: item}, function (event) {
-                        
+
                             if(this.value.split("-")[0]!==undefined){ //ONLY RESOURCES HAVE TYPE ATTRIBUTE - update type checkbox value
                                  // manage type checkbox
                                  var selector = '#'+event.data.list+'_list input[value^='+this.value.split("-")[0]+'-]:checkbox'; //get all checkboxes in the type list
                                  var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
                                  $('input#' + this.value.split("-")[0]).prop('checked', global_checked);
                             }
-                            
+
                                 // if alt key has been pressed then this is the only one selected
                                 if (event.altKey) {
                                     $('#' + event.data.list + '_list input:checkbox').prop('checked', false);
@@ -750,7 +757,7 @@ function left_menu(g) {
                                 var selector = '#' + event.data.list + '_list input[id!=' + event.data.list + '_cb_control]:checkbox';
                                 var global_checked = ($(selector).length === $(selector + ":checked").length) ? true : false;
                                 $('input#' + event.data.list + '_cb_control').prop('checked', global_checked);
-                            
+
                                 // update chart
                                 if (lm.gismo.current_analysis.plot != null && lm.gismo.current_analysis.plot != undefined) {
                                     lm.gismo.update_chart();
@@ -801,9 +808,9 @@ function left_menu(g) {
             $('#' + this.gismo.lm_content_id).append(element);
         }
         $('#' + this.gismo.lm_content_id).append($('<br style="clear: both;" />'));
-        $('#' + this.gismo.lm_content_id).append($('<div></div>').css({"height": "10px"}))  
+        $('#' + this.gismo.lm_content_id).append($('<div></div>').css({"height": "10px"}))
     };
-    
+
     this.init_lm_content_details = function() {
         // hide all details controls
         var selectors = new Array(), lists = this.get_lists(), k;
@@ -825,7 +832,7 @@ function left_menu(g) {
         // clean content
         $('#' + this.gismo.lm_content_id).empty();
     };
-    
+
     // init method
     this.init = function () {
         // clean
@@ -845,11 +852,11 @@ function left_menu(g) {
         // show current list
         this.show_list(this.visible_list);
     };
-    
+
     this.get_list_container_id = function (list) {
-        return list + "_list";    
+        return list + "_list";
     };
-    
+
     this.show_list = function (list) {
         // hide previous list
         $("#" + this.get_list_container_id(this.visible_list)).hide();
@@ -858,18 +865,18 @@ function left_menu(g) {
         // update current list
         this.visible_list = list;
     };
-    
+
     this.get_selected_items = function () {
         var selected_items = new Array();
         for (var item in this.lists) {
             selected_items[item] = new Array();
             $("#" + this.get_list_container_id(item) + " input:checkbox:checked").each(function (index) {
-                selected_items[item].push($(this).val());            
-            });    
+                selected_items[item].push($(this).val());
+            });
         }
-        return selected_items;            
+        return selected_items;
     };
-   
+
     this.set_menu = function (fresh) {
         // all available lists
         var all = this.get_lists();
@@ -884,7 +891,7 @@ function left_menu(g) {
         // set lists visibility (icons in the header)
         for (var item in all) {
             if ($.inArray(all[item], enabled) !== -1) {
-                $("#" + all[item] + "_menu").show();     
+                $("#" + all[item] + "_menu").show();
             } else {
                 $("#" + all[item] + "_menu").hide();
             }
@@ -892,26 +899,26 @@ function left_menu(g) {
         // show correct list (list content)
         this.show_list(visible);
     };
-    
+
     this.show = function() {
-        $('#open_control').hide(); 
-        $('#close_control').show(); 
+        $('#open_control').hide();
+        $('#close_control').show();
         $('#left_menu').show();
-        $('#left_menu').toggleClass('closed_lm'); 
+        $('#left_menu').toggleClass('closed_lm');
         $('#chart').toggleClass('expanded_ch');
         if (this.gismo.get_full_type() != null) {
-            this.gismo.update_chart();   
-        }   
+            this.gismo.update_chart();
+        }
     };
-    
+
     this.hide = function() {
-        $('#open_control').show(); 
-        $('#close_control').hide(); 
+        $('#open_control').show();
+        $('#close_control').hide();
         $('#left_menu').hide();
         $('#chart').toggleClass('expanded_ch');
-        $('#left_menu').toggleClass('closed_lm'); 
+        $('#left_menu').toggleClass('closed_lm');
         if (this.gismo.get_full_type() != null) {
-            this.gismo.update_chart();   
+            this.gismo.update_chart();
         }
     };
 
