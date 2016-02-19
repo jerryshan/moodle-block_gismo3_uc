@@ -286,7 +286,7 @@ class FetchStaticDataMoodle {
     }
 
     // Get list of resource modules.
-    public static function ListResourceModules() {
+    public static function ListResourceModules($prefix = '') {
         global $CFG;
         $modules = get_plugin_list('mod');
         $resources = array();
@@ -297,7 +297,7 @@ class FetchStaticDataMoodle {
             }
             if (plugin_supports('mod', $mod, FEATURE_MOD_ARCHETYPE, MOD_ARCHETYPE_OTHER) === MOD_ARCHETYPE_RESOURCE) {
                 // It's a resource module, so we're interested in it.
-                $resources[] = $mod;
+                $resources[] = $prefix.$mod;
             }
         }
 

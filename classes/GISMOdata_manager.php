@@ -429,7 +429,7 @@ class GISMOdata_manager {
                 $loop = true;
 
                 // retrieve accesses on resources
-                $resourcemodules = \block_gismo\FetchStaticDataMoodle::ListResourceModules();
+                $resourcemodules = \block_gismo\FetchStaticDataMoodle::ListResourceModules('mod_');
                 $resourcemodules = "'" . implode("', '", $resourcemodules) . "'";
                 $qry = "SELECT MAX({logstore_standard_log}.id), " . $this->get_time2date_code("timecreated") . " AS date_val, MAX({logstore_standard_log}.timecreated) AS time, {logstore_standard_log}.userid, {logstore_standard_log}.component AS res_type, "
                         . "{course_modules}.instance AS res_id, COUNT({logstore_standard_log}.contextid) AS count FROM {logstore_standard_log}, {course_modules} "
