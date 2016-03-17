@@ -306,13 +306,24 @@ class FetchStaticDataMoodle {
 
     // fetch resources
     protected function FetchResources() {
-        global $USER;
+        global $USER, $DB;
         // default variables
         $check = false;
         $this->resources = "[]";
+
+        // Check which sort order the user has requested (via prefs).
+        $defaults = GISMOutil::get_default_options();
+        $sort_alpha = $defaults->resource_sort_alpha;
+        $userprefs = $DB->get_field("block_gismo_user_options", "configdata", array("user" => intval($USER->id)));
+        if ($userprefs) {
+            $userprefs = unserialize(base64_decode($userprefs));
+            if (isset($userprefs->resource_sort_alpha)) {
+                $sort_alpha = $userprefs->resource_sort_alpha;
+            }
+        }
+
         // fetch resources
-        // $resources = get_all_instances_in_course("resource", $this->course, null, true);
-        $resources = $this->FetchCourseModulesOrderedByPosition(self::ListResourceModules(), $this->course, $USER->id, true, true);
+        $resources = $this->FetchCourseModulesOrderedByPosition(self::ListResourceModules(), $this->course, $USER->id, true, $sort_alpha);
         // save data
         if ($resources !== FALSE) {
             $json_resources = array();

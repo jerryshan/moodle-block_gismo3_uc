@@ -691,17 +691,27 @@ function left_menu(g) {
                     }
                 } else {
                     // add items checkboxes
+                    if (item !== 'resources' || this.gismo.cfg.resource_sort_alpha) {
+                        group_el = element;
+                        lbl_style = ' style="float:left;"';
+                    } else {
+                        group_el = $("<div></div>").addClass('res_nonalpha_subhead');
+                        lbl_style = '';
+                        element.append(group_el);
+                    }
+                    var seen_groups = [];
                     for (var k=0; k<this.gismo.static_data[item].length; k++) {
                         if (this.gismo.is_item_visible(this.gismo.static_data[item][k])) {
                         if(this.gismo.static_data[item][k]['type']!==undefined){ //ONLY RESOURCES HAVE TYPE ATTRIBUTE
 
-                            if(oldtype == undefined || oldtype != this.gismo.static_data[item][k]['type']){ //Check if new type then we must print the TYPE instead of the element
-                                oldtype = this.gismo.static_data[item][k]['type'];
-                                typename=this.resources_list_names[oldtype];
-                            cb_item = $('<input></input>').attr("type", "checkbox");
-                                cb_item.attr("value", oldtype);
-                                cb_item.attr("name", oldtype);
-                                cb_item.attr("id", oldtype);
+                            var newtype = this.gismo.static_data[item][k]['type'];
+                            if(oldtype == undefined || (oldtype != newtype && seen_groups.indexOf(newtype) === -1)){ //Check if new type then we must print the TYPE instead of the element
+                                oldtype = newtype;
+                                typename=this.resources_list_names[newtype];
+                                cb_item = $('<input></input>').attr("type", "checkbox");
+                                cb_item.attr("value", newtype);
+                                cb_item.attr("name", newtype);
+                                cb_item.attr("id", newtype);
                                 cb_item.prop("checked", true);
                                 cb_item.addClass("cb_element");
                                 cb_item.bind("click", {}, function (event) {
@@ -722,14 +732,18 @@ function left_menu(g) {
                                     }
 
                                 });
-                                cb_label = $("<label style='float: left;'></label>")
+                                cb_label = $("<label"+lbl_style+"></label>")
                                         .html(typename);
                                 cb_label.addClass("cb_label_type");
                                 cb_label.prepend(cb_item);
-                                element.append(
+                                group_el.append(
                                     $("<div></div>").addClass("cb")
                                     .append(cb_label)
                                 );
+                                if (!this.gismo.cfg.resource_sort_alpha) {
+                                    // Only flag as "seen" for course-order sort, so we don't double up.
+                                    seen_groups.push(newtype);
+                                }
                             }
                         }
                         cb_item = $('<input></input>').attr("type", "checkbox");

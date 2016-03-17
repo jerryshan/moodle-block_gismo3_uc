@@ -200,6 +200,13 @@ if ($gismoconfig->student_reporting === "false") {
 
             $gismo_settings["include_hidden_items"] = 1;
         }
+
+        // Sort resources alphabetically - new setting, so won't exist for many users.
+
+        if (!array_key_exists("resource_sort_alpha", $gismo_settings)) {
+
+            $gismo_settings["resource_sort_alpha"] = 0;
+        }
     }
 
     $block_gismo_config = json_encode($gismo_settings);

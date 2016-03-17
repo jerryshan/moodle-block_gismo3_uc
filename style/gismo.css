@@ -22,16 +22,16 @@ ul {
 img {
     border: none;
     text-decoration: none;
-} 
+}
 #global {
     height: 100%;
     width: 100%;
     position: relative;
-} 
+}
 #header, #footer, #content, #upperContent {
     width: 100%;
     float: left;
-} 
+}
 #header {
     position: absolute;
     top: 0; left: 0;
@@ -62,7 +62,7 @@ img {
     padding: 0;
     z-index: 1;
     position: relative;
-} 
+}
 #header #menu a {
     padding:5px;
     color:#eee;
@@ -75,7 +75,7 @@ img {
     text-decoration:none;
 }
 #header #menu a:focus {
-    text-decoration:none;    
+    text-decoration:none;
 }
 #header #menu a:visited {
     color:#eee;
@@ -100,10 +100,10 @@ img {
     left: 0;
     border-bottom:1px solid #999999;
     border-left:1px solid #999999;
-    border-right:1px solid #999999;    
+    border-right:1px solid #999999;
     background:#222;
     z-index:100;
-    width: auto;        
+    width: auto;
 }
 
 #header #menu ul li ul li {
@@ -112,7 +112,7 @@ img {
     border: none;
     display: block;
     width: 100%;
-} 
+}
 
 #header #menu ul li ul li a {
     margin: 0;
@@ -121,7 +121,7 @@ img {
     color:#eee;
     text-decoration:none;
     width: 100%;
-} 
+}
 
 #header #menu ul li ul li a:hover {
     background:#D8D8D8;
@@ -137,7 +137,7 @@ img {
 
 .menu_open {
     background-color: #D8D8D8 !important;
-    color: #333333 !important;   
+    color: #333333 !important;
 }
 
 /* ---------------------- Content --------------------------- */
@@ -162,7 +162,7 @@ img {
     height: 27px;
     border-bottom: 1px solid #999999;
     color: white;
-    line-height: 27px;    
+    line-height: 27px;
 }
 
 .cb_control {
@@ -183,7 +183,7 @@ img {
     float: right;
 }
 #lm_header .htoggle_opened {
-    background: url(../images/htoogle.png) no-repeat -15px 0;    
+    background: url(../images/htoogle.png) no-repeat -15px 0;
 }
 #lm_header .htoggle_closed {
     background: url(../images/htoogle.png) no-repeat 0 0;
@@ -196,7 +196,7 @@ img {
     background:#333;
     color: #FFFFFF;
     overflow: auto;
-    border-right: 1px solid #999999;   
+    border-right: 1px solid #999999;
 }
 #lm_content .cb {
     margin: 4px;
@@ -229,43 +229,54 @@ img {
     margin: 0;
     padding: 4px;
 }
+#lm_content .res_nonalpha_subhead {
+    margin: 0 0 10px 4px;
+}
+#lm_content .res_nonalpha_subhead .cb {
+    margin: 0;
+}
+#lm_content .res_nonalpha_subhead .cb .cb_label_type {
+    margin: 0;
+    padding-left: 18px;
+    width: 228px;
+}
 #lm_content .grouping {
     margin-bottom:8px;
 }
 #ch_header {
-    background:#333;   
+    background:#333;
 }
 #ch_header #title {
     margin-left: 5px;
-    margin-right: 40px;  
+    margin-right: 40px;
 }
 #ch_header #title img {
     text-align: center;
-    vertical-align: top;   
+    vertical-align: top;
 }
 #ch_header #course_name {
     /* width: 40px; */
     float: right;
     text-align: right;
-    margin-right: 5px;   
+    margin-right: 5px;
 }
 #ch_content {
-    overflow: auto;    
+    overflow: auto;
 }
 #ch_content #error_message #title,
 #ch_content #processing #p_img {
     font-size: 18px;
     text-align: center;
     color: red;
-    margin-top: 20px;  
+    margin-top: 20px;
 }
 #ch_content #error_message #message {
     font-size: 14px;
     text-align: center;
-    color: #333;  
+    color: #333;
 }
 #ch_content #processing #p_message {
-    text-align: center;  
+    text-align: center;
 }
 #plot {
     margin: 10px;
@@ -295,30 +306,30 @@ img {
     bottom: 0;
     left:0;
     right:0;
-    width: 100%;    
-    margin: 0 auto;    
+    width: 100%;
+    margin: 0 auto;
     border-top: 1px solid #000;
     background: #222222;
 }
 
 #footer #from_date {
-    height: 14px; 
+    height: 14px;
     /* width: 105px; */
-    width: 85px; /* NEW */ 
-    float: left; 
-    color: white; 
+    width: 85px; /* NEW */
+    float: left;
+    color: white;
     text-align: center;
     font-size: 11px;
     background: #222222;
     padding: 0px;
     margin: 0px;
     border: none;
-    line-height: 14px;   
+    line-height: 14px;
 }
 
 #footer #f1 {
     /* margin-left: 105px; */
-    margin-left: 85px; /* NEW */   
+    margin-left: 85px; /* NEW */
 }
 
 #date_slider {
@@ -331,18 +342,18 @@ img {
 }
 
 #footer #to_date {
-    height: 14px; 
+    height: 14px;
     /* width: 105px; */
-    width: 85px; /* NEW */ 
-    float: right; 
-    color: white; 
+    width: 85px; /* NEW */
+    float: right;
+    color: white;
     text-align: center;
     font-size: 11px;
     background: #222222;
     padding: 0px;
     margin: 0px;
     border: none;
-    line-height: 14px;   
+    line-height: 14px;
 }
 
 /* ---------------------- dialogs --------------------------- */
@@ -355,15 +366,15 @@ img {
 .image_link { cursor: pointer; border: none; }
 .float_right { float: right; }
 .charts_tooltip {
-    background-color: #EEEEEE; 
-    margin: -1px; 
-    padding: 3px; 
+    background-color: #EEEEEE;
+    margin: -1px;
+    padding: 3px;
     font-size: 12px;
 }
 
 /* ---------------------- guide --------------------------- */
 a.guide{
-	background-color: #EEEEEE; 
+	background-color: #EEEEEE;
 	color:#CC9999;
 	font-size: +3;
 }
@@ -379,12 +390,12 @@ a.guide{
     text-transform:uppercase;
     background-color:#666;
     margin-top:5px;
-    margin-bottom:5px;    
+    margin-bottom:5px;
 }
 
 #lm_content #resources_list .cb .cb_label { /* If resources indent the element under the type*/
     padding-left: 25px; /* Indent 10px */
-    text-indent: -15px;    
+    text-indent: -15px;
     width: 175px; /* Must make smaller for the detail eye */
 }
 
