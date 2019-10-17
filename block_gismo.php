@@ -82,11 +82,13 @@ class block_gismo extends block_base {
              * @link https://github.com/moodle/moodle/blob/MOODLE_25_STABLE/lib/behat/classes/util.php (is_test_mode_enabled() function)
              * @author Corbière Alain <alain.corbiere@univ-lemans.fr>
              */
-            if (defined('BEHAT_SITE_RUNNING')) {
-                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
-            } else {
-                $this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded, 'target' => '_blank'));
-            }
+				if (defined('BEHAT_SITE_RUNNING')) {
+					$this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
+				} else {
+					$this->content->text = '<div class="block_gismo"><a target="_blank" href="'.
+                                   $CFG->wwwroot .'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded .'"><img src="'. $CFG->wwwroot .'/blocks/gismo/images/gismo.png"'.
+                                   ' border="0" alt="LearnTrak" style="height: 60px;"/><br/>'.get_string('gismo_report_launch', 'block_gismo').'</a></div>';				
+				}
             } else {
                 $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
                 $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
