@@ -70,12 +70,12 @@ class block_gismo extends block_base {
             $data->course_id = $this->course->id;
             $srv_data_encoded = urlencode(base64_encode(serialize($data)));
 
-            // moodle bug fix
-            $fix_style = "line-height: 20px; vertical-align: top;";
+	    // moodle bug fix
+            $fix_style = "height: 60px;";
 
             // block content
-            $this->content->text = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/gismo/images/gismo.gif', 'alt' => '', 'style' => $fix_style));
-            $this->content->text .= html_writer::tag('span', '&nbsp;');
+            $this->content->text = html_writer::start_tag('div', array('class' => 'block_gismo'));
+
             if ($this->check_data() === true) {
             /**
              * Modifications: remove 'target' => '_blank' when behat enable
@@ -85,14 +85,16 @@ class block_gismo extends block_base {
 				if (defined('BEHAT_SITE_RUNNING')) {
 					$this->content->text .= html_writer::tag('a', get_string("gismo_report_launch", "block_gismo"), array('href' => $CFG->wwwroot.'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded));
 				} else {
-					$this->content->text = '<div class="block_gismo"><a target="_blank" href="'.
+					$this->content->text .= '<a target="_blank" href="'.
                                    $CFG->wwwroot .'/blocks/gismo/main.php?srv_data=' . $srv_data_encoded .'"><img src="'. $CFG->wwwroot .'/blocks/gismo/images/gismo.png"'.
-                                   ' border="0" alt="LearnTrak" style="height: 60px;"/><br/>'.get_string('gismo_report_launch', 'block_gismo').'</a></div>';				
+                                   ' border="0" alt="LearnTrak" style="'.$fix_style.'"/><br/>'.get_string('gismo_report_launch', 'block_gismo').'</a>';				
 				}
             } else {
+                $this->content->text .= html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/gismo/images/gismo.png', 'alt' => '', 'style' => $fix_style));
                 $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
                 $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
             }
+            $this->content->text .= html_writer::end_tag('div');
             $this->content->footer = '';
 
 
