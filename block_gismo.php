@@ -91,6 +91,7 @@ class block_gismo extends block_base {
 				}
             } else {
                 $this->content->text .= html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/gismo/images/gismo.png', 'alt' => '', 'style' => $fix_style));
+				$this->content->text .= '<br>';
                 $this->content->text .= html_writer::tag('span', strtoupper(get_string("gismo", "block_gismo")) . ' (disabled)');
                 $this->content->text .= $OUTPUT->help_icon('gismo', 'block_gismo');
             }
