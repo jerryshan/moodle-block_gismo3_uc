@@ -71,7 +71,7 @@ class block_gismo extends block_base {
             $srv_data_encoded = urlencode(base64_encode(serialize($data)));
 
 	    // moodle bug fix
-            $fix_style = "height: 60px;";
+            $fix_style = "width: 90%;";
 
             // block content
             $this->content->text = html_writer::start_tag('div', array('class' => 'block_gismo'));
